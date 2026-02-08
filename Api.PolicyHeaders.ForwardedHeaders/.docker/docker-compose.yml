@@ -1,0 +1,17 @@
+services:
+  api.policyheaders.forwardedheaders:
+    image: api.policyheaders.forwardedheaders
+    hostname: api-policyheaders-forwardedheaders
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.PolicyHeaders.ForwardedHeaders
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

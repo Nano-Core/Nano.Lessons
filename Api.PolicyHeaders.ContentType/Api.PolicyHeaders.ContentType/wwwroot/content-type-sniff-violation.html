@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content-Type Nosniff Test</title>
+</head>
+<body>
+    <h1>Content-Type Nosniff Test</h1>
+
+    <p>This page will attempt to load a script served with the wrong Content-Type.</p>
+
+    <script src="/content-type-sniff-violation-wrong-type.txt"></script>
+
+    <script>
+        console.log("Inline script always runs regardless of nosniff.");
+    </script>
+</body>
+</html>

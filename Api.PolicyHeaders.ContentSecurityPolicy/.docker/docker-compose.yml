@@ -1,0 +1,20 @@
+services:
+  api.policyheaders.contentsecuritypolicy:
+    image: api.policyheaders.contentsecuritypolicy
+    hostname: api-policyheaders-contentsecuritypolicy
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 4443:4443
+    build:
+      context: ../Api.PolicyHeaders.ContentSecurityPolicy
+      dockerfile: "Dockerfile.Local"
+    volumes:
+      - ../:/root/.dotnet/https
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge
