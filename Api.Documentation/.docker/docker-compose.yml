@@ -1,0 +1,17 @@
+services:
+  api.documentation:
+    image: api.documentation
+    hostname: api-documentation
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Documentation
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

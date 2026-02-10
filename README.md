@@ -33,6 +33,7 @@ rename csproj/sln files and rename all referenced projects
 - Api.PolicyHeaders.XssProtection.Models.csproj
 - Tests.Api.PolicyHeaders.XssProtection.csproj
 
+- change in /Api.PolicyHeaders.XssProtection/Properties/InternalsVisibleTo
 
 Dockerfile / Dockerfile.local
 rename Entry Point
