@@ -1,24 +1,34 @@
-# Api.Hosting.MultipartLimits
+﻿# Api.Hosting.MultipartLimits
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> Nano API application with upload limits._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Hosting.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
+
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
+
+***
+
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
+
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)**.
 
 Add multipart limits for file uploads, setting max upload size to 1 MB. 
-Use the example controller to try out.
 
+The following endpoint is available for testing:
 
-## Solution Items
-No changes
+| Endpoint                                          | Description                                              |
+| ------------------------------------------------- | -------------------------------------------------------- |
+| `http://localhost:8080/api/examples/upload-file`  | Upload a file, if larger than 1 MB it will be rejected.  |
 
-## Docker 
-No changes
-
-## GitHub Actions
-No changes
+> 📖 Learn more about **[Nano MultiPart Limits](https://github.com/Nano-Core/Nano.Library#multipart-limits)**.
 
 ## Configuration
+Added the following configuration to `appsettings.json`.
 
 ```json
 Added
