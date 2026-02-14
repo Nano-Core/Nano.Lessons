@@ -1,6 +1,6 @@
-﻿# Api.PolicyHeaders.FrameOptions
+﻿# Api.PolicyHeaders.ContentTypeOptions
 
-> _Nano API application with frame options._  
+> _Nano API application with content type options._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -18,20 +18,21 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-To observe X-Frame-Options enforcement, load the `frame-options-violation.html` file and see the browser block the page from being embedded in an iframe.  
+To observe content-type sniffing in action, load the `content-type-sniff-violation.html` file and see the browser block execution of the script 
+served with an incorrect `.txt` content-type.
 
-| Endpoint                                          | Description                                                                   |
-| ------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/frameoptions` | Returns a `200 OK` response including the `X-Frame-Options` response header.  |
+| Endpoint                                     | Description                                                                        |
+| -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/nosniff` | Returns a `200 OK` response including the Content-Type `nosniff` response header.  |
 
-> 📖 Learn more about **[Nano Frame Options Header](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#frame-options)**.
+> 📖 Learn more about **[Nano Content Type Header](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#content-type-options)**.
 
 ## Configuration
 ```json
 "App": {
   "HttpPolicyHeaders": {
-    "FrameOptions": {
-      "FrameOptionsPolicyHeader": "SameOrigin"
+    "ContentType": {
+      "NoSniff": true
     }
   }
 }

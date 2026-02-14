@@ -25,7 +25,7 @@ The following endpoint is available for testing:
 | ------------------------------------------------- | -------------------------------------------------------- |
 | `http://localhost:8080/api/examples/upload-file`  | Upload a file, if larger than 1 MB it will be rejected.  |
 
-> 📖 Learn more about **[Nano MultiPart Limits](https://github.com/Nano-Core/Nano.Library#multipart-limits)**.
+> 📖 Learn more about **[Nano MultiPart Limits](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#multipart-limits)**.
 
 ## Configuration
 Added the following configuration to `appsettings.json`.

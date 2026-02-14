@@ -1,12 +1,12 @@
 services:
-  api.policyheaders.contenttype:
-    image: api.policyheaders.contenttype
-    hostname: api-policyheaders-contenttype
+  api.policyheaders.contenttypeoptions:
+    image: api.policyheaders.contenttypeoptions
+    hostname: api-policyheaders-contenttypeoptions
     restart: on-failure
     ports:
       - 8080:8080
     build:
-      context: ../Api.PolicyHeaders.ContentType
+      context: ../Api.PolicyHeaders.ContentTypeOptions
       dockerfile: "Dockerfile.Local"
     networks:
       - network

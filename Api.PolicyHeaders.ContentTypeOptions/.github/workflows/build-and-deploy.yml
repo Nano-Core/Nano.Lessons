@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.PolicyHeaders.ContentType
-  IMAGE_NAME: api.policyheaders.contenttype
-  SERVICE_NAME: api-policyheaders-contenttype
+  APP_NAME: Api.PolicyHeaders.ContentTypeOptions
+  IMAGE_NAME: api.policyheaders.contenttypeoptions
+  SERVICE_NAME: api-policyheaders-contenttypeoptions
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0

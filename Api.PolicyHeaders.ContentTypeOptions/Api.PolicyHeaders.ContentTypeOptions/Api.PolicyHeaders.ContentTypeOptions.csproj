@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	    <ProjectReference Include="..\Api.PolicyHeaders.ContentType.Models\Api.PolicyHeaders.ContentType.Models.csproj" />
+	    <ProjectReference Include="..\Api.PolicyHeaders.ContentTypeOptions.Models\Api.PolicyHeaders.ContentTypeOptions.Models.csproj" />
 	</ItemGroup>
 
 </Project>

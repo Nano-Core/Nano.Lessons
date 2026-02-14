@@ -23,4 +23,4 @@ The following endpoint is available for testing:
 | ------------------------------------------ | -------------------------------------- |
 | `http://localhost:8080/api/examples/http`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Hosting Http](https://github.com/Nano-Core/Nano.Library#http)**.
+> 📖 Learn more about **[Nano Hosting Http](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#http)**.

@@ -5,7 +5,9 @@ VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{F9091FFF-8BDF-4447-A4CC-19ACF2F783A3}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		Dockerfile = Dockerfile
 		icon.png = icon.png
 		LICENSE = LICENSE
 		README.md = README.md
@@ -47,19 +49,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Storage.Abstractions",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.App.Api", "..\..\Nano.Library\Nano.App.Api\Nano.App.Api.csproj", "{E55DCB7C-9082-3538-6288-5A6E5C8DE183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.PolicyHeaders.ContentType.Models", "Api.PolicyHeaders.ContentType.Models\Api.PolicyHeaders.ContentType.Models.csproj", "{55CA3ADE-88B1-B763-9FAB-EE5D4F418EB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.PolicyHeaders.ContentTypeOptions.Models", "Api.PolicyHeaders.ContentTypeOptions.Models\Api.PolicyHeaders.ContentTypeOptions.Models.csproj", "{55CA3ADE-88B1-B763-9FAB-EE5D4F418EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.PolicyHeaders.ContentType", "Api.PolicyHeaders.ContentType\Api.PolicyHeaders.ContentType.csproj", "{77596F3E-C6F4-A01F-B4D9-9370C3ED3CBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.PolicyHeaders.ContentTypeOptions", "Api.PolicyHeaders.ContentTypeOptions\Api.PolicyHeaders.ContentTypeOptions.csproj", "{77596F3E-C6F4-A01F-B4D9-9370C3ED3CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Api.PolicyHeaders.ContentType", ".tests\Tests.Api.PolicyHeaders.ContentType\Tests.Api.PolicyHeaders.ContentType.csproj", "{B008D867-12B4-7EB7-D707-1C1503E4151A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Api.PolicyHeaders.ContentTypeOptions", ".tests\Tests.Api.PolicyHeaders.ContentTypeOptions\Tests.Api.PolicyHeaders.ContentTypeOptions.csproj", "{B008D867-12B4-7EB7-D707-1C1503E4151A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Logging.Abstractions", "..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj", "{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{6C7D58FA-03E4-406C-ACB7-87EAE221099A}"
-	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		Dockerfile = Dockerfile
-	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", ".docker\docker-compose.dcproj", "{345A819B-8EA9-B4BD-056F-377089EA0181}"
 EndProject

@@ -5,7 +5,9 @@ VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{F9091FFF-8BDF-4447-A4CC-19ACF2F783A3}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		Dockerfile = Dockerfile
 		icon.png = icon.png
 		LICENSE = LICENSE
 		localhost.pfx = localhost.pfx
@@ -59,10 +61,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Logging.Abstractions", "..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj", "{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{6C7D58FA-03E4-406C-ACB7-87EAE221099A}"
-	ProjectSection(SolutionItems) = preProject
-		.dockerignore = .dockerignore
-		Dockerfile = Dockerfile
-	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", ".docker\docker-compose.dcproj", "{345A819B-8EA9-B4BD-056F-377089EA0181}"
 EndProject

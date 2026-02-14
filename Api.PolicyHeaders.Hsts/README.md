@@ -1,20 +1,31 @@
-# Api.PolicyHeaders.Hsts
+﻿# Api.PolicyHeaders.Hsts
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with strict-transport-security (HSTS)._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Hosting.Https]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
-The service is configured for https, as otherwise hsts can't be tested.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-## Solution Items
+***
 
-## Docker 
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
 
-## Kubernetes
+## Summary
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## GitHub Actions
+The service is configured to run over HTTPS, since HSTS requires a secure connection to be tested effectively.  
+To observe HSTS enforcement in action, load the `hsts-violation.html` file and see how the browser blocks non-secure requests.
+
+| Endpoint                                  | Description                                                                             |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/hsts` | Returns a `200 OK` response including the `Strict-Transform-Security` response header.  |
+
+> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#strict-transport-security-hsts)**.
 
 ## Configuration
 ```json
@@ -23,7 +34,7 @@ The service is configured for https, as otherwise hsts can't be tested.
     "Hsts": {
       "MaxAge": "00:01:00",
       "UsePreload": false,
-      "IncludeSubdomains": false
+      "IncludeSubdomains": true
     }
   }
 }

@@ -1,30 +1,128 @@
-# Api.PolicyHeaders.ContentSecurityPolicy
+﻿# Api.PolicyHeaders.ContentSecurityPolicy
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with content security policy (CSP)._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Hosting.Https]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
-The service is configured for https, as otherwise csp-reports are not send to the csp-reports endpoint by most browsers.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-Load the `csp-violation.html` and see the browser reporting csp issues.
+***
 
-## Solution Items
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
 
-## Docker 
+## Summary
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## Kubernetes
+Content Security Policy (CSP) supports a wide range of configurations. This example demonstrates a small, representative subset of directives to illustrate 
+how CSP is configured and applied. You are encouraged to experiment with the settings and inspect the resulting `Content-Security-Policy` response header 
+to better understand their effects.
 
-## GitHub Actions
+The service is configured to run over HTTPS, as most browsers will not send CSP violation reports to a `csp-report` endpoint over HTTP. 
+The `Report-To` directive is enabled and configured to send reports to Nano’s default endpoint at `/csp/report-to`. 
+
+> ⚠️ Browsers typically batch and delay CSP reports, so it may take up to a minute—or longer—before reports are sent.
+
+To observe CSP violations in action, load the provided `csp-violation.html` file and inspect the browser’s reporting behavior.
+
+| Endpoint                                 | Description                                                     |
+| ---------------------------------------- | --------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/csp` | Returns a `200 OK` response including the CSP response header.  |
+
+> 📖 Learn more about **[Nano Content Security Options](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#content-type-options)**.
 
 ## Configuration
-Added http header config with some reasonable values.
+Added content security policy header configuration.  
 
-### Csp
-For CSP there are many different possible configurtations. The example showcases some, but feel free to experiment and change the values and inspect the csp header.
-The Csp configuration is large, so just to showcase i have included a few directives.
-
-`Report-To` is enabled and configured to send reports to the default Nano endpoint `/csp/report-to`.
-Be aware that it may take about a minute, and possible longer, before the browser sends the report. 
-
+```json
+"App": {
+  "HttpPolicyHeaders": {
+    "Csp": {
+      "ReportOnly": false,
+      "UpgradeInsecureRequests": true,
+      "Defaults": {
+        "IsNone": false,
+        "IsSelf": true,
+        "Sources": [
+          "https://localhost"
+        ]
+      },
+      "Scripts": {
+        "IsNone": false,
+        "IsSelf": true,
+        "IsUnsafeInline": false,
+        "IsUnsafeEval": false,
+        "IsUnsafeWasmEval": false,
+        "IsTrustedTypesEval": false,
+        "IsUnsafeHashes": false,
+        "StrictDynamic": false,
+        "UnsafeHashedAttributes": false,
+        "UnsafeAllowRedirects": false,
+        "InlineSpeculationRules": false,
+        "Sources": [
+        ],
+        "Nonces": [
+        ],
+        "Hashes": [
+        ],
+        "RequireTrustedTypes": false,
+        "RequireSri": false,
+        "ReportSample": true
+      },
+      "Styles": {
+        "IsNone": false,
+        "IsSelf": true,
+        "IsUnsafeInline": false,
+        "IsUnsafeHashes": false,
+        "Sources": [
+        ],
+        "Nonces": [
+        ],
+        "Hashes": [
+        ],
+        "RequireSri": false,
+        "ReportSample": true
+      },
+      "StylesElem": {
+        "IsNone": false,
+        "IsSelf": true,
+        "IsUnsafeInline": false,
+        "Sources": [
+        ],
+        "Nonces": [
+        ],
+        "Hashes": [
+        ],
+        "ReportSample": true
+      },
+      "StylesAttr": {
+        "IsNone": false,
+        "IsSelf": true,
+        "IsUnsafeInline": false,
+        "IsUnsafeHashes": false,
+        "Sources": [
+        ],
+        "ReportSample": true
+      },
+      "PermissionsPolicy": {
+        "Gamepad": {
+          "IsNone": false,
+          "IsSelf": true,
+          "Sources": [
+          ]
+        }
+      },
+      "ReportTo": {
+        "Group": "csp-reports",
+        "MaxAge": "60",
+        "Endpoints": [
+        ]
+      }
+    }
+  }
+}
+```

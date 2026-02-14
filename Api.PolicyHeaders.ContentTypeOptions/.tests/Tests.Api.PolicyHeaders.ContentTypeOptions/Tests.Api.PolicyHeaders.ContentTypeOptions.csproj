@@ -16,8 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Api.PolicyHeaders.ContentType.Models\Api.PolicyHeaders.ContentType.Models.csproj" />
-	  <ProjectReference Include="..\..\Api.PolicyHeaders.ContentType\Api.PolicyHeaders.ContentType.csproj" />
+	  <ProjectReference Include="..\..\Api.PolicyHeaders.ContentTypeOptions.Models\Api.PolicyHeaders.ContentTypeOptions.Models.csproj" />
+	  <ProjectReference Include="..\..\Api.PolicyHeaders.ContentTypeOptions\Api.PolicyHeaders.ContentTypeOptions.csproj" />
 	</ItemGroup>
 
 </Project>

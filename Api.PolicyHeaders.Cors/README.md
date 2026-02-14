@@ -1,21 +1,30 @@
-# Api.PolicyHeaders.Cors
+﻿# Api.PolicyHeaders.Cors
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with content security policy (CSP)._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Hosting.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-Check the different html pages for different cors violations.
+***
 
-## Solution Items
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
 
-## Docker 
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## Kubernetes
+To test CORS behavior, open the provided HTML pages and observe how the browser enforces different CORS restrictions and blocks unauthorized requests.  
 
-## GitHub Actions
+| Endpoint                                  | Description                                                       |
+| ----------------------------------------- | ----------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/cors` | Returns a `200 OK` response including the CORS response headers.  |
+
+> 📖 Learn more about **[Nano Cors](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#cors)**.
 
 ## Configuration
 ```json 

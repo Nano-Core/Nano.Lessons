@@ -3,4 +3,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:$DOTNET_ASPNET_VERSION AS base
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "Api.PolicyHeaders.ContentType.dll"]
+ENTRYPOINT ["dotnet", "Api.PolicyHeaders.ContentTypeOptions.dll"]
