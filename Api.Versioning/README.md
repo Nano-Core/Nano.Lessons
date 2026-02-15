@@ -1,22 +1,28 @@
-# Api.Versioning
+﻿# Api.Versioning
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with versioning._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-Two endpoints shows version 1.0 and 2.0
-Nothing fancy here.
+***
 
-## Solution Items
+## Table of Contents
+* [Summary](#summary)
 
-## Docker 
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## Kubernetes
+The controller is annotated with `[ApiVersion("1.0")]` and `[ApiVersion("2.0")]`, and contains two actions, each mapped to a specific version 
+using `[MapToApiVersion("1.0")]` and `[MapToApiVersion("2.0")]`, respectively.  
 
-## GitHub Actions
+| Endpoint                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- |
+| `http://localhost:8080/api/v1.0/examples/versioning`  | Returns a `200 OK` response with the message `v1.0`.  |
+| `http://localhost:8080/api/v2.0/examples/versioning`  | Returns a `200 OK` response with the message `v2.0`.  |
 
-## Configuration
-
+> 📖 Learn more about **[Nano Versioning](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#versioning)**.

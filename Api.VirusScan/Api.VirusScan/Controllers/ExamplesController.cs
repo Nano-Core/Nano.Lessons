@@ -24,7 +24,7 @@ public class ExamplesController(ILogger logger) : BaseController(logger)
     /// <returns>A message.</returns>
     /// <response code="200">OK.</response>
     [HttpPost]
-    [Route("virusscan")]
+    [Route("virus-scan")]
     [Consumes(HttpContentType.FORM)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public virtual async Task<IActionResult> VirusScanAsync([Required]IFormFile file, CancellationToken cancellationToken = default)

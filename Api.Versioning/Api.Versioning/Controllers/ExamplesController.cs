@@ -29,7 +29,7 @@ public class ExamplesController(ILogger logger) : BaseController(logger)
     {
         await Task.CompletedTask;
 
-        return this.Ok("v1");
+        return this.Ok("v1.0");
     }
 
     /// <summary>
@@ -46,6 +46,6 @@ public class ExamplesController(ILogger logger) : BaseController(logger)
     {
         await Task.CompletedTask;
 
-        return this.Ok("v2");
+        return this.Ok("v2.0");
     }
 }
