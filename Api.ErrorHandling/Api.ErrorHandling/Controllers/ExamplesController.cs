@@ -1,11 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 
-namespace Api.PolicyHeaders.ContentTypeOptions.Controllers;
+namespace Api.ErrorHandling.Controllers;
 
 /// <summary>
 /// Controller with examples.
@@ -14,18 +15,18 @@ namespace Api.PolicyHeaders.ContentTypeOptions.Controllers;
 public class ExamplesController(ILogger logger) : BaseController(logger)
 {
     /// <summary>
-    /// Content Type Nosniff Action.
+    /// Error Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A message.</returns>
-    /// <response code="200">Success.</response>
+    /// <returns>Nothing.</returns>
+    /// <response code="500">Error.</response>
     [HttpGet]
-    [Route("nosniff")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [Route("error")]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public virtual async Task<IActionResult> ContentTypeAsync(CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
-        return this.Ok("nosniff");
+        throw new Exception("An error occured.");
     }
 }

@@ -1,23 +1,29 @@
-# Api.ResponseCache
+﻿# Api.ResponseCache
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with response cache._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Hosting.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-use the endpoints `/response-cache` to see that it uses cache based on configuration. `Cache-Control=public, max-age=1200`
-use the endpoints `/no-response-cache` to see that cache has been disabled for that action (`[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]`). `Cache-Control=no-store,no-cache`
+***
 
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
 
-## Solution Items
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## Docker 
+| Endpoint                                               | Description                                                                                                   |
+| -------------------------------------------------------| ------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/response-cache`    | Returns a `200 OK` response cached. Header: `Cache-Control=public, max-age=1200`                              |
+| `http://localhost:8080/api/examples/no-response-cache` | Returns a `200 OK` response with no cache using Header: `[ResponseCache]`. `Cache-Control=no-store,no-cache`  |
 
-## Kubernetes
-
-## GitHub Actions
+> 📖 Learn more about **[Nano Response Cache](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#response-cache)**.
 
 ## Configuration
 ```json

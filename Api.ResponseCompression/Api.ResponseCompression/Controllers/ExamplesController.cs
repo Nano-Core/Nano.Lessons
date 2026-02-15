@@ -16,13 +16,13 @@ namespace Api.ResponseCompression.Controllers;
 public class ExamplesController(ILogger logger) : BaseController(logger)
 {
     /// <summary>
-    /// Compressed Action.
+    /// Response Compression Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>1024 KB content.</returns>
     /// <response code="200">Success.</response>
     [HttpGet]
-    [Route("compressed")]
+    [Route("response-compression")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public virtual async Task<IActionResult> CompressedAsync(CancellationToken cancellationToken = default)
     {

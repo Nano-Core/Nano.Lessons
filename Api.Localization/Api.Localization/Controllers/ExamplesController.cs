@@ -27,6 +27,11 @@ public class ExamplesController(ILogger logger) : BaseController(logger)
     {
         await Task.CompletedTask;
 
-        return this.Ok($"{CultureInfo.CurrentCulture.EnglishName} / {CultureInfo.CurrentCulture.NativeName} ({CultureInfo.CurrentCulture.Name})");
+        return this.Ok(new
+        {
+            CultureInfo.CurrentCulture.Name,
+            CultureInfo.CurrentCulture.EnglishName,
+            CultureInfo.CurrentCulture.NativeName
+        });
     }
 }

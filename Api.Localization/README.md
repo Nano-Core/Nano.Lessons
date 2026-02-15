@@ -1,19 +1,38 @@
-# Api.Localization
+﻿# Api.Localization
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with request localization._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-## Solution Items
+***
 
-## Docker 
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
 
-## Kubernetes
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
 
-## GitHub Actions
+The controller return a response in the following format:
+
+```json
+{
+    "Name": "Danish",          // The name of the culture language
+    "EnglishName": "Danish",   // The english name of the culture language
+    "NativeName": "Dansk",     // The native name of the culture language
+}
+```
+
+| Endpoint                                          | Description                                                      |
+| ------------------------------------------------- | ---------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/localization` | Returns a `200 OK` response with names of the culture langauge.  |
+
+> 📖 Learn more about **[Nano Localization](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#localization)**.
 
 ## Configuration
 ```json
@@ -21,7 +40,7 @@ The Controller inherits from the topmost `BaseController` class in Nano.
   "Localization": {
     "DefaultCulture": "en-US",
     "SupportedCultures": [
-      "en-US"
+      "da-DK"
     ]
   }
 }

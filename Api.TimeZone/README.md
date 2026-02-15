@@ -1,34 +1,42 @@
-# Api.TimeZone
+﻿# Api.TimeZone
 
-All lesions are complete examples showing both the specific feature but also GitHub actions, Kubernetes, etc required to deploy it. Just copy an example lesion to
-it's own repository and try it.
+> _Nano API application with request timezone._  
+_All lessons are complete, self-contained examples that include build and deployment setup._
 
-Based on [Api.Http]()
+> ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
+Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-The Controller inherits from the topmost `BaseController` class in Nano.
+> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-The endpoints, both GET and POST version in the controller returns this response. 
-Explanations are given for each date-time value in the response.
+***
+
+## Table of Contents
+* [Summary](#summary)
+* [Configuration](#configuration)
+
+## Summary
+This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+that inherits from the top-level Nano `BaseController`.  
+
+Both the GET and POST endpoints in the controller return a response in the following format:
+
 ```json
 {
-    "RequestDateTimeLocal": "2026-02-08T14:23:45+03:00",    // The date-time sent from the client in the request.
-    "ServerRecievedUtc": "2026-02-08T11:23:45Z",            // The date-time in utc that the server recieves.
-    "ResponseDateTimeLocal": "2026-02-08T14:23:45+03:00",   // The date-tme in the response to the client.
-    "DateTimeInfoNow": "2026-02-10T11:40:37+03:00",         // The current local date-time on the server.
-    "DateTimeInfoUtcNow": "2026-02-10T08:40:37.7265135Z"    // The current utc date-time on the server.
+    "RequestDateTimeLocal": "2026-02-08T14:23:45+03:00",   // The date-time sent by the client in the request
+    "ServerReceivedUtc": "2026-02-08T11:23:45Z",           // The UTC date-time when the server received the request
+    "ResponseDateTimeLocal": "2026-02-08T14:23:45+03:00",  // The date-time returned to the client, adjusted to the requested timezone
+    "DateTimeInfoNow": "2026-02-10T11:40:37+03:00",        // The current local date-time on the server
+    "DateTimeInfoUtcNow": "2026-02-10T08:40:37.7265135Z"   // The current UTC date-time on the server
 }
 ```
 
-## Solution Items
+| Endpoint                                                    | Description                                                                                                            |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/timezone` (GET,POST)   | Returns a `200 OK` response with various `DateTimeOffset` properties illustrating the date-time timezone conversions.  |
 
-## Docker 
-
-## Kubernetes
-
-## GitHub Actions
+> 📖 Learn more about **[Nano TimeZone](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#timezone)**.
 
 ## Configuration
-The default timezone indicates which timezone to use when `tz` parameter has been omitted from a request.
 ```json
 "App": {
   "TimeZone": {
