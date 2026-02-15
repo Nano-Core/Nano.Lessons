@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.Documentation
-  IMAGE_NAME: api.documentation
-  SERVICE_NAME: api-documentation
+  APP_NAME: Api.Documentation.Nonce
+  IMAGE_NAME: api.documentation.nonce
+  SERVICE_NAME: api-documentation-nonce
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
@@ -33,7 +33,11 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
+  CERTIFICATE_ISSUER: letsencrypt-prod
+  CERTIFICATE_ORGANIZATION: ${{ vars.CERTIFICATE_ORGANIZATION }}
+  CERTIFICATE_HOST: ${{ github.ref == 'refs/heads/master' && vars.HOST_API_SUBDOMAIN + '.' + vars.PRODUCTION_HOST || vars.HOST_API_SUBDOMAIN + '.' + vars.STAGING_HOST }}
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
+  NONCE_TOKEN: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_NONCE_TOKEN || secrets.STAGING_NONCE_TOKEN }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -142,6 +146,20 @@ jobs:
 
           Get-Content .kubernetes/autoscaler.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/autoscaler.tmp.yaml;
           sudo kubectl apply -f .kubernetes/autoscaler.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+          Get-Content .kubernetes/certificate.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/certificate.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/certificate.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+          Get-Content .kubernetes/ingress.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/ingress.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/ingress.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";
