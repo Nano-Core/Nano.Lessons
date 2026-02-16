@@ -1,6 +1,6 @@
 ﻿# Api.PolicyHeaders.Cors
 
-> _Nano API application with content security policy (CSP)._  
+> _Nano API application with cors._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -20,6 +20,8 @@ that inherits from the top-level Nano `BaseController`.
 
 To test CORS behavior, open the provided HTML pages and observe how the browser enforces different CORS restrictions and blocks unauthorized requests.  
 
+Also try out the endpoint, and observe how CORS returns the allowed hosts, headers, and methods.  
+
 | Endpoint                                  | Description                                                       |
 | ----------------------------------------- | ----------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/cors` | Returns a `200 OK` response including the CORS response headers.  |
@@ -33,11 +35,12 @@ To test CORS behavior, open the provided HTML pages and observe how the browser 
     "http://localhost:8080"
   ],
   "AllowedHeaders": [
-    "*"
+    "Content-Type"
   ],
   "AllowedMethods": [
     "GET",
-    "POST"
+    "POST",
+    "OPTIONS"
   ],
   "AllowCredentials": true,
   "Origin": {

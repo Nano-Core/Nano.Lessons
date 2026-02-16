@@ -17,7 +17,7 @@ namespace Api.VirusScan.Controllers;
 public class ExamplesController(ILogger logger) : BaseController(logger)
 {
     /// <summary>
-    /// Virus Scan.
+    /// Virus Scan Action.
     /// </summary>
     /// <param name="file">The file.</param>
     /// <param name="cancellationToken">The token used when request is cancelled.</param>

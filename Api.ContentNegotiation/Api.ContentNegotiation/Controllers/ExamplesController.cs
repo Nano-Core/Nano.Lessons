@@ -1,12 +1,11 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 
-namespace Api.ErrorHandling.Controllers;
+namespace Api.ContentNegotiation.Controllers;
 
 /// <summary>
 /// Controller with examples.
@@ -15,18 +14,18 @@ namespace Api.ErrorHandling.Controllers;
 public class ExamplesController(ILogger logger) : BaseController(logger)
 {
     /// <summary>
-    /// Error Handling Action.
+    /// Content Negotiation Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A message.</returns>
-    /// <response code="500">Error.</response>
+    /// <response code="200">Success.</response>
     [HttpGet]
-    [Route("error")]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public virtual async Task<IActionResult> ErrorHandlingAsync(CancellationToken cancellationToken = default)
+    [Route("content-negotiation")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public virtual async Task<IActionResult> ContentNegotiationAsync(CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
-        throw new Exception("An error occured.");
+        return this.Ok("content-negotiation");
     }
 }
