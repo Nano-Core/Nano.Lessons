@@ -20,6 +20,9 @@ that inherits from the top-level Nano `BaseController`.
 The controller is annotated with `[ApiVersion("1.0")]` and `[ApiVersion("2.0")]`, and contains two actions, each mapped to a specific version 
 using `[MapToApiVersion("1.0")]` and `[MapToApiVersion("2.0")]`, respectively.  
 
+Observe the response headers `Api-Supported-Version`, containing all versions supported by the application, and the `Api-Version` showing the requested API version
+by the client, or the default version if omitted from the request.  
+
 | Endpoint                                              | Description                                           |
 | ----------------------------------------------------- | ----------------------------------------------------- |
 | `http://localhost:8080/api/v1.0/examples/versioning`  | Returns a `200 OK` response with the message `v1.0`.  |
