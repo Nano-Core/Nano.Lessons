@@ -1,0 +1,14 @@
+services:
+  console.blank:
+    image: console.blank
+    restart: on-failure
+    build:
+      context: ../Console.Blank
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true
