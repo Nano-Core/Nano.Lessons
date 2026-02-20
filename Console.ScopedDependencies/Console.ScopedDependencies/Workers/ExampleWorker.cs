@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Console.Workers.Services.Abstractions;
 using Microsoft.Extensions.Logging;
 using Nano.App.Console.Workers;
 
@@ -9,8 +11,11 @@ namespace Console.Workers.Workers;
 /// Example Worker.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExampleWorker(ILogger logger) : BaseWorker(logger)
+/// <param name="scopedService">The <see cref="IExampleScopedService"/>.</param>
+public class ExampleWorker(ILogger logger, IExampleScopedService scopedService) : BaseWorker(logger)
 {
+    private readonly IExampleScopedService scopedService = scopedService ?? throw new ArgumentNullException(nameof(scopedService));
+
     /// <summary>
     /// Example On Start.
     /// </summary>
@@ -20,7 +25,8 @@ public class ExampleWorker(ILogger logger) : BaseWorker(logger)
     {
         System.Console.WriteLine("Example Worker Started...");
 
-        await Task.Delay(500, cancellationToken);
+        await this.scopedService
+            .Run();
 
         System.Console.WriteLine("Example Worker Completed...");
     }

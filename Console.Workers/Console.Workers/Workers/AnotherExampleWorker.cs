@@ -6,10 +6,10 @@ using Nano.App.Console.Workers;
 namespace Console.Workers.Workers;
 
 /// <summary>
-/// Example Worker.
+/// Another Example Worker.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExampleWorker(ILogger logger) : BaseWorker(logger)
+public class AnotherExampleWorker(ILogger logger) : BaseWorker(logger)
 {
     /// <summary>
     /// Example On Start.
@@ -18,10 +18,10 @@ public class ExampleWorker(ILogger logger) : BaseWorker(logger)
     /// <returns>A <see cref="Task"/>.</returns>
     public override async Task OnStartAsync(CancellationToken cancellationToken = default)
     {
-        System.Console.WriteLine("Example Worker Started...");
+        System.Console.WriteLine("Another Example Worker Started...");
 
-        await Task.Delay(500, cancellationToken);
+        await Task.Delay(1000, cancellationToken);
 
-        System.Console.WriteLine("Example Worker Completed...");
+        System.Console.WriteLine("Another Example Worker Completed...");
     }
 }
