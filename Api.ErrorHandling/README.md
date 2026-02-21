@@ -1,6 +1,6 @@
 ﻿# Api.ErrorHandling
 
-> _Nano API application with error handling._  
+> _Nano API application showing error handling._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -34,7 +34,7 @@ that inherits from the top-level Nano `BaseController`.
 | `http://localhost:8080/api/examples/exception-problem-details`         | Varies depending on the `ProblemDetails`.                                                                     |
 | `http://localhost:8080/api/examples/validation-error`                  | Returns a `400 Bad Request` response.  `Detail` always exposed.                                               |
 
-Alternatively, toggle the `ExposErrors` to `false`, and observe that messages from `500 Internal Server Errors` no longer will be exposed.  
+Alternatively, toggle the `ExposeErrors` to `false`, and observe that messages from `500 Internal Server Errors` no longer will be exposed.  
 
 > 📖 Learn more about **[Nano Error Handling](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#error-handling)**.
 
