@@ -16,7 +16,9 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Http)** and adds a simple test controller 
-that inherits from the top-level Nano `BaseController`. The rest of the setup remains largely unchanged.
+that inherits from the top-level Nano `BaseController`.  
+
+After approximately 20 seconds, the startup task will complete, and the health check endpoint will report a status of `Healthy`.  
 
 The following endpoint is available for testing:
 
@@ -27,6 +29,9 @@ The following endpoint is available for testing:
 > 📖 Learn more about **[Nano Startup Tasks](https://github.com/Nano-Core/Nano.Library/Nano.App/README.md#startup-tasks)**.
 
 ## Configuration
+There is no configuration required for startup tasks themselves.  
+The health-check configuration has just been added to observe that the `self` health-check reports `Healthy`.
+
 ```json
   "App": {
     "HealthCheck": {
