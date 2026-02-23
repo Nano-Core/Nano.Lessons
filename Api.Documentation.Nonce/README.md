@@ -6,7 +6,7 @@ _All lessons are complete, self-contained examples that include build and deploy
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
 Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
+> ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
 ***
 
@@ -17,8 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
-This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
-that inherits from the top-level Nano `BaseController`.  
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)**.    
 
 Run the solution and open [https://localhost:4443/docs](https://localhost:4443/docs) in your browser to view the API documentation.  
 
@@ -30,7 +29,7 @@ You can also remove the `HttpPolicyHeaders` from `appsettings` and set `Document
 | -------------------------------------------------- | -------------------- |
 | `http://localhost:8080/api/examples/documentation` | Returns a `200 OK`.  |
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#documentation)**.
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.
 
 ## Configuration
 ```json

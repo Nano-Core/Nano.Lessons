@@ -164,6 +164,20 @@ jobs:
               throw "error";
           };
 
+      - name: GitHub Release
+        if: github.ref == 'refs/heads/master'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          name: "Release ${{ env.VERSION }}"
+          body: |
+            Version: ${{ env.VERSION }}
+            Commit: ${{ github.sha }}
+          artifacts: "nupkgs/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+
       - name: Slack Notification
         if: always()
         uses: act10ns/slack@v2

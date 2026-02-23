@@ -6,7 +6,7 @@ _All lessons are complete, self-contained examples that include build and deploy
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
 Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
+> ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
 ***
 
@@ -15,7 +15,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Hosting.Http](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Http)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 | Endpoint                                           | Description                                               |
@@ -24,7 +24,7 @@ that inherits from the top-level Nano `BaseController`.
 | `http://localhost:8080/api/examples/get-session`   | Gets the session variable if set and returns a `200 OK`.  |
 | `http://localhost:8080/api/examples/clear-session` | Clear the session and returns a `200 OK`.                 |
 
-> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#session)**.
+> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#session)**.
 
 ## Configuration
 ```json

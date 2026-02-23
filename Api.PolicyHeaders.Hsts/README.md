@@ -6,7 +6,7 @@ _All lessons are complete, self-contained examples that include build and deploy
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
 Nano is referenced directly from source (not via NuGet packages) and is expected to be located in the .nano solution folder._
 
-> ⚠️ Rememmber to set the docker-compose project as startup project, before running the solution in Visual Studio.
+> ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
 ***
 
@@ -25,7 +25,7 @@ To observe HSTS enforcement in action, load the `hsts-violation.html` file and s
 | ----------------------------------------- | --------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/hsts` | Returns a `200 OK` response including the `Strict-Transform-Security` response header.  |
 
-> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#strict-transport-security-hsts)**.
+> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#strict-transport-security-hsts)**.
 
 ## Configuration
 ```json
