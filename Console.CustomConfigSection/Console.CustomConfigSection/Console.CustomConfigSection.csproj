@@ -32,11 +32,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	    <ProjectReference Include="..\Api.StaticFiles.Models\Api.StaticFiles.Models.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.App.Console\Nano.App.Console.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.App\Nano.App.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Common\Nano.Common.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Data.Abstractions\Nano.Data.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Eventing.Abstractions\Nano.Eventing.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Abstractions\Nano.Storage.Abstractions.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+	  <Folder Include="Workers\" />
 	</ItemGroup>
 
 </Project>

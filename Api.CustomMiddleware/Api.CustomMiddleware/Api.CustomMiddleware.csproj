@@ -32,11 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	    <ProjectReference Include="..\Api.StaticFiles.Models\Api.StaticFiles.Models.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
+	    <ProjectReference Include="..\Api.CustomMiddleware.Models\Api.CustomMiddleware.Models.csproj" />
 	</ItemGroup>
 
 </Project>

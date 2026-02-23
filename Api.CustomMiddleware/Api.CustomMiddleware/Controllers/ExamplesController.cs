@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 
-namespace Api.StaticFiles.Controllers;
+namespace Api.CustomMiddleware.Controllers;
 
 /// <summary>
 /// Controller with examples.
@@ -14,18 +14,18 @@ namespace Api.StaticFiles.Controllers;
 public class ExamplesController(ILogger logger) : BaseController(logger)
 {
     /// <summary>
-    /// Static Files Action.
+    /// Custom Middleware Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A message.</returns>
     /// <response code="200">Success.</response>
     [HttpGet]
-    [Route("static-files")]
+    [Route("custom-middleware")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<IActionResult> StaticFilesAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> CustomMiddlewareAsync(CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
-        return this.Ok("static-files");
+        return this.Ok("custom-middleware");
     }
 }

@@ -1,6 +1,6 @@
 ﻿# Api.StaticFiles
 
-> _Nano API application with http._  
+> _Nano API application with static files._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -15,12 +15,15 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
-that inherits from the top-level Nano `BaseController`. The rest of the setup remains largely unchanged.
+that inherits from the top-level Nano `BaseController`.  
+
+Static files have been added to the solution, including a font, an image, and an HTML file.  
+Run the application and navigate to [http://localhost:8080/index.html](http://localhost:8080/index.html) to verify that the static files are served correctly.
 
 The following endpoint is available for testing:
 
-| Endpoint                                   | Description                            |
-| ------------------------------------------ | -------------------------------------- |
-| `http://localhost:8080/api/examples/http`  | Returns a simple `200 OK` response.    |
+| Endpoint                                           | Description                            |
+| -------------------------------------------------- | -------------------------------------- |
+| `http://localhost:8080/api/examples/static-files`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Hosting Http](https://github.com/Nano-Core/Nano.Library/Nano.App.Api/README.md#http)**.
+> 📖 Learn more about **[Nano Static Files](https://github.com/Nano-Core/Nano.Library/Nano.App.Api#static-files)**.
