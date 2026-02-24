@@ -11,7 +11,7 @@ namespace Api.Hosting.Http.Controllers;
 /// Controller with examples.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExamplesController(ILogger logger) : BaseController(logger)
+public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
 {
     /// <summary>
     /// Http Action.

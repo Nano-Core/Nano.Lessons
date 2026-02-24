@@ -1,0 +1,14 @@
+services:
+  console.logging.log4net:
+    image: console.logging.log4net
+    restart: on-failure
+    build:
+      context: ../Console.Logging.Log4Net
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true
