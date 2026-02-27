@@ -13,8 +13,8 @@ namespace Api.Cookies.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExamplesController(ILogger logger) : BaseController(logger)
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
+public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
 {
     private const string COOKIE_KEY = "TestKey";
 

@@ -13,20 +13,12 @@ namespace Api.HealthChecks.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-public class ExamplesController : BaseController
+/// <param name="logger">The <see cref="ILogger{T}"/></param>
+/// <param name="healthCheckService">The <see cref="HealthCheckService"/>.</param>
+public class ExamplesController(ILogger<ExamplesController> logger, HealthCheckService healthCheckService)
+    : BaseController(logger)
 {
-    private readonly HealthCheckService healthCheckService;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="logger">The <see cref="ILogger"/>.</param>
-    /// <param name="healthCheckService"></param>
-    public ExamplesController(ILogger<ExamplesController> logger, HealthCheckService healthCheckService)
-        : base(logger)
-    {
-        this.healthCheckService = healthCheckService ?? throw new ArgumentNullException(nameof(healthCheckService));
-    }
+    private readonly HealthCheckService healthCheckService = healthCheckService ?? throw new ArgumentNullException(nameof(healthCheckService));
 
     /// <summary>
     /// Health Check Action.

@@ -12,9 +12,9 @@ namespace Api.CustomService.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="exampleService">The <see cref="IExampleService"/>.</param>
-public class ExamplesController(ILogger logger, IExampleService exampleService) : BaseController(logger)
+public class ExamplesController(ILogger<ExamplesController> logger, IExampleService exampleService) : BaseController(logger)
 {
     private readonly IExampleService exampleService = exampleService ?? throw new ArgumentNullException(nameof(exampleService));
 

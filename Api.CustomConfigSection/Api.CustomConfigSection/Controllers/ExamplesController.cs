@@ -13,9 +13,9 @@ namespace Api.CustomConfigSection.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="customOptions">The <see cref="CustomOptions"/>.</param>
-public class ExamplesController(ILogger logger, IOptionsMonitor<CustomOptions> customOptions) : BaseController(logger)
+public class ExamplesController(ILogger<ExamplesController> logger, IOptionsMonitor<CustomOptions> customOptions) : BaseController(logger)
 {
     private readonly IOptionsMonitor<CustomOptions> customOptions = customOptions ?? throw new ArgumentNullException(nameof(customOptions));
 

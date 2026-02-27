@@ -11,7 +11,7 @@ namespace Api.Logging.Serilog.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
 {
     /// <summary>

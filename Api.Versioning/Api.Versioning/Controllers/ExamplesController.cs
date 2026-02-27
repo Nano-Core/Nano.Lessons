@@ -10,10 +10,10 @@ namespace Api.Versioning.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 [ApiVersion("1.0")]
 [ApiVersion("2.0")]
-public class ExamplesController(ILogger logger) : BaseController(logger)
+public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
 {
     /// <summary>
     /// Version 1.0 (default) Action.

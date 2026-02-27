@@ -25,13 +25,6 @@ spec:
           - name: %SERVICE_NAME%
             image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
             imagePullPolicy: Always 
-
-            env:
-            - name: Eventing__Password
-              valueFrom:
-                secretKeyRef:
-                  name: rabbitmq
-                  key: rabbitmq-password
             envFrom:
             - configMapRef:
                 name: %SERVICE_NAME%-config
@@ -52,13 +45,7 @@ spec:
               capabilities:
                 drop:
                 - ALL
-            volumeMounts:
-            - name: tmp
-              mountPath: /tmp
           restartPolicy: OnFailure
-          volumes:
-          - name: tmp
-            emptyDir: {}
           imagePullSecrets:
           - name: ghcr-pull-secret
 

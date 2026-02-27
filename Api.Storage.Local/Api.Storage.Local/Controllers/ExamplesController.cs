@@ -16,7 +16,7 @@ namespace Api.Storage.Local.Controllers;
 /// <summary>
 /// Controller with examples.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="pathProvider">The <see cref="IPathProvider"/>.</param>
 public class ExamplesController(ILogger<ExamplesController> logger, IPathProvider pathProvider) : BaseController(logger)
 {
