@@ -33,6 +33,10 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
+  STORAGE_SHARE_NAME: nano-storage-azure
+  STORAGE_ACCOUNT_NAME: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_NAME  || secrets.STAGING_STORAGE_ACCOUNT_NAME }}
+  STORAGE_ACCOUNT_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_KEY  || secrets.STAGING_STORAGE_ACCOUNT_KEY }}
+  STORAGE_SIZE: 1000
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -73,6 +77,19 @@ jobs:
           { 
             throw "error";
           };
+
+      - name: Create Fileshare
+        shell: pwsh
+        run: |
+          $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+          if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
+          { 
+              sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --quota $env:STORAGE_SIZE;
+              if ($LastExitCode -ne 0) 
+              { 
+                  throw "error";
+              };  
+          }
 
       - name: Publish Image
         shell: pwsh

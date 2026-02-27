@@ -38,6 +38,22 @@ spec:
         - containerPort: 8080
         - containerPort: 4443
         imagePullPolicy: Always 
+        env:
+        - name: Storage__AccountName
+          valueFrom:
+            secretKeyRef:
+              name: storage-account-secret
+              key: azurestorageaccountname
+        - name: Storage__AccountKey
+          valueFrom:
+            secretKeyRef:
+              name: storage-account-secret
+              key: azurestorageaccountkey
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: %SERVICE_NAME%-volume
+          mountPath: /mnt/%STORAGE_SHARE_NAME%
         envFrom:
         - configMapRef:
             name: %SERVICE_NAME%-config
@@ -75,10 +91,18 @@ spec:
           initialDelaySeconds: 20
           timeoutSeconds: 2
         volumeMounts:
-        - name: tmp
-          mountPath: /tmp
         - name: %SERVICE_NAME%-volume
           mountPath: /mnt/%STORAGE_SHARE_NAME%
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: %SERVICE_NAME%-volume
+        azureFile:
+          secretName: storage-account-secret
+          shareName: %STORAGE_SHARE_NAME%
+          readOnly: false
+      - name: tmp
+        emptyDir: {}
       imagePullSecrets:
         - name: ghcr-pull-secret
 

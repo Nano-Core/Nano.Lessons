@@ -10,6 +10,8 @@ services:
       dockerfile: "Dockerfile.Local"
     networks:
       - network
+    volumes:
+      - ./bin/nano-storage-azure:/mnt/nano-storage-azure
 
 networks:
   network:

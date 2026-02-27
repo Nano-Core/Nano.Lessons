@@ -18,7 +18,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-The following logging has been registerd using `ConfigureServices(...)` in `program.cs`.  
+The following logging has been registered using `ConfigureServices(...)` in `program.cs`.  
 
 ```csharp
 ...

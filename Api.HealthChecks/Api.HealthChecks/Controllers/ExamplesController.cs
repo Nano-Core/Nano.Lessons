@@ -22,7 +22,7 @@ public class ExamplesController : BaseController
     /// </summary>
     /// <param name="logger">The <see cref="ILogger"/>.</param>
     /// <param name="healthCheckService"></param>
-    public ExamplesController(ILogger logger, HealthCheckService healthCheckService)
+    public ExamplesController(ILogger<ExamplesController> logger, HealthCheckService healthCheckService)
         : base(logger)
     {
         this.healthCheckService = healthCheckService ?? throw new ArgumentNullException(nameof(healthCheckService));
@@ -40,7 +40,8 @@ public class ExamplesController : BaseController
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public virtual async Task<IActionResult> HealthCheckAsync(CancellationToken cancellationToken = default)
     {
-        var report = await this.healthCheckService.CheckHealthAsync(cancellationToken);
+        var report = await this.healthCheckService
+            .CheckHealthAsync(cancellationToken);
 
         var status = report.Status == HealthStatus.Healthy
             ? (int)HttpStatusCode.OK

@@ -18,6 +18,17 @@ This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.L
 
 This application demonstrates logging with NLog for a console application.  
 
+The following logging has been registered using `ConfigureServices(...)` in `program.cs`.
+
+```csharp
+...
+.ConfigureServices(x =>
+{
+    x.AddNanoLogging<NLogProvider>();
+})
+...
+```
+
 Run the application and observe how `ExampleWorker` logs a warning to the console.  
 Also note the `LogLevelOverrides` configuration, where logs under the `Microsoft` namespace are set to `Warning`, which suppresses several informational 
 messages during application startup.  

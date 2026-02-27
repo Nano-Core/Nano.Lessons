@@ -61,6 +61,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Api.Storage.Azure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Logging.Abstractions", "..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj", "{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Storage.Azure", "..\..\Nano.Library\Nano.Storage.Azure\Nano.Storage.Azure.csproj", "{5DD1307B-16FA-5171-54CA-4F37F2638022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Storage", "..\..\Nano.Library\Nano.Storage\Nano.Storage.csproj", "{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +114,14 @@ Global
 		{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD1307B-16FA-5171-54CA-4F37F2638022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD1307B-16FA-5171-54CA-4F37F2638022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD1307B-16FA-5171-54CA-4F37F2638022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD1307B-16FA-5171-54CA-4F37F2638022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +138,8 @@ Global
 		{E55DCB7C-9082-3538-6288-5A6E5C8DE183} = {3339F5B7-AA56-4192-B201-75B2620036B1}
 		{B008D867-12B4-7EB7-D707-1C1503E4151A} = {7E0D2A84-F3DE-4406-BE71-30EE6723E6D0}
 		{6BE9DA86-B487-64ED-7BF6-08CA10A05A97} = {3339F5B7-AA56-4192-B201-75B2620036B1}
+		{5DD1307B-16FA-5171-54CA-4F37F2638022} = {3339F5B7-AA56-4192-B201-75B2620036B1}
+		{24FF96ED-01BD-FEEC-4ABF-B8C5F58438D5} = {3339F5B7-AA56-4192-B201-75B2620036B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {72ED70A7-E1BB-4D06-B6FD-E092DA575FBE}

@@ -1,9 +1,15 @@
-﻿using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
+using Nano.Common.Consts;
+using Nano.Storage.Abstractions;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using Nano.App.Api.Extensions;
 
 namespace Api.Storage.Azure.Controllers;
 
@@ -11,21 +17,28 @@ namespace Api.Storage.Azure.Controllers;
 /// Controller with examples.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
+/// <param name="pathProvider">The <see cref="IPathProvider"/>.</param>
+public class ExamplesController(ILogger<ExamplesController> logger, IPathProvider pathProvider) : BaseController(logger)
 {
     /// <summary>
-    /// Http Action.
+    /// Storage Azure Action.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="file">The file.</param>
+    /// <param name="cancellationToken">The token used when request is cancelled.</param>
     /// <returns>A message.</returns>
-    /// <response code="200">Success.</response>
-    [HttpGet]
-    [Route("http")]
+    /// <response code="200">OK.</response>
+    [HttpPost]
+    [Route("storage-azure")]
+    [Consumes(HttpContentType.FORM)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<IActionResult> HttpAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> StorageAzureAsync([Required]IFormFile file, CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
+        var fileName = Path.GetFileName(file.FileName);
+        var savePath = Path.Combine(pathProvider.Root, fileName);
 
-        return this.Ok("http");
+        await file
+            .SaveFileAsync(savePath, cancellationToken);
+
+        return this.Ok("storage-azure");
     }
 }

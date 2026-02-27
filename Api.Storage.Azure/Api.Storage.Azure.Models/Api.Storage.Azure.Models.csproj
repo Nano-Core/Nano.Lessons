@@ -70,6 +70,8 @@
 	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Eventing.Abstractions\Nano.Eventing.Abstractions.csproj" />
 	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj" />
 	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Abstractions\Nano.Storage.Abstractions.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Azure\Nano.Storage.Azure.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage\Nano.Storage.csproj" />
 	</ItemGroup>
 
 </Project>

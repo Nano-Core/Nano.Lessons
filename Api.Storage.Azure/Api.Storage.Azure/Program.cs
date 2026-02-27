@@ -1,10 +1,12 @@
 ﻿using Nano.App.Api;
+using Nano.Storage.Azure;
+using Nano.Storage.Extensions;
 
 NanoApiApplication
     .ConfigureApp()
-    .ConfigureServices(_ =>
+    .ConfigureServices(x =>
     {
-        // Blank
+        x.AddNanoStorage<AzureFileshareProvider>();
     })
     .Build()
     .Run();
