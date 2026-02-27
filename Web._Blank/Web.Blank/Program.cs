@@ -1,10 +1,11 @@
 ﻿using Nano.App.Web;
+using Web.Blank;
 
-NanoWebApplication<object>
+NanoWebApplication
     .ConfigureApp()
     .ConfigureServices(_ =>
     {
         // Blank
     })
-    .Build()
+    .Build<App>()
     .Run();

@@ -20,6 +20,8 @@ Its purpose is to demonstrate the required boilerplate, file structure, and gene
 The application itself is intentionally minimal and does not expose HTTP endpoints or configure additional features. Instead, it serves as a baseline 
 from which all other Web lessons and examples are built.  
 
+An `App.razor` has been added to show simple use of `IComponent` when registering razor pages.
+
 It is recommended to review this application first to understand how a Nano Web application is generally structured and to become familiar with the purpose of the core building blocks 
 used in the boilerplate.
 
