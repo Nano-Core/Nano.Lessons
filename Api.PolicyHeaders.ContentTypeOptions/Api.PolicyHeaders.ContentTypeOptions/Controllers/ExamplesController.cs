@@ -14,7 +14,7 @@ namespace Api.PolicyHeaders.ContentTypeOptions.Controllers;
 public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
 {
     /// <summary>
-    /// Content Type Nosniff Action.
+    /// Content Type Options Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A message.</returns>
@@ -22,7 +22,7 @@ public class ExamplesController(ILogger<ExamplesController> logger) : BaseContro
     [HttpGet]
     [Route("nosniff")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<IActionResult> ContentTypeAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> ContentTypeOptionsAsync(CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 

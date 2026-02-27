@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 
-namespace Api.Logging.Serilog.Controllers;
+namespace Api.Logging.Log4Net.Controllers;
 
 /// <summary>
 /// Controller with examples.

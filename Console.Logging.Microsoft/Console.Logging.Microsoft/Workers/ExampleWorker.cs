@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Nano.App.Console.Workers;
 
-namespace Console.Logging.Log4Net.Workers;
+namespace Console.Logging.Microsoft.Workers;
 
 /// <summary>
 /// Example Worker.

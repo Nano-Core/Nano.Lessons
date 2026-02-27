@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Nano.App.Console.Workers;
 
-namespace Console.Logging.Log4Net.Workers;
+namespace Console.Logging.NLog.Workers;
 
 /// <summary>
 /// Example Worker.
@@ -23,7 +23,7 @@ public class ExampleWorker(ILogger<ExampleWorker> logger) : BaseWorker(logger)
         await Task.Delay(500, cancellationToken);
 
         this.logger
-            .LogWarning("warning from worker");
+            .LogWarning("warning from worker"); 
 
         System.Console.WriteLine("Example Worker Completed...");
     }
