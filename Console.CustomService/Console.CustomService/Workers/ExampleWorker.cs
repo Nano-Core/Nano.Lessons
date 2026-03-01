@@ -10,9 +10,9 @@ namespace Console.CustomService.Workers;
 /// <summary>
 /// Example Worker.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="exampleService">The <see cref="IExampleService"/>.</param>
-public class ExampleWorker(ILogger logger, IExampleService exampleService) : BaseWorker(logger)
+public class ExampleWorker(ILogger<ExampleWorker> logger, IExampleService exampleService) : BaseWorker(logger)
 {
     private readonly IExampleService exampleService = exampleService ?? throw new ArgumentNullException(nameof(exampleService));
 

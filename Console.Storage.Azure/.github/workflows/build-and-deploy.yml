@@ -31,8 +31,8 @@ env:
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
   STORAGE_SHARE_NAME: nano-storage-azure
-  STORAGE_ACCOUNT_NAME: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_NAME  || secrets.STAGING_STORAGE_ACCOUNT_NAME }}
-  STORAGE_ACCOUNT_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_KEY  || secrets.STAGING_STORAGE_ACCOUNT_KEY }}
+  STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
+  STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
   STORAGE_SIZE: 1000
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
@@ -78,10 +78,10 @@ jobs:
       - name: Create Fileshare
         shell: pwsh
         run: |
-          $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+          $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
           if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
           { 
-              sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --quota $env:STORAGE_SIZE;
+              sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --quota $env:STORAGE_SIZE;
               if ($LastExitCode -ne 0) 
               { 
                   throw "error";

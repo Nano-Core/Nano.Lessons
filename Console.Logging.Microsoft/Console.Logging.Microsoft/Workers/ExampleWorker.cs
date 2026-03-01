@@ -8,7 +8,7 @@ namespace Console.Logging.Microsoft.Workers;
 /// <summary>
 /// Example Worker.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 public class ExampleWorker(ILogger<ExampleWorker> logger) : BaseWorker(logger)
 {
     /// <summary>

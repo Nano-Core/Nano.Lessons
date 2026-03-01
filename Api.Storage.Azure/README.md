@@ -12,6 +12,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
+* [Registration](#registration)
 * [Configuration](#configuration)
 * [Docker-compose](#docker-compose)
 * [Kubernetes](#kubernetes)
@@ -21,32 +22,12 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  
-
-```csharp
-...
-.ConfigureServices(x =>
-{
-    x.AddNanoStorage<AzureFileshareProvider>();
-})
-...
-```
-
 This application demonstrates uploading a file and saving it to a mapped file share.  
-When running locally, files are NOT written to the Azure File Share. Instead, Docker mounts a local directory to simulate the file share.  
+When running locally, files are **NOT** written to the Azure File Share. Instead, Docker mounts a local directory to simulate the file share.  
 Files are saved in `.docker/bin/`.  
 
-A storage health check is configured to target the Azure File Share, but it requires valid credentials to be provided 
-under `Storage.Account` in `secrets.json`.
-
-```json
-{
-  "Storage:Account:Id": "id",
-  "Storage:Account:Secret": "secret"
-}
-```
-
-> ⚠️ If the account secrets are omitted from the configuration, the application will still run, but the healthcheck will report `degraded`.
+A storage health check is configured to target the Azure File Share, but it requires valid credentials to be provided under `Storage.Credentials`. If the 
+crednetials are omitted from the configuration, the application will still run, but the healthcheck will report `degraded`.  
 
 Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the storage health-check in the web-based UI.  
 
@@ -60,13 +41,25 @@ The following endpoint is available for testing:
 
 > 📖 Learn more about **[Nano Azure Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
 
+## Registration
+The following storage provider has been registered using `ConfigureServices(...)` in `program.cs`.  
+
+```csharp
+...
+.ConfigureServices(x =>
+{
+    x.AddNanoStorage<AzureFileshareProvider>();
+})
+...
+```
+
 ## Configuration
 Add the storage configuration.  
 
 ```json
 "Storage": {
   "ShareName": "nano-storage-azure",
-  "Account": {
+  "Credentials": {
     "Id": "id",
     "Secret": "secret"
   },
@@ -76,7 +69,7 @@ Add the storage configuration.
 }
 ```
 
-Additionally, application health-checks have been enabled with the configuration
+Additionally, application health-checks have been enabled with the configuration.  
 
 ```json
 "App": {
@@ -89,7 +82,7 @@ Additionally, application health-checks have been enabled with the configuration
 ```
 
 ## Docker Compose
-Map the fileshare in docker-compose.  
+Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
 docker
@@ -98,7 +91,7 @@ docker
 ```
 
 ## Kubernetes
-Add secrets and volumes to the `deployment.yaml`.  
+Added the volumes, volume mounts and secrets to the `deployment.yaml`.  
 
 ```json
 spec:
@@ -106,12 +99,12 @@ spec:
     spec:
       containers:
         env:
-        - name: Storage__AccountName
+        - name: Storage__Credentials__Id
           valueFrom:
             secretKeyRef:
               name: storage-account-secret
               key: azurestorageaccountname
-        - name: Storage__AccountKey
+        - name: Storage__Credentials__Secret
           valueFrom:
             secretKeyRef:
               name: storage-account-secret
@@ -132,12 +125,12 @@ spec:
 ```
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml` 
+Add the following environment variables to the `buid-and-deply.yml`.  
 
 ```yaml
 STORAGE_SHARE_NAME: nano-storage-azure
-STORAGE_ACCOUNT_NAME: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_NAME  || secrets.STAGING_STORAGE_ACCOUNT_NAME }}
-STORAGE_ACCOUNT_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_ACCOUNT_KEY  || secrets.STAGING_STORAGE_ACCOUNT_KEY }}
+STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
+STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
 STORAGE_SIZE: 1000
 ```
 
@@ -146,10 +139,10 @@ And add this step below as well, ensuring that the fileshare gets created before
 - name: Create Fileshare
   shell: pwsh
   run: |
-    $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+    $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
     if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
     { 
-        sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_ACCOUNT_NAME --account-key $env:STORAGE_ACCOUNT_KEY --quota $env:STORAGE_SIZE;
+        sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --quota $env:STORAGE_SIZE;
         if ($LastExitCode -ne 0) 
         { 
             throw "error";

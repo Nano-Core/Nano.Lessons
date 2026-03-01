@@ -9,8 +9,8 @@ namespace Console.StartupTasks.Workers;
 /// <summary>
 /// Example Worker.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExampleWorker(ILogger logger) : BaseWorker(logger)
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
+public class ExampleWorker(ILogger<ExampleWorker> logger) : BaseWorker(logger)
 {
     /// <summary>
     /// Example On Start.

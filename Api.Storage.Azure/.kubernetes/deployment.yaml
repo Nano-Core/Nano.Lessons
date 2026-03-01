@@ -39,12 +39,12 @@ spec:
         - containerPort: 4443
         imagePullPolicy: Always 
         env:
-        - name: Storage__AccountName
+        - name: Storage__Credentials__id
           valueFrom:
             secretKeyRef:
               name: storage-account-secret
               key: azurestorageaccountname
-        - name: Storage__AccountKey
+        - name: Storage__Credentials__Secret
           valueFrom:
             secretKeyRef:
               name: storage-account-secret

@@ -11,9 +11,9 @@ namespace Console.CustomConfigSection.Workers;
 /// <summary>
 /// Example Worker.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="customOptions">The <see cref="CustomOptions"/>.</param>
-public class ExampleWorker(ILogger logger, IOptionsMonitor<CustomOptions> customOptions) : BaseWorker(logger)
+public class ExampleWorker(ILogger<ExampleWorker> logger, IOptionsMonitor<CustomOptions> customOptions) : BaseWorker(logger)
 {
     private readonly IOptionsMonitor<CustomOptions> customOptions = customOptions ?? throw new ArgumentNullException(nameof(customOptions));
 

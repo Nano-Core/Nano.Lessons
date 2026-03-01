@@ -12,6 +12,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
+* [Registration](#registration)
 * [Configuration](#configuration)
 * [Docker-compose](#docker-compose)
 * [Kubernetes](#kubernetes)
@@ -20,17 +21,6 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
-
-The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  
-
-```csharp
-...
-.ConfigureServices(x =>
-{
-    x.AddNanoStorage<LocalFileShareProvider>();
-})
-...
-```
 
 This applicationn demonstrates uplaoding a file and saving it to a locally mapped fileshare.  
 Files are saved in `.docker/bin/`.  
@@ -46,26 +36,53 @@ The following endpoint is available for testing:
 
 > 📖 Learn more about **[Nano Local Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
 
+## Registration
+The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  
+
+```csharp
+...
+.ConfigureServices(x =>
+{
+    x.AddNanoStorage<LocalFileShareProvider>();
+})
+...
+```
+
 ## Configuration
-Add the storage configuration.  
+Configured the application with the necessary storage setup.  
 
 ```json
 "Storage": {
-  "ShareName": "nano-storage-local"
+  "ShareName": "nano-storage-local",
+  "HealthCheck": {
+    "UnhealthyStatus": "Degraded"
+  }
+}
+```
+
+Additionally, application health-checks have been enabled with the configuration.
+
+```json
+"App": {
+  "HealthCheck": {
+    "EvaluationInterval": 10,
+    "FailureNotificationInterval": 60,
+    "MaximumHistoryEntriesPerEndpoint": 50
+  }
 }
 ```
 
 ## Docker Compose
-Map the fileshare in docker-compose.  
+Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
 docker
     volumes:
-      - ./bin/nano-storage-azure:/mnt/nano-storage-local
+      - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```
 
 ## Kubernetes
-Add the volumes to the `deployment.yaml`.  
+Added the volumes and volume mounts to the `deployment.yaml`.  
 
 ```json
 spec:

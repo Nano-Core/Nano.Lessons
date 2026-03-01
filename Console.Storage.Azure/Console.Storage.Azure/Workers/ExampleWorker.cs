@@ -11,7 +11,7 @@ namespace Console.Storage.Azure.Workers;
 /// <summary>
 /// Example Worker.
 /// </summary>
-/// <param name="logger">The <see cref="ILogger"/>.</param>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="pathProvider">The <see cref="IPathProvider"/>.</param>
 public class ExampleWorker(ILogger<ExampleWorker> logger, IPathProvider pathProvider) : BaseWorker(logger)
 {
