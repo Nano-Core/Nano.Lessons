@@ -41,10 +41,16 @@ The following data provider has been registered using `ConfigureServices(...)` i
 .ConfigureServices(services =>
 {
     services
-        .AddNanoData<MySqlProvider, DefaultDbContext>();
+        .AddNanoData<MySqlProvider, MySqlDbContext>();
 })
 ...
 ```
+
+Also, an initial migration has been added to the project.
+```powershell
+dotnet ef migrations add Initial --project Api.Data.MySql
+```
+
 
 ## Configuration
 Configured the application with the necessary data setup.  
