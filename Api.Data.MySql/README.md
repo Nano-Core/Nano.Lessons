@@ -22,7 +22,8 @@ This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lesso
 that inherits from the top-level Nano `BaseController`.  
 
 
-
+ADD HEALTH CHECK SIMILAR TO EVENTING
+REMEMBER TO CHANGE BACK UseCreateDatabase to false
 
 
 The following endpoint is available for testing:

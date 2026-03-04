@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
-using Nano.Data.Abstractions.Models;
-using Nano.Data.Mappings;
-using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Api.Data.MySql.Models;
+using Api.Data.MySql.Models.Criterias;
+using Nano.Data.Abstractions;
 
 namespace Api.Data.MySql.Controllers;
 
@@ -15,7 +14,8 @@ namespace Api.Data.MySql.Controllers;
 /// Controller with examples.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
-public class ExamplesController(ILogger<ExamplesController> logger) : BaseController(logger)
+/// <param name="repository">The <see cref="IRepository"/>.</param>
+public class ExamplesController(ILogger<ExamplesController> logger, IRepository repository) : BaseEntityController<Example, ExampleQueryCriteria>(logger, repository)
 {
     /// <summary>
     /// Http Action.
@@ -30,30 +30,9 @@ public class ExamplesController(ILogger<ExamplesController> logger) : BaseContro
     {
         await Task.CompletedTask;
 
+        await this.Repository.AddAsync(new Example(), cancellationToken);
+
         return this.Ok("http");
     }
 }
 
-/// <summary>
-/// Example.
-/// </summary>
-public class Example : DefaultEntity
-{
-    // Properties
-}
-
-/// <summary>
-/// Example Mapping.
-/// </summary>
-public class ExampleMapping : DefaultEntityMapping<Example>
-{
-    /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
-    {
-        ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
-
-        // Mappings
-    }
-}

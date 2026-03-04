@@ -130,7 +130,7 @@ jobs:
           dotnet ef database update `
             --no-build `
             --startup-project $env:APP_NAME `
-            --connection "$env:MYSQL_MIGRATION_CONNECTIONSTRING"
+            --connection "$env:MYSQL_MIGRATION_CONNECTIONSTRING";
 
           if ($LastExitCode -ne 0)
           { 
