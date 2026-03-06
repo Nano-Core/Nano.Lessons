@@ -27,6 +27,8 @@ Note that `X-XSS-Protection` is deprecated and ignored by modern browsers, inclu
 
 > ⚠️ This header is considered a legacy defense-in-depth mechanism and has been largely replaced by `Content-Security-Policy`.
 
+The following endpoint is available for testing.  
+
 | Endpoint                                 | Description                                                                    |
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/xss` | Returns a `200 OK` response including the `X-XSS-Protection` response header.  |

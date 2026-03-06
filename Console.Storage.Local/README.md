@@ -21,7 +21,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
 
-This applicationn demonstrates creating a file and saving it to a locally mapped fileshare.  
+This application demonstrates creating a file and saving it to a locally mapped file-share.  
 Files are saved in `.docker/bin/`.  
 
 > 📖 Learn more about **[Nano Local Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.

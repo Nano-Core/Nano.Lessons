@@ -18,6 +18,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
+This example illustrates the use of Nano API health-checks.  
+
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the startup health-check JSON report.  
 Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the startup health-check in the web-based UI.  
 

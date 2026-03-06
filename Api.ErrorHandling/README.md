@@ -18,6 +18,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
+This example demonstrates how Nano API error handling processes exceptions and other errors to produce the appropriate HTTP responses.  
+
+The following endpoint is available for testing:
+
 | Endpoint                                                               | Description                                                                                                   |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/exception`                         | Returns a `500 Internal Server Error` response. `Detail` exposed because `ExposeErrors` is set to `true`.     |

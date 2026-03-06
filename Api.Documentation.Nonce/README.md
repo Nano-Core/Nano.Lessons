@@ -19,7 +19,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)**.    
 
-Run the solution and open [https://localhost:4443/docs](https://localhost:4443/docs) in your browser to view the API documentation.  
+This example shows using API documentation with CSP security using nonce. Run the solution and open 
+[https://localhost:4443/docs](https://localhost:4443/docs) in your browser to view the API documentation.  
 
 Also a CSP nonce has been added and the policy configured to allow scripts and styles only with that nonce. The nonce value is available in `Documentation.Nonce`, 
 ensuring that Swagger scripts and styles are permitted. If you change `Documentation.Nonce`, the Swagger page will break with CSP script and style errors in the browser.  

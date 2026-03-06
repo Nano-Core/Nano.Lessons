@@ -18,6 +18,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
+The example demonstrates using request time zone in a Nano application.  
+
 Both the GET and POST endpoints in the controller return a response in the following format:
 
 ```json
@@ -29,6 +31,8 @@ Both the GET and POST endpoints in the controller return a response in the follo
     "DateTimeInfoUtcNow": "2026-02-10T08:40:37.7265135Z"   // The current UTC date-time on the server
 }
 ```
+
+The following endpoint is available for testing.
 
 | Endpoint                                                    | Description                                                                                                            |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |

@@ -18,19 +18,51 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
-that inherits from the top-level Nano `BaseController`.  
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a test controller that inherits from 
+the Nano `BaseEntityControllerr<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
 
+This example demonstrates how various parts of Nano data work together. All data configuration and registration have been completed, and classes have been implemented 
+for the data parts, including [Data Models](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-models), 
+[Data Mappings](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-mappings), and the 
+[Data Context](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-context).  
 
-ADD HEALTH CHECK SIMILAR TO EVENTING
-REMEMBER TO CHANGE BACK UseCreateDatabase to false
+Additionally, the example shows how Nano [Data Repository](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#repositories) works along with the corresponding 
+entity controllers. For more information on controllers and how they are connected with entity models, 
+see [Nano Entity Controllers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#controllers).
 
+A data health check is configured to target the database.  
+Open the health-check UI here to view the database health status: **[http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui)**
 
-The following endpoint is available for testing:
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.
 
-| Endpoint                                   | Description                            |
-| ------------------------------------------ | -------------------------------------- |
-| `http://localhost:8080/api/examples/data`  | Returns a simple `200 OK` response.    |
+Also, API documentation has been configured, in order to easier see which endpoints are available. It can be accessed 
+here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
+
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+
+The following endpoint is available for testing.  
+
+| Endpoint                                              | Method        | Description                                                                  |
+| ----------------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/create`           | POST          | Creates a single model instance.                                             |
+| `http://localhost:8080/api/examples/create/get`       | POST          | Creates a single model instance and retrieves it with included navigations.  |
+| `http://localhost:8080/api/examples/create/many`      | POST          | Creates multiple model instances.                                            |
+| `http://localhost:8080/api/examples/create/many/bulk` | POST          | Creates multiple model instances in bulk.                                    |
+| `http://localhost:8080/api/examples/{id}/details`     | GET           | Gets a single entity by its identifier.                                      |
+| `http://localhost:8080/api/examples/details/many`     | GET, POST     | Gets multiple entities by their identifiers.                                 |
+| `http://localhost:8080/api/examples/index`            | GET, POST     | Gets all entities matching the specified query.                              |
+| `http://localhost:8080/api/examples/query`            | GET, POST     | Queries entities matching the specified criteria.                            |
+| `http://localhost:8080/api/examples/query/count`      | GET, POST     | Gets the total count of entities matching the specified criteria.            |
+| `http://localhost:8080/api/examples/query/first`      | GET, POST     | Retrieves the first entity matching the specified criteria.                  |
+| `http://localhost:8080/api/examples/edit`             | PUT, POST     | Edits a single model instance.                                               |
+| `http://localhost:8080/api/examples/edit/get`         | PUT, POST     | Edits a single model instance and retrieves it with included navigations.    |
+| `http://localhost:8080/api/examples/edit/many`        | PUT, POST     | Edits multiple model instances.                                              |
+| `http://localhost:8080/api/examples/edit/many/bulk`   | PUT, POST     | Edits multiple model instances in bulk.                                      |
+| `http://localhost:8080/api/examples/edit/query`       | PUT, POST     | Edits entities that match the specified criteria.                            |
+| `http://localhost:8080/api/examples/{id}/delete`      | POST, DELETE  | Deletes a single entity by its identifier.                                   |
+| `http://localhost:8080/api/examples/delete/many`      | POST, DELETE  | Deletes multiple entities by their identifiers.                              |
+| `http://localhost:8080/api/examples/delete/many/bulk` | POST, DELETE  | Deletes multiple entities by their identifiers in bulk.                      |
+| `http://localhost:8080/api/examples/delete/query`     | POST, DELETE  | Deletes entities matching the specified criteria.                            |
 
 > 📖 Learn more about **[Nano Data MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
 
@@ -51,7 +83,6 @@ Also, an initial migration has been added to the project.
 ```powershell
 dotnet ef migrations add Initial --project Api.Data.MySql
 ```
-
 
 ## Configuration
 Configured the application with the necessary data setup.  
@@ -85,7 +116,6 @@ Configured the application with the necessary data setup.
 
 ```json
 "Data": {
-  "UseCreateDatabase": true,
   "UseMigrateDatabase": true,
   "ConnectionString": "Server=host.docker.internal;Database=nanoDb;Uid=sa;Pwd=myPassword_123"
 }

@@ -20,7 +20,7 @@ that inherits from the top-level Nano `BaseController`.
 
 After approximately 20 seconds, the startup task will complete, and the health check endpoint will report a status of `Healthy`.  
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                            | Description                            |
 | --------------------------------------------------- | -------------------------------------- |

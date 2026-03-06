@@ -18,9 +18,11 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-Add multipart limits for file uploads, setting max upload size to 1 MB. 
+This example demonstrates upload limits configured for a Nano application.   
 
-The following endpoint is available for testing:
+Added multipart limits for file uploads, setting max upload size to 1 MB.  
+
+The following endpoint is available for testing.
 
 | Endpoint                                          | Description                                              |
 | ------------------------------------------------- | -------------------------------------------------------- |

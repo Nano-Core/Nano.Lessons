@@ -30,9 +30,10 @@ The following logging has been registered using `ConfigureServices(...)` in `pro
 
 ```csharp
 ...
-.ConfigureServices(x =>
+.ConfigureServices(services =>
 {
-    x.AddNanoLogging<Log4NetProvider>();
+    services
+        .AddNanoLogging<Log4NetProvider>();
 })
 ...
 ```

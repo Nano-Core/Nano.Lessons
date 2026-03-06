@@ -36,7 +36,6 @@ spec:
         image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
         ports:
         - containerPort: 8080
-        - containerPort: 4443
         imagePullPolicy: Always 
         env:
         - name: Storage__Credentials__id

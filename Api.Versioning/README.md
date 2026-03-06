@@ -23,6 +23,8 @@ using `[MapToApiVersion("1.0")]` and `[MapToApiVersion("2.0")]`, respectively.
 Observe the response headers `Api-Supported-Version`, containing all versions supported by the application, and the `Api-Version` showing the requested API version
 by the client, or the default version if omitted from the request.  
 
+The following endpoint is available for testing.
+
 | Endpoint                                              | Description                                           |
 | ----------------------------------------------------- | ----------------------------------------------------- |
 | `http://localhost:8080/api/v1.0/examples/versioning`  | Returns a `200 OK` response with the message `v1.0`.  |

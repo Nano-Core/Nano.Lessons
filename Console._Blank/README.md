@@ -1,4 +1,4 @@
-﻿# Console._Blank
+﻿# Console.Blank
 
 > _Minimal (blank) Nano Console application._  
 _All lessons are complete, self-contained examples that include build and deployment setup._

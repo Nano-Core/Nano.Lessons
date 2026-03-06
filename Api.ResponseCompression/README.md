@@ -21,6 +21,8 @@ that inherits from the top-level Nano `BaseController`.
 When the endpoint is invoked with the Accept-Encoding header set to gzip, deflate, br, the response will be compressed. 
 If this header is not present, the response will be sent uncompressed.
 
+The following endpoint is available for testing.  
+
 | Endpoint                                                  | Description                                                                                 |
 | --------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/response-compression` | Returns a `200 OK` response. Headers: `Content-Encoding: gzip` and `Vary: Accept-Encoding`  |

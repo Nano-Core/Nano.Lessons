@@ -20,7 +20,7 @@ that inherits from the top-level Nano `BaseController`.
 Try passing the `RequestId` request header and observe that Nano uses it and returns the same value in the response. 
 If no `RequestId` header is provided, Nano automatically generates one and returns it in the response.
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                              | Description                            |
 | ----------------------------------------------------- | -------------------------------------- |

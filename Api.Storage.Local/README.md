@@ -22,17 +22,17 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-This applicationn demonstrates uplaoding a file and saving it to a locally mapped fileshare.  
+This application demonstrates uploading a file and saving it to a locally mapped fileshare.  
 Files are saved in `.docker/bin/`.  
 
-Storage healthcheck has also been configured.  
+Storage health-check has also been configured.  
 Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the storage health-check in the web-based UI.  
 
 The following endpoint is available for testing:
 
 | Endpoint                                            | Description                                                                     |
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/storage-local`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
+| `http://localhost:8080/api/examples/storage`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
 > 📖 Learn more about **[Nano Local Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
 

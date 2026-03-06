@@ -1,4 +1,4 @@
-﻿# Api._Blank
+﻿# Api.Blank
 
 > _Minimal (blank) Nano API application._  
 _All lessons are complete, self-contained examples that include build and deployment setup._

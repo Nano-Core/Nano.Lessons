@@ -12,6 +12,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
+* [Registration](#registration)
 
 ## Summary
 This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
@@ -22,3 +23,16 @@ Run the application to see services and hosted services being resolved, and obse
 and the injected `IExampleService` implementation.  
 
 > 📖 Learn more about **[Nano Custom Services](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#custom-services)**.
+
+## Registration
+A custom service, `IExampleService` has been added and implemented. In `program.cs` the service is registered using `ConfigureService(...)` method as shown below
+
+```csharp
+...
+.ConfigureServices(services =>
+{
+    services
+        .AddScoped<IExampleService, ExampleService>();
+})
+...
+```

@@ -12,26 +12,31 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
+* [Registration](#registration)
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-A custom service, `IExampleService` has been added and implemented. In `program.cs` the service is registered using `ConfigureService(...)` method as shown below
+This example demonstrates how a custom service implementation can be registered and used within a Nano application.  
 
-```csharp
-...
-.ConfigureServices(x =>
-{
-    x.AddScoped<IExampleService, ExampleService>();
-})
-...
-```
-
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                             | Description                                                                      |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/custom-servuce`  | Returns a simple `200 OK` response, with a message from the `IExampleServuce`    |
 
 > 📖 Learn more about **[Nano Custom Services](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#custom-services)**.
+
+## Registration
+A custom service, `IExampleService` has been added and implemented. In `program.cs` the service is registered using `ConfigureService(...)` method as shown below
+
+```csharp
+...
+.ConfigureServices(services =>
+{
+    services
+        .AddScoped<IExampleService, ExampleService>();
+})
+...
+```

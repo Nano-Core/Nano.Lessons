@@ -17,6 +17,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`. The rest of the setup remains largely unchanged.
 
+This example simply shows configuring a Nano application for HTTP exposure.  
+
 The following endpoint is available for testing:
 
 | Endpoint                                   | Description                            |

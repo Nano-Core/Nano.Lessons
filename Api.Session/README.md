@@ -18,6 +18,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
+This example demonstrates using session with a Nano application.  
+
+The following endpoints is available for testing.  
+
 | Endpoint                                           | Description                                               |
 | -------------------------------------------------- | --------------------------------------------------------- |
 | `http://localhost:8080/api/examples/set-session`   | Sets a session variable and returns a `200 OK`.           |

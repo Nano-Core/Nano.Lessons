@@ -28,7 +28,7 @@ public class ExamplesController(ILogger<ExamplesController> logger, IPathProvide
     /// <returns>A message.</returns>
     /// <response code="200">OK.</response>
     [HttpPost]
-    [Route("storage-local")]
+    [Route("storage")]
     [Consumes(HttpContentType.FORM)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public virtual async Task<IActionResult> StorageLocalAsync([Required]IFormFile file, CancellationToken cancellationToken = default)

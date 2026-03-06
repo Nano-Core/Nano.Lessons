@@ -1,0 +1,17 @@
+services:
+  api.multipartjson:
+    image: api.multipartjson
+    hostname: api-multipartjson
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.MultipartJson
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

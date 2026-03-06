@@ -5,7 +5,7 @@ namespace Api.Data.MySql.Models;
 /// <summary>
 /// Example.
 /// </summary>
-public class Example : BaseEntityIdentity
+public class Example : BaseEntity
 {
     /// <summary>
     /// Name.

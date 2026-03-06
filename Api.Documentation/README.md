@@ -20,7 +20,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-Run the solution and open [http://localhost:8080/docs](http://localhost:8080/docs) in your browser to view the API documentation.
+This example shows using API documentation for an Nano application. Run the solution and open 
+[http://localhost:8080/docs](http://localhost:8080/docs) in your browser to view the API documentation.  
 
 You can experiment with the `HideDefaultVersion` setting. When set to `false`, Swagger displays both the non-versioned route and the versioned route 
 for the same example endpoint. When set to `true`, Swagger only displays the non-versioned route corresponding to the application's default version.
