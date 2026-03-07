@@ -42,27 +42,29 @@ here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.
 
 The following endpoint is available for testing.  
 
-| Endpoint                                              | Method        | Description                                                                  |
-| ----------------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/create`           | POST          | Creates a single model instance.                                             |
-| `http://localhost:8080/api/examples/create/get`       | POST          | Creates a single model instance and retrieves it with included navigations.  |
-| `http://localhost:8080/api/examples/create/many`      | POST          | Creates multiple model instances.                                            |
-| `http://localhost:8080/api/examples/create/many/bulk` | POST          | Creates multiple model instances in bulk.                                    |
-| `http://localhost:8080/api/examples/{id}/details`     | GET           | Gets a single entity by its identifier.                                      |
-| `http://localhost:8080/api/examples/details/many`     | GET, POST     | Gets multiple entities by their identifiers.                                 |
-| `http://localhost:8080/api/examples/index`            | GET, POST     | Gets all entities matching the specified query.                              |
-| `http://localhost:8080/api/examples/query`            | GET, POST     | Queries entities matching the specified criteria.                            |
-| `http://localhost:8080/api/examples/query/count`      | GET, POST     | Gets the total count of entities matching the specified criteria.            |
-| `http://localhost:8080/api/examples/query/first`      | GET, POST     | Retrieves the first entity matching the specified criteria.                  |
-| `http://localhost:8080/api/examples/edit`             | PUT, POST     | Edits a single model instance.                                               |
-| `http://localhost:8080/api/examples/edit/get`         | PUT, POST     | Edits a single model instance and retrieves it with included navigations.    |
-| `http://localhost:8080/api/examples/edit/many`        | PUT, POST     | Edits multiple model instances.                                              |
-| `http://localhost:8080/api/examples/edit/many/bulk`   | PUT, POST     | Edits multiple model instances in bulk.                                      |
-| `http://localhost:8080/api/examples/edit/query`       | PUT, POST     | Edits entities that match the specified criteria.                            |
-| `http://localhost:8080/api/examples/{id}/delete`      | POST, DELETE  | Deletes a single entity by its identifier.                                   |
-| `http://localhost:8080/api/examples/delete/many`      | POST, DELETE  | Deletes multiple entities by their identifiers.                              |
-| `http://localhost:8080/api/examples/delete/many/bulk` | POST, DELETE  | Deletes multiple entities by their identifiers in bulk.                      |
-| `http://localhost:8080/api/examples/delete/query`     | POST, DELETE  | Deletes entities matching the specified criteria.                            |
+| Endpoint                                                | Method        | Description                                                                  |
+| ------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/create`             | POST          | Creates a single model instance.                                             |
+| `http://localhost:8080/api/examples/create/get`         | POST          | Creates a single model instance and retrieves it with included navigations.  |
+| `http://localhost:8080/api/examples/create/many`        | POST          | Creates multiple model instances.                                            |
+| `http://localhost:8080/api/examples/create/many/bulk`   | POST          | Creates multiple model instances in bulk.                                    |
+| `http://localhost:8080/api/examples/{id}/details`       | GET           | Gets a single entity by its identifier.                                      |
+| `http://localhost:8080/api/examples/details/many`       | GET, POST     | Gets multiple entities by their identifiers.                                 |
+| `http://localhost:8080/api/examples/index`              | GET, POST     | Gets all entities matching the specified query.                              |
+| `http://localhost:8080/api/examples/query`              | GET, POST     | Queries entities matching the specified criteria.                            |
+| `http://localhost:8080/api/examples/query/count`        | GET, POST     | Gets the total count of entities matching the specified criteria.            |
+| `http://localhost:8080/api/examples/query/first`        | GET, POST     | Retrieves the first entity matching the specified criteria.                  |
+| `http://localhost:8080/api/examples/edit`               | PUT, POST     | Edits a single model instance.                                               |
+| `http://localhost:8080/api/examples/edit/get`           | PUT, POST     | Edits a single model instance and retrieves it with included navigations.    |
+| `http://localhost:8080/api/examples/edit/many`          | PUT, POST     | Edits multiple model instances.                                              |
+| `http://localhost:8080/api/examples/edit/many/bulk`     | PUT, POST     | Edits multiple model instances in bulk.                                      |
+| `http://localhost:8080/api/examples/edit/query`         | PUT, POST     | Edits entities that match the specified criteria.                            |
+| `http://localhost:8080/api/examples/edit/query/bulk`    | PUT, POST     | Edits entities that match the specified criteria in bulk.                    |
+| `http://localhost:8080/api/examples/{id}/delete`        | POST, DELETE  | Deletes a single entity by its identifier.                                   |
+| `http://localhost:8080/api/examples/delete/many`        | POST, DELETE  | Deletes multiple entities by their identifiers.                              |
+| `http://localhost:8080/api/examples/delete/many/bulk`   | POST, DELETE  | Deletes multiple entities by their identifiers in bulk.                      |
+| `http://localhost:8080/api/examples/delete/query`       | POST, DELETE  | Deletes entities matching the specified criteria.                            |
+| `http://localhost:8080/api/examples/delete/query/bulk`  | POST, DELETE  | Deletes entities matching the specified criteria in bulk.                    |
 
 > 📖 Learn more about **[Nano Data MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
 
