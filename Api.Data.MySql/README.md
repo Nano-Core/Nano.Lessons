@@ -83,6 +83,7 @@ The following data provider has been registered using `ConfigureServices(...)` i
 ```
 
 Also, an initial migration has been added to the project.
+
 ```powershell
 dotnet ef migrations add Initial --project Api.Data.MySql
 ```
@@ -115,6 +116,7 @@ Configured the application with the necessary data setup.
   "HealthCheck": null
 }
 ```
+
 ...and `appsettings.Development.json`
 
 ```json
