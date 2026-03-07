@@ -6,12 +6,12 @@ using Nano.Data.Mappings;
 namespace Api.Data.MySql.Data.Mappings;
 
 /// <summary>
-/// Example Mapping.
+/// Example Creatable Mapping.
 /// </summary>
-public class ExampleMapping : BaseEntityMapping<Example>
+public class ExampleCreatableMapping : BaseEntityMapping<ExampleCreatable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    public override void Configure(EntityTypeBuilder<ExampleCreatable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

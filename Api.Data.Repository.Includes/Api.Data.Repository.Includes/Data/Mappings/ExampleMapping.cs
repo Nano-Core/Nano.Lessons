@@ -1,9 +1,9 @@
 ﻿using System;
-using Api.Data.MySql.Models;
+using Api.Data.Repository.Includes.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
 
-namespace Api.Data.MySql.Data.Mappings;
+namespace Api.Data.Repository.Includes.Data.Mappings;
 
 /// <summary>
 /// Example Mapping.

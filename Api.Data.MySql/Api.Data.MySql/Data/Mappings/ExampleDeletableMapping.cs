@@ -6,12 +6,12 @@ using Nano.Data.Mappings;
 namespace Api.Data.MySql.Data.Mappings;
 
 /// <summary>
-/// Example Mapping.
+/// Example Deletable Mapping.
 /// </summary>
-public class ExampleMapping : BaseEntityMapping<Example>
+public class ExampleDeletableMapping : BaseEntityMapping<ExampleDeletable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    public override void Configure(EntityTypeBuilder<ExampleDeletable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

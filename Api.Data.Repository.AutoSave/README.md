@@ -1,4 +1,4 @@
-﻿# Api.Data.MySql
+﻿# Api.Data.Repository.AutoSave
 
 > _Nano API application with mysql data._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
@@ -22,11 +22,13 @@ This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lesso
 the Nano `BaseEntityControllerr<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
 
 This example demonstrates how various parts of Nano data work together. All data configuration and registration have been completed, and classes have been implemented 
-for the data parts, including [Data Models](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-models), [Data Mappings](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-mappings), 
-and the [Data Context](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-context).  
+for the data parts, including [Data Models](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-models), 
+[Data Mappings](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-mappings), and the 
+[Data Context](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-context).  
 
 Additionally, the example shows how Nano [Data Repository](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#repositories) works along with the corresponding 
-entity controllers. For more information on controllers and how they are connected with entity models, see [Nano Entity Controllers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#controllers).
+entity controllers. For more information on controllers and how they are connected with entity models, 
+see [Nano Entity Controllers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#controllers).
 
 A data health check is configured to target the database.  
 Open the health-check UI here to view the database health status: **[http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui)**.  
@@ -64,9 +66,6 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/examples/delete/query`       | POST, DELETE  | Deletes entities matching the specified criteria.                            |
 | `http://localhost:8080/api/examples/delete/query/bulk`  | POST, DELETE  | Deletes entities matching the specified criteria in bulk.                    |
 
-Additionally, controllers have been implemented to demonstrate controllers for creatable, updatable, creatable-and-updatable, and deletable entities. When viewing 
-the API documentation, observe how the available endpoints differ depending on the capabilities supported by each controller.  
-
 > 📖 Learn more about **[Nano Data MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
 
 ## Registration
@@ -84,7 +83,7 @@ The following data provider has been registered using `ConfigureServices(...)` i
 
 Also, an initial migration has been added to the project.
 ```powershell
-dotnet ef migrations add Initial --project Api.Data.MySql
+dotnet ef migrations add Initial --project Api.Data.Repository.AutoSave
 ```
 
 ## Configuration
@@ -129,7 +128,7 @@ Added MySql as a service dependency in `docker-compose.yml`.
 
 ```yaml
 services:
-  api.data.mysql:
+  Api.Data.Repository.AutoSave:
     depends_on:
       - database
 
