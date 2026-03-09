@@ -12,6 +12,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
+* [Registration](#registration)
 * [Configuration](#configuration)
 * [Docker-compose](#docker-compose)
 * [Kubernetes](#kubernetes)
@@ -113,7 +114,9 @@ Configured the application with the necessary data setup.
   "Cache": null,
   "Identity": null,
   "ConnectionPool": null,
-  "HealthCheck": null
+  "HealthCheck": {
+    "UnhealthyStatus": "Unhealthy"
+  }
 }
 ```
 
@@ -151,7 +154,7 @@ services:
 ```
 
 ## Kubernetes
-Added the `rabbitmq` secret for password to the `deployment.yaml`.  
+Added the `%SERVICE_NAME%-secret` for the connectionstring to the `deployment.yaml`.  
 
 ```json
 spec:
@@ -211,7 +214,7 @@ Additionally, this step has been added to ensure database migrations are applied
     }
 ```
 
-Last, the application connectionstring must be added in a secret in Kuberntes. The `Kubernetes Deploy` has been updated with the following.  
+Last, the application connectionstring must be added in a secret in Kuberntes. The `Kubernetes Deploy` step has been updated with the following.  
 
 ```yaml
 sudo kubectl create secret generic $env:SERVICE_NAME-secret ` --from-literal=data-connectionstring=$env:MYSQL_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;

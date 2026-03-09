@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".kubernetes", ".kubernetes"
 	ProjectSection(SolutionItems) = preProject
 		.kubernetes\configmap.yaml = .kubernetes\configmap.yaml
 		.kubernetes\cronjob.yaml = .kubernetes\cronjob.yaml
+		.kubernetes\pvc.yaml = .kubernetes\pvc.yaml
+		.kubernetes\storageclass.yaml = .kubernetes\storageclass.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Console.Storage.Local", ".tests\Tests.Console.Storage.Local\Tests.Console.Storage.Local.csproj", "{EA602798-C127-44E3-8CBA-27E9BA269EB7}"

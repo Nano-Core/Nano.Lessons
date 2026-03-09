@@ -6,21 +6,25 @@ using Nano.Data.Mappings;
 namespace Api.Data.Repository.Includes.Data.Mappings;
 
 /// <summary>
-/// Example Mapping.
+/// Customer Mapping.
 /// </summary>
-public class ExampleMapping : BaseEntityMapping<Example>
+public class CustomerMapping : BaseEntityMapping<Customer>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    public override void Configure(EntityTypeBuilder<Customer> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         base.Configure(builder);
 
         builder
-            .Property(x => x.Name);
+            .HasOne(x => x.Profile)
+            .WithOne(x => x.Customer)
+            .IsRequired();
 
         builder
-            .HasIndex(x => x.Name);
+            .HasMany(x => x.Orders)
+            .WithOne(x => x.Customer)
+            .IsRequired();
     }
 }

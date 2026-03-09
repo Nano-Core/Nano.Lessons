@@ -92,7 +92,7 @@ env:
   CERTIFICATE_HOST: ${{ github.ref == 'refs/heads/master' && vars.HOST_API_SUBDOMAIN + '.' + vars.PRODUCTION_HOST || vars.HOST_API_SUBDOMAIN + '.' + vars.STAGING_HOST }}
 ```
 
-Deployment commands have also been updated to apply the each new Kubernetes templates.  
+Deployment commands have also been updated to apply each of the new Kubernetes templates.  
 
 ```powershell
 Get-Content .kubernetes/{resource-name}.yaml `

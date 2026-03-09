@@ -57,7 +57,9 @@ docker
 ```
 
 ## Kubernetes
-Added the volumes and volume mounts to the `cronjob.yaml`.  
+Added two additional kubernetes templates, `storageclass.yaml` and `pvc.yaml`, for dynamically manage and creating the local fileshare.
+
+Also, updated `cronjob.yaml` adding the volumes and volume mounts.  
 
 ```json
 spec:
@@ -70,8 +72,9 @@ spec:
         - name: tmp
           mountPath: /tmp
       volumes:
-      - name: %STORAGE_SHARE_NAME%
-        emptyDir: {}
+      - name: %SERVICE_NAME%-volume
+        persistentVolumeClaim:
+          claimName: %SERVICE_NAME%-pvc
       - name: tmp
         emptyDir: {}
 ```
@@ -80,5 +83,17 @@ spec:
 Added the following environment variables to the `buid-and-deply.yml`.  
 
 ```yaml
+env:
   STORAGE_SHARE_NAME: nano-storage-local
+  STORAGE_SIZE: 1000
+```
+
+Deployment commands have also been updated to apply each of the new Kubernetes templates.  
+
+```powershell
+Get-Content .kubernetes/{resource-name}.yaml `
+    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
+    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
+
+sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
 ```

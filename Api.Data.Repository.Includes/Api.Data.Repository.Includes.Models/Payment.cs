@@ -3,12 +3,12 @@
 namespace Api.Data.Repository.Includes.Models;
 
 /// <summary>
-/// Example.
+/// Payment.
 /// </summary>
-public class Example : BaseEntity
+public class Payment : BaseEntity
 {
     /// <summary>
-    /// Name.
+    /// Order.
     /// </summary>
-    public virtual string Name { get; set; } = null!;
+    public virtual Order Order { get; set; } = null!;
 }

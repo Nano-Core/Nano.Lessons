@@ -113,6 +113,20 @@ jobs:
               throw "error";
           };  
 
+          Get-Content .kubernetes/storageclass.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storageclass.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/storageclass.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
+          Get-Content .kubernetes/pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/pvc.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/pvc.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
           Get-Content .kubernetes/cronjob.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/cronjob.tmp.yaml;
           sudo kubectl apply -f .kubernetes/cronjob.tmp.yaml;
           if ($LastExitCode -ne 0) 

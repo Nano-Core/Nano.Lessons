@@ -19,8 +19,8 @@ This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.
 demonstrate repository autosave.  
 
 In this application, autosave has been disabled. When the endpoint is invoked, Nano attempts to persist the entity to the database. However, the `IRepository` does 
-not commit the changes because autosave is disabled and SaveChanges is not invoked manually within the controller action. As a result, the changes are not written 
-to the database. If you switch the configuration to enable autosave, you will see that Nano then saves the changes.  
+not commit the changes because autosave is disabled and `SaveChangesAsync(...)` is not invoked manually within the controller action. As a result, the changes are not 
+written to the database. If you switch the configuration to enable autosave, you will see that Nano then saves the changes.  
 
 The following endpoint is available for testing.  
 

@@ -27,6 +27,7 @@ public class ExamplesController(ILogger<ExamplesController> logger) : BaseContro
     {
         await Task.CompletedTask;
 
+
         return this.Ok(new
         {
             CultureInfo.CurrentCulture.Name,

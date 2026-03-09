@@ -128,13 +128,15 @@ spec:
 Add the following environment variables to the `buid-and-deply.yml`.  
 
 ```yaml
-STORAGE_SHARE_NAME: nano-storage-azure
-STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
-STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
-STORAGE_SIZE: 1000
+env: 
+  STORAGE_SHARE_NAME: nano-storage-azure
+  STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
+  STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
+  STORAGE_SIZE: 1000
 ```
 
 And add this step below as well, ensuring that the fileshare gets created before the application is deployed.  
+
 ```yaml
 - name: Create Fileshare
   shell: pwsh
