@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Console.Data.SqLite.Migrations
 {
     [DbContext(typeof(SqLiteDbContext))]
-    [Migration("20260311122957_Initial")]
+    [Migration("20260311131050_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
