@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NetTopologySuite.Geometries;
 
 #nullable disable
 
-namespace Api.Data.MySql.Spatial.Migrations
+namespace Api.Data.MySql.Collation.Migrations
 {
     [DbContext(typeof(MySqlDbContext))]
     partial class MySqlDbContextModelSnapshot : ModelSnapshot
@@ -18,12 +17,13 @@ namespace Api.Data.MySql.Spatial.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .UseCollation("utf8mb4_bin")
                 .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Data.MySql.Spatial.Models.Example", b =>
+            modelBuilder.Entity("Api.Data.MySql.Collation.Models.Example", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,13 +44,6 @@ namespace Api.Data.MySql.Spatial.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<Point>("Point")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("POINT")
-                        .HasDefaultValue((NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (0 0)"))
-                        .HasAnnotation("MySql:SpatialReferenceSystemId", 4326);
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt");
@@ -58,9 +51,6 @@ namespace Api.Data.MySql.Spatial.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("Name");
-
-                    b.HasIndex("Point")
-                        .HasAnnotation("MySql:SpatialIndex", true);
 
                     b.ToTable("Example");
                 });

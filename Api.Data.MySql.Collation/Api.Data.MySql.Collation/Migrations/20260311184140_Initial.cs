@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.MySql.Spatial.Migrations
+namespace Api.Data.MySql.Collation.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -12,25 +12,17 @@ namespace Api.Data.MySql.Spatial.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateTable(
                 name: "__EFAudit",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CreatedBy = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EntitySetName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    EntityTypeName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreatedBy = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    EntitySetName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    EntityTypeName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
                     State = table.Column<int>(type: "int", nullable: false),
-                    StateName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    RequestId = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    StateName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    RequestId = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
@@ -38,7 +30,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     table.PrimaryKey("PK___EFAudit", x => x.Id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFDataProtectionKeys",
@@ -46,34 +38,29 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FriendlyName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Xml = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    FriendlyName = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    Xml = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK___EFDataProtectionKeys", x => x.Id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityRole",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK___EFIdentityRole", x => x.Id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUser",
@@ -81,23 +68,15 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: true),
-                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
                     EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumber = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    PhoneNumber = table.Column<string>(type: "varchar(255)", nullable: true, collation: "utf8mb4_bin"),
                     PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
@@ -108,15 +87,14 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     table.PrimaryKey("PK___EFIdentityUser", x => x.Id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "Example",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_bin"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
@@ -125,7 +103,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     table.PrimaryKey("PK_Example", x => x.Id);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFAuditProperties",
@@ -133,14 +111,10 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ParentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    PropertyName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    RelationName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NewValue = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    OldValue = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PropertyName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_bin"),
+                    RelationName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    NewValue = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    OldValue = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
@@ -154,7 +128,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityRoleClaim",
@@ -163,10 +137,8 @@ namespace Api.Data.MySql.Spatial.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
@@ -178,7 +150,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityApiKey",
@@ -186,10 +158,8 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     IdentityUserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Hash = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_bin"),
+                    Hash = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_bin"),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     RevokedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
@@ -203,7 +173,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserChangeData",
@@ -211,10 +181,8 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     IdentityUserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NewEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NewPhoneNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    NewEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_bin"),
+                    NewPhoneNumber = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
@@ -226,7 +194,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserClaim",
@@ -235,10 +203,8 @@ namespace Api.Data.MySql.Spatial.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ClaimType = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    ClaimType = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
@@ -250,18 +216,15 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserLogin",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_bin"),
+                    ProviderKey = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_bin"),
+                    ProviderDisplayName = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
@@ -274,7 +237,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserRefreshToken",
@@ -282,10 +245,8 @@ namespace Api.Data.MySql.Spatial.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     IdentityUserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AppId = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Value = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    AppId = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_bin"),
+                    Value = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_bin"),
                     ExpireAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -298,7 +259,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserRole",
@@ -323,19 +284,16 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateTable(
                 name: "__EFIdentityUserToken",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Value = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    LoginProvider = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_bin"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false, collation: "utf8mb4_bin"),
+                    Value = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_bin")
                 },
                 constraints: table =>
                 {
@@ -347,7 +305,7 @@ namespace Api.Data.MySql.Spatial.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
-                .Annotation("MySql:CharSet", "utf8mb4");
+                .Annotation("Relational:Collation", "utf8mb4_bin");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_CreatedBy",
