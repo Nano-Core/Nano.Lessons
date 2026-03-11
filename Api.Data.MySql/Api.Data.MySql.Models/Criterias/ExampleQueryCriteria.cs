@@ -23,7 +23,7 @@ public class ExampleQueryCriteria : BaseQueryCriteria
         if (!string.IsNullOrEmpty(this.Name))
         {
             expression
-                .StartsWith("Name", this.Name);
+                .StartsWith(nameof(Example.Name), this.Name);
         }
 
         expressions

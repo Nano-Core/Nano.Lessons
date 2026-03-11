@@ -1,0 +1,30 @@
+services:
+  api.data.sqlserver.spatial:
+    image: api.data.sqlserver.spatial
+    hostname: api-data-sqlserver-spatial
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Data.SqlServer.Spatial
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    networks:
+      - network
+    environment:
+      SA_PASSWORD: myPassword_123
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
+
+networks:
+  network:
+    name: network
+    driver: bridge

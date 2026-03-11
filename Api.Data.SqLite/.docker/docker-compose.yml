@@ -1,5 +1,7 @@
 services:
   api.data.sqlite:
+    image: api.data.postgresql.spatial
+    hostname: api-data-postgresql-spatial
     build:
       context: ../Api.Data.SqLite
       dockerfile: Dockerfile.Local

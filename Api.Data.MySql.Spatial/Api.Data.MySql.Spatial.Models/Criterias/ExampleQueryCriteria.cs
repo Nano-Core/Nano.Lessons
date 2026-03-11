@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DynamicExpression;
+﻿using DynamicExpression;
 using Nano.App.Api.Controllers.Criteria;
+using NetTopologySuite.Geometries;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Api.Data.SqlServer.Models.Criterias;
+namespace Api.Data.MySql.Spatial.Models.Criterias;
 
 /// <inheritdoc />
 public class ExampleQueryCriteria : BaseQueryCriteria
 {
+    /// <summary>
+    /// Point.
+    /// </summary>
+    public virtual Point? Point { get; set; }
+
     /// <summary>
     /// Name.
     /// </summary>
@@ -19,6 +25,12 @@ public class ExampleQueryCriteria : BaseQueryCriteria
         var expressions = base.GetExpressions();
 
         var expression = expressions.FirstOrDefault() ?? new CriteriaExpression();
+
+        if (this.Point != null)
+        {
+            expression
+                .IsWithinDistance(nameof(Example.Point), this.Point, 10000);
+        }
 
         if (!string.IsNullOrEmpty(this.Name))
         {
