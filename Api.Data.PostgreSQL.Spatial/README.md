@@ -12,15 +12,12 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Registration](#registration)
-* [Configuration](#configuration)
-* [Docker-compose](#docker-compose)
-* [Kubernetes](#kubernetes)
-* [GitHub Actions](#github-actions)
 
 ## Summary
 This application builds on **[Api.Data.PostgreSQL](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.PostgreSQL)**.  
 
+The `Example` entity now includes a `Point` property from `NetTopologySuite`. A query criterion has been added to check whether points are within a 10,000 meter distance. The 
+entity mappings for this spatial property have also been configured. Otherwise, no other changes were made.  
 
 
 > 📖 Learn more about **[Nano.Data.PostgreSQL](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.PostgreSQL)**.

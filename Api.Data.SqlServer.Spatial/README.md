@@ -12,29 +12,21 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Registration](#registration)
-* [Configuration](#configuration)
-* [Docker-compose](#docker-compose)
-* [Kubernetes](#kubernetes)
-* [GitHub Actions](#github-actions)
+* [Migrations](#migrations)
 
 ## Summary
 This application builds on **[Api.Data.SqlServer](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.SqlServer)**.  
 
+The `Example` entity now includes a `Point` property from `NetTopologySuite`. A query criterion has been added to check whether points are within a 10,000 meter distance. The 
+entity mappings for this spatial property have also been configured. Otherwise, no other changes were made.  
 
+> ⚠️ Be aware, SQL Server does not create spatial indexes automatically; they must be added manually in a migration.
 
-
+```csharp
+migrationBuilder
+    .Sql(@"CREATE SPATIAL INDEX IX_Example_Point
+           ON Example(Point)
+           USING GEOGRAPHY_GRID");
+```
 
 > 📖 Learn more about **[Nano.Data.SqlServer](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.SqlServer)**.
-
-
-
-MUST CREATE SPATIAL INDEX MANUALLY
-ALSO WRITE THIS IN THE Nano.Data.SqlServer readme
-
-
-            migrationBuilder.Sql("""
-                                 CREATE SPATIAL INDEX IX_Example_Point
-                                 ON Example(Point)
-                                 USING GEOGRAPHY_GRID
-                                 """);

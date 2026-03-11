@@ -10,11 +10,10 @@ namespace Api.Data.SqlServer.Spatial.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("""
-                                 CREATE SPATIAL INDEX IX_Example_Point
-                                 ON Example(Point)
-                                 USING GEOGRAPHY_GRID
-                                 """);
+            migrationBuilder
+                .Sql(@"CREATE SPATIAL INDEX IX_Example_Point
+                       ON Example(Point)
+                       USING GEOGRAPHY_GRID");
         }
 
         /// <inheritdoc />

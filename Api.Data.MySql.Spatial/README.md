@@ -12,14 +12,12 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Registration](#registration)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**.  
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**. Entity controllers have been simplified to 
+showcase include annotation; full controllers are unnecessary. 
 
-
-
-
-
+The `Example` entity now includes a `Point` property from `NetTopologySuite`. A query criterion has been added to check whether points are within a 10,000 meter distance. The 
+entity mappings for this spatial property have also been configured. Otherwise, no other changes were made.  
 
 > 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
