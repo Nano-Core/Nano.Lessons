@@ -39,7 +39,7 @@ The following endpoint is available for testing:
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano Azure Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
 
 ## Registration
 The following storage provider has been registered using `ConfigureServices(...)` in `program.cs`.  

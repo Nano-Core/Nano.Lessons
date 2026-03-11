@@ -42,7 +42,7 @@ The following endpoint is available for testing:
 | `http://localhost:8080/api/examples/eventing`              | Returns a simple `200 OK` response. Publishes a message that wiil be consumed by the `EventHandler`                      |
 | `http://localhost:8080/api/examples/eventing-routing-key`  | Returns a simple `200 OK` response. Publishes a message using routing key that wiil be consumed by the `EventHandler`    |
 
-> 📖 Learn more about **[Nano Eventing RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq)**.
+> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq)**.
 
 ## Registration
 The following eventing provider has been registered using `ConfigureServices(...)` in `program.cs`.  

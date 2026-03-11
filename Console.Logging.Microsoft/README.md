@@ -23,7 +23,7 @@ This application demonstrates logging with Microsoft for a console application.
 Run the application and observe how `ExampleWorker` logs a warning to the console. Also note the `LogLevelOverrides` configuration, 
 where logs under the `Microsoft` namespace are set to `Warning`, which suppresses several informational messages during application startup.  
 
-> 📖 Learn more about **[Nano Logging Microsoft](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.Microsoft)**.
+> 📖 Learn more about **[Nano.Logging.Microsoft](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.Microsoft)**.
 
 ## Registration
 The following logging has been registered using `ConfigureServices(...)` in `program.cs`.  

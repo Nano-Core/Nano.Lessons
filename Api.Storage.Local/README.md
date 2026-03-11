@@ -34,7 +34,7 @@ The following endpoint is available for testing:
 | --------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano Local Storage](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
+> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  

@@ -31,7 +31,7 @@ This message is written by the `EventHandler` when the event is successfully rec
 You can access the RabbitMQ management interface here: **[http://localhost:15672](http://localhost:15672)**. From there, you can monitor the messages 
 being published and consumed in real time.
 
-> 📖 Learn more about **[Nano Eventing RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq)**.
+> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq)**.
 
 ## Registration
 The following eventing provider has been registered using `ConfigureServices(...)` in `Program.cs`.

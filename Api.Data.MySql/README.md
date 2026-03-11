@@ -42,7 +42,7 @@ here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.
 Additionally, controllers have been implemented to demonstrate controllers for creatable, updatable, creatable-and-updatable, and deletable entities. When viewing 
 the API documentation, observe how the available endpoints differ depending on the capabilities supported by each controller.  
 
-> 📖 Learn more about **[Nano Data MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
 
 ## Registration
 The following data provider has been registered using `ConfigureServices(...)` in `program.cs`.  
