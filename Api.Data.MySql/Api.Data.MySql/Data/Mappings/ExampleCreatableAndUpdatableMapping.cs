@@ -8,10 +8,10 @@ namespace Api.Data.MySql.Data.Mappings;
 /// <summary>
 /// Example Creatable And Updatable Mapping.
 /// </summary>
-public class ExampleCreatableAndUpdatableMapping : BaseEntityMapping<ExampleCreatableAndUpdatable>
+public class ExampleCreatableAndUpdatableMapping : BaseEntityMapping<ExampleCreatableAndEditable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleCreatableAndUpdatable> builder)
+    public override void Configure(EntityTypeBuilder<ExampleCreatableAndEditable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 

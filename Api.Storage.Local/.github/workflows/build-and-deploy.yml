@@ -119,15 +119,15 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          Get-Content .kubernetes/storageclass.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storageclass.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/storageclass.tmp.yaml;
+          Get-Content .kubernetes/storage-storageclass.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-storageclass.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/storage-storageclass.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           };  
 
-          Get-Content .kubernetes/pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/pvc.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/pvc.tmp.yaml;
+          Get-Content .kubernetes/storage-pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pvc.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/storage-pvc.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";

@@ -86,7 +86,7 @@ namespace Api.Data.MySql.Migrations
                     b.ToTable("ExampleCreatable");
                 });
 
-            modelBuilder.Entity("Api.Data.MySql.Models.ExampleCreatableAndUpdatable", b =>
+            modelBuilder.Entity("Api.Data.MySql.Models.ExampleCreatableAndEditable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace Api.Data.MySql.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("ExampleCreatableAndUpdatable");
+                    b.ToTable("ExampleCreatableAndEditable");
                 });
 
             modelBuilder.Entity("Api.Data.MySql.Models.ExampleDeletable", b =>

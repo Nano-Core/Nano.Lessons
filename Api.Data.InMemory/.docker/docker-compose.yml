@@ -1,0 +1,17 @@
+services:
+  api.data.inmemory:
+    image: api.data.inmemory
+    hostname: api-data-inmemory
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Data.InMemory
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

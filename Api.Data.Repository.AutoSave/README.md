@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository autosave.  
+demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
 In this application, autosave has been disabled. When the endpoint is invoked, Nano attempts to persist the entity to the database. However, the `IRepository` does 
 not commit the changes because autosave is disabled and `SaveChangesAsync(...)` is not invoked manually within the controller action. As a result, the changes are not 

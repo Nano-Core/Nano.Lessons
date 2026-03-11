@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository include annotations.  
+demonstrate repository include annotations. Entity controllers have been simplified to showcase include annotation; full controllers are unnecessary.  
 
 The endpoints can be invoked with the `includeDepth` query parameter to override the default configured depth. This makes it easy to experiment with different values 
 and observe how the returned object graph changes as Nano resolves deeper levels of includes.  

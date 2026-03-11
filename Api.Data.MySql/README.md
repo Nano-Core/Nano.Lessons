@@ -39,32 +39,6 @@ here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.
 
 > 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
 
-The following endpoint is available for testing.  
-
-| Endpoint                                                | Method        | Description                                                                  |
-| ------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/create`             | POST          | Creates a single model instance.                                             |
-| `http://localhost:8080/api/examples/create/get`         | POST          | Creates a single model instance and retrieves it with included navigations.  |
-| `http://localhost:8080/api/examples/create/many`        | POST          | Creates multiple model instances.                                            |
-| `http://localhost:8080/api/examples/create/many/bulk`   | POST          | Creates multiple model instances in bulk.                                    |
-| `http://localhost:8080/api/examples/{id}/details`       | GET           | Gets a single entity by its identifier.                                      |
-| `http://localhost:8080/api/examples/details/many`       | GET, POST     | Gets multiple entities by their identifiers.                                 |
-| `http://localhost:8080/api/examples/index`              | GET, POST     | Gets all entities matching the specified query.                              |
-| `http://localhost:8080/api/examples/query`              | GET, POST     | Queries entities matching the specified criteria.                            |
-| `http://localhost:8080/api/examples/query/count`        | GET, POST     | Gets the total count of entities matching the specified criteria.            |
-| `http://localhost:8080/api/examples/query/first`        | GET, POST     | Retrieves the first entity matching the specified criteria.                  |
-| `http://localhost:8080/api/examples/edit`               | PUT, POST     | Edits a single model instance.                                               |
-| `http://localhost:8080/api/examples/edit/get`           | PUT, POST     | Edits a single model instance and retrieves it with included navigations.    |
-| `http://localhost:8080/api/examples/edit/many`          | PUT, POST     | Edits multiple model instances.                                              |
-| `http://localhost:8080/api/examples/edit/many/bulk`     | PUT, POST     | Edits multiple model instances in bulk.                                      |
-| `http://localhost:8080/api/examples/edit/query`         | PUT, POST     | Edits entities that match the specified criteria.                            |
-| `http://localhost:8080/api/examples/edit/query/bulk`    | PUT, POST     | Edits entities that match the specified criteria in bulk.                    |
-| `http://localhost:8080/api/examples/{id}/delete`        | POST, DELETE  | Deletes a single entity by its identifier.                                   |
-| `http://localhost:8080/api/examples/delete/many`        | POST, DELETE  | Deletes multiple entities by their identifiers.                              |
-| `http://localhost:8080/api/examples/delete/many/bulk`   | POST, DELETE  | Deletes multiple entities by their identifiers in bulk.                      |
-| `http://localhost:8080/api/examples/delete/query`       | POST, DELETE  | Deletes entities matching the specified criteria.                            |
-| `http://localhost:8080/api/examples/delete/query/bulk`  | POST, DELETE  | Deletes entities matching the specified criteria in bulk.                    |
-
 Additionally, controllers have been implemented to demonstrate controllers for creatable, updatable, creatable-and-updatable, and deletable entities. When viewing 
 the API documentation, observe how the available endpoints differ depending on the capabilities supported by each controller.  
 
@@ -111,7 +85,6 @@ Configured the application with the necessary data setup.
     "UseAutoSave": false,
     "QueryIncludeDepth": 4
   },
-  "Cache": null,
   "Identity": null,
   "ConnectionPool": null,
   "HealthCheck": {
@@ -150,7 +123,6 @@ services:
       MYSQL_ROOT_PASSWORD: myPassword_123
       MYSQL_DATABASE: nanoDb
       MYSQL_ROOT_HOST: '%'
-
 ```
 
 ## Kubernetes
@@ -165,7 +137,7 @@ spec:
         - name: Data__ConnectionString
           valueFrom:
             secretKeyRef:
-              name: %SERVICE_NAME%-secret
+              name: %SERVICE_NAME%-data-secret
               key: data-connectionstring
 ```
 
@@ -174,14 +146,14 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  MYSQL_DATABASE_NAME: nanoDb
-  MYSQL_DATABASE_USER: api-data-mysql-user
-  MYSQL_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_HOST || secrets.STAGING_MYSQL_HOST }}
-  MYSQL_SERVICE_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_NANO_DB_PASSWORD || secrets.STAGING_MYSQL_NANO_DB_PASSWORD }}
-  MYSQL_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_USER || secrets.STAGING_MYSQL_ADMIN_USER }}
-  MYSQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_PASSWORD || secrets.STAGING_MYSQL_ADMIN_PASSWORD }}
-  MYSQL_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_DATABASE_USER }};Pwd=${{ env.MYSQL_SERVICE_PASSWORD }};SslMode=Preferred;
-  MYSQL_MIGRATION_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_ADMIN_USER }};Pwd=${{ env.MYSQL_ADMIN_PASSWORD }};SslMode=Preferred;
+  DATA_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_HOST || secrets.STAGING_MYSQL_HOST }}
+  DATA_NAME: nanoDb
+  DATA_USER: api-data-mysql-user
+  DATA_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_NANO_DB_PASSWORD || secrets.STAGING_MYSQL_NANO_DB_PASSWORD }}
+  DATA_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_USER || secrets.STAGING_MYSQL_ADMIN_USER }}
+  DATA_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_PASSWORD || secrets.STAGING_MYSQL_ADMIN_PASSWORD }}
+  DATA_CONNECTIONSTRING: Server=${{ env.DATA_HOST }};Port=${{ vars.DATA_MYSQL_PORT }};Database=${{ env.DATA_NAME }};Uid=${{ env.DATA_USER }};Pwd=${{ env.DATA_PASSWORD }};SslMode=Preferred;
+  DATA_MIGRATION_CONNECTIONSTRING: Server=${{ env.DATA_HOST }};Port=${{ vars.DATA_MYSQL_PORT }};Database=${{ env.DATA_NAME }};Uid=${{ env.DATA_ADMIN_USER }};Pwd=${{ env.DATA_ADMIN_PASSWORD }};SslMode=Preferred;
 ```
 
 Additionally, this step has been added to ensure database migrations are applied, and the application database user has been created before the application is deployed.  
@@ -193,7 +165,7 @@ Additionally, this step has been added to ensure database migrations are applied
     dotnet ef database update `
       --no-build `
       --startup-project $env:APP_NAME `
-      --connection "$env:MYSQL_MIGRATION_CONNECTIONSTRING" `;
+      --connection "$env:DATA_MIGRATION_CONNECTIONSTRING" `;
 
     if ($LastExitCode -ne 0)
     { 
@@ -203,21 +175,21 @@ Additionally, this step has been added to ensure database migrations are applied
     sudo apt-get update
     sudo apt-get install -y mysql-client
 
-    $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:MYSQL_DATABASE_USER');" $env:MYSQL_MIGRATION_CONNECTIONSTRING;
+    $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:DATA_USER');" $env:DATA_MIGRATION_CONNECTIONSTRING;
 
     if ($userExists -eq 0) 
     {
         mysql --connect-expired-password -e " `
-            CREATE USER '$env:MYSQL_DATABASE_USER'@'%' IDENTIFIED BY '$env:MYSQL_PASSWORD'; `
-            GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:MYSQL_DATABASE_USER'@'%'; `
-            FLUSH PRIVILEGES;" $env:MYSQL_MIGRATION_CONNECTIONSTRING
+            CREATE USER '$env:DATA_USER'@'%' IDENTIFIED BY '$env:DATA_PASSWORD'; `
+            GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:DATA_USER'@'%'; `
+            FLUSH PRIVILEGES;" $env:DATA_MIGRATION_CONNECTIONSTRING
     }
 ```
 
 Last, the application connectionstring must be added in a secret in Kuberntes. The `Kubernetes Deploy` step has been updated with the following.  
 
 ```yaml
-sudo kubectl create secret generic $env:SERVICE_NAME-secret ` --from-literal=data-connectionstring=$env:MYSQL_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
+sudo kubectl create secret generic $env:SERVICE_NAME-data-secret ` --from-literal=data-connectionstring=$env:DATA_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
 if ($LastExitCode -ne 0)
 { 
     throw "error";

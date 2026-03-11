@@ -1,0 +1,30 @@
+services:
+  api.data.postgresql:
+    image: api.data.postgresql
+    hostname: api-data-postgresql
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Data.PostgreSQL
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: postgis/postgis:latest
+    ports:
+      - 5432:5432
+    networks:
+      - network
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: myPassword_123
+      POSTGRES_DB: nanoDb
+
+networks:
+  network:
+    name: network
+    driver: bridge

@@ -1,5 +1,4 @@
 ﻿using Api.Data.Repository.AutoSave.Models;
-using Api.Data.Repository.AutoSave.Models.Criterias;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
@@ -16,7 +15,7 @@ namespace Api.Data.Repository.AutoSave.Controllers;
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
 public class ExamplesController(ILogger<ExamplesController> logger, IRepository repository)
-    : BaseEntityReadOnlyController<Example, ExampleQueryCriteria>(logger, repository)
+    : BaseEntityController(logger, repository)
 {
     /// <summary>
     /// No Save Action.

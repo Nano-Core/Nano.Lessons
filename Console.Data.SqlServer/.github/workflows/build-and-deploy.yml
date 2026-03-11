@@ -1,0 +1,212 @@
+name: Build And Deploy
+on:
+  push
+env:
+  APP_NAME: Console.Data.SqlServer
+  IMAGE_NAME: console.data.sqlserver
+  SERVICE_NAME: console-data-sqlserver
+  VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
+  DOTNET_SDK_VERSION: 10.0
+  DOTNET_ASPNET_VERSION: 10.0
+  AZURE_GROUP: ${{ vars.AZURE_KUBERNETES_RESOURCE_GROUP }}
+  AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  NUGET_HOST: ${{ secrets.NUGET_HOST }}
+  NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
+  NUGET_PASSWORD: ${{ secrets.NUGET_APIKEY }}
+  NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
+  CONTAINER_REGISTRY_HOST: ${{ vars.CONTAINER_REGISTRY_HOST }}
+  CONTAINER_REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+  CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/Nano-Core/Nano.Template.Console
+  KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
+  KUBERNETES_NODEPOOL_COMPUTE: cpu
+  KUBERNETES_NAMESPACE: default
+  KUBERNETES_REPLICA_HISTORY_COUNT: 4
+  KUBERNETES_MEMORY_REQUEST: 256Mi
+  KUBERNETES_MEMORY_LIMIT: 768Mi
+  KUBERNETES_CPU_REQUEST: 50m
+  KUBERNETES_CPU_LIMIT: 150m
+  KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
+  DATA_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_HOST || secrets.STAGING_SQLSERVER_HOST }}
+  DATA_NAME: nanoDb
+  DATA_USER: api-data-sqlserver-user
+  DATA_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_NANO_DB_PASSWORD || secrets.STAGING_SQLSERVER_NANO_DB_PASSWORD }}
+  DATA_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_ADMIN_USER || secrets.STAGING_SQLSERVER_ADMIN_USER }}
+  DATA_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_ADMIN_PASSWORD || secrets.STAGING_SQLSERVER_ADMIN_PASSWORD }}
+  DATA_CONNECTIONSTRING: Server=${{ env.DATA_HOST }},${{ vars.DATA_SQLSERVER_PORT }};Database=${{ env.DATA_NAME }};User Id=${{ env.DATA_USER }};Password=${{ env.DATA_PASSWORD }};
+  DATA_MIGRATION_CONNECTIONSTRING: Server=${{ env.DATA_HOST }},${{ vars.DATA_SQLSERVER_PORT }};Database=${{ env.DATA_NAME }};User Id=${{ env.DATA_ADMIN_USER }};Password=${{ env.DATA_ADMIN_PASSWORD }};
+  DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    concurrency:
+      group: ${{ github.repository }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login
+        shell: pwsh
+        run: |
+          sudo az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
+          sudo az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
+          sudo az aks get-credentials -g $env:AZURE_GROUP -n $env:KUBERNETES_CLUSTER --overwrite -o none;
+
+      - name: Build
+        shell: pwsh
+        run: |
+          dotnet nuget add source $env:NUGET_HOST -n private -u $env:NUGET_USERNAME -p $env:NUGET_PASSWORD --store-password-in-clear-text;
+
+          dotnet build -c Release .\$env:APP_NAME.sln;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+      - name: Test
+        shell: pwsh
+        run: |
+          dotnet test .\.tests\Tests.$env:APP_NAME\Tests.$env:APP_NAME.csproj;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+      - name: Publish Image
+        shell: pwsh
+        run: |
+          $registryHost = $env:CONTAINER_REGISTRY_HOST.ToLower()
+          $imageLatestTag = $registryHost + "/" + $env:IMAGE_NAME + ":latest";
+          $imageVersionTag = $registryHost + "/" + $env:IMAGE_NAME + ":" + $env:VERSION
+
+          sudo docker build `
+              -t $imageLatestTag `
+              -t $imageVersionTag `
+              --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
+              --build-arg DOTNET_ASPNET_VERSION=$env:DOTNET_ASPNET_VERSION `
+              --build-arg CONTAINER_REGISTRY_SOURCE_LABEL=$env:CONTAINER_REGISTRY_SOURCE_LABEL `
+              --build-arg NUGET_HOST=$env:NUGET_HOST `
+              --build-arg NUGET_USERNAME=$env:NUGET_USERNAME `
+              --build-arg NUGET_PASSWORD=$env:NUGET_PASSWORD `
+              ./;
+
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };
+
+          sudo docker login -u="$env:CONTAINER_REGISTRY_USERNAME" -p="$env:CONTAINER_REGISTRY_PASSWORD" $env:CONTAINER_REGISTRY_HOST;
+          sudo docker push $imageLatestTag;
+          sudo docker push $imageVersionTag;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
+
+          - name: Database Migration
+            shell: pwsh
+            run: |
+              dotnet ef database update `
+                --no-build `
+                --startup-project $env:APP_NAME `
+                --connection "$env:DATA_MIGRATION_CONNECTIONSTRING" `;
+
+              if ($LastExitCode -ne 0)
+              { 
+                  throw "error";
+              };
+         
+              sudo apt-get update
+              sudo apt-get install -y mssql-tools unixodbc-dev
+
+              $loginExists = sqlcmd `
+                  -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
+                  -U $env:DATA_ADMIN_USER `
+                  -P $env:DATA_ADMIN_PASSWORD `
+                  -d master `
+                  -h -1 `
+                  -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name = '$env:DATA_USER';"
+
+              if ($loginExists -eq 0)
+              {
+                  sqlcmd `
+                      -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
+                      -U $env:DATA_ADMIN_USER `
+                      -P $env:DATA_ADMIN_PASSWORD `
+                      -d master `
+                      -Q "CREATE LOGIN [$env:DATA_USER] WITH PASSWORD = '$env:DATA_PASSWORD';"
+              };
+
+              $userExists = sqlcmd `
+                  -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
+                  -U $env:DATA_ADMIN_USER `
+                  -P $env:DATA_ADMIN_PASSWORD `
+                  -d $env:DATA_NAME `
+                  -h -1 `
+                  -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name = '$env:DATA_USER';"
+
+             if ($userExists -eq 0)
+             {
+                 sqlcmd `
+                     -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
+                     -U $env:DATA_ADMIN_USER `
+                     -P $env:DATA_ADMIN_PASSWORD `
+                     -d $env:DATA_NAME `
+                     -Q "CREATE USER [$env:DATA_USER] FOR LOGIN [$env:DATA_USER];
+                         ALTER ROLE db_datareader ADD MEMBER [$env:DATA_USER];
+                         ALTER ROLE db_datawriter ADD MEMBER [$env:DATA_USER];"
+             };
+
+      - name: Kubernetes Deploy
+        shell: pwsh
+        run: |
+          sudo kubectl create secret generic $env:SERVICE_NAME-data-secret ` --from-literal=data-connectionstring=$env:DATA_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+          Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/configmap.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
+          Get-Content .kubernetes/cronjob.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/cronjob.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/cronjob.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
+      - name: GitHub Release
+        if: github.ref == 'refs/heads/master'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          name: "Release ${{ env.VERSION }}"
+          body: |
+            Version: ${{ env.VERSION }}
+            Commit: ${{ github.sha }}
+          artifacts: "nupkgs/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
+          prerelease: false
+
+      - name: Slack Notification
+        if: always()
+        uses: act10ns/slack@v2
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          config: .github/config/slack.yml
+          status: ${{ job.status }}
+          channel: ${{ vars.SLACK_CHANNEL }}

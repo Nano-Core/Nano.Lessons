@@ -57,7 +57,7 @@ docker
 ```
 
 ## Kubernetes
-Added two additional kubernetes templates, `storageclass.yaml` and `pvc.yaml`, for dynamically manage and creating the local fileshare.
+Added two additional kubernetes templates, `storage-storageclass.yaml` and `storage-pvc.yaml`, for dynamically manage and creating the local fileshare.
 
 Also, updated `cronjob.yaml` adding the volumes and volume mounts.  
 

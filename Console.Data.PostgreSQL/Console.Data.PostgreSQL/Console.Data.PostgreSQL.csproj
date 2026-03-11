@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<NoWarn>NU1902; NU5104</NoWarn>
+		<AssemblyVersion>10.0.0.0</AssemblyVersion>
+		<FileVersion>10.0.0.0</FileVersion>
+		<Version>10.0.0.0</Version>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Configurations>Debug;Release</Configurations>
+		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<nullable>enable</nullable>
+		<License>LICENSE</License>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>false</IsPackable>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='RELEASE'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.App.Console\Nano.App.Console.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.App\Nano.App.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Common\Nano.Common.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Data.Abstractions\Nano.Data.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Data.PostgreSQL\Nano.Data.PostgreSQL.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Data\Nano.Data.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Eventing.Abstractions\Nano.Eventing.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Abstractions\Nano.Storage.Abstractions.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Workers\" />
+	</ItemGroup>
+
+</Project>
