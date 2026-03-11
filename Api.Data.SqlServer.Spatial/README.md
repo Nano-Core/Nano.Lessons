@@ -15,7 +15,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Migrations](#migrations)
 
 ## Summary
-This application builds on **[Api.Data.SqlServer](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.SqlServer)**.  
+This application builds on **[Api.Data.SqlServer](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.SqlServer)**. Entity controllers have been simplified to 
+showcase spatial types; full controllers are unnecessary.  
 
 The `Example` entity now includes a `Point` property from `NetTopologySuite`. A query criterion has been added to check whether points are within a 10,000 meter distance. The 
 entity mappings for this spatial property have also been configured. Otherwise, no other changes were made.  
