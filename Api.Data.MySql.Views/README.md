@@ -17,25 +17,26 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**. Entity controllers have been 
 simplified to showcase setting mysql views; full controllers are unnecessary.  
 
-The `Example` entity has been refactored to inherit from `BaseEntityIdentity` and is now mapped as a view using `BaseEntityViewMapping`. Also the entity controller
-has been changed to inherit from `BaseEntityReadOnlyController<,>` instaed. Naturally, models mapped as views are always _read-only_. 
-
-The SQL view itself must be manually created and added to a migration.  
-
-> ⚠️ Be aware, SQL Server does not create spatial indexes automatically; they must be added manually in a migration.
+An `ExampleView` entity model (deriving from `BaseEntityView`) has been added, along with a mapping class based on `BaseEntityViewMapping`. The corresponding database view has 
+been manually added in an empty migration.
 
 ```csharp
+internal static class ExampleViewDefinition
+{
+    internal const string SQL = $@"
+        CREATE OR REPLACE VIEW {nameof(ExampleView)} AS
+        SELECT
+            {nameof(Example.Id)},
+            {nameof(Example.CreatedAt)},
+            {nameof(Example.Name)},
+            CHAR_LENGTH({nameof(Example.Name)}) AS {nameof(ExampleView.NameLength)}
+        FROM {nameof(Example)};";
+}
+
 migrationBuilder
-    .Sql(@"CREATE OR REPLACE VIEW ExampleView AS
-           SELECT
-               Id,
-               CreatedAt,
-    Name       -- from Example
-FROM
-    Example;
-");
+    .Sql(ExampleViewDefinition.SQL);
 ```
 
-
+Also, an `ExampleViewsController` (deriving from `BaseEntityQueryableController`) has been added, exposing query actions for the view.
 
 > 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
