@@ -1,11 +1,12 @@
 ﻿using Nano.Data.Abstractions.Models;
+using Nano.Data.Abstractions.Models.Abstractions;
 
 namespace Api.Data.MySql.Views.Models;
 
 /// <summary>
-/// Example.
+/// Example View.
 /// </summary>
-public class Example : BaseEntity
+public class ExampleView : BaseEntityReadOnly
 {
     /// <summary>
     /// Name.

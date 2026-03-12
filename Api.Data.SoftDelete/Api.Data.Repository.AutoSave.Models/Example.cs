@@ -1,6 +1,6 @@
 ﻿using Nano.Data.Abstractions.Models;
 
-namespace Api.Data.MySql.Views.Models;
+namespace Api.Data.Repository.AutoSave.Models;
 
 /// <summary>
 /// Example.
