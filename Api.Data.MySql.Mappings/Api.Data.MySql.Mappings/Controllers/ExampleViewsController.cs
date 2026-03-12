@@ -1,0 +1,15 @@
+﻿using Api.Data.MySql.Mappings.Models;
+using Api.Data.MySql.Mappings.Models.Criterias;
+using Microsoft.Extensions.Logging;
+using Nano.App.Api.Controllers;
+using Nano.Data.Abstractions;
+
+namespace Api.Data.MySql.Mappings.Controllers;
+
+/// <summary>
+/// Controller with examples.
+/// </summary>
+/// <param name="logger">The <see cref="ILogger{T}"/>.</param>
+/// <param name="repository">The <see cref="IRepository"/>.</param>
+public class ExampleViewsController(ILogger<ExampleViewsController> logger, IRepository repository)
+    : BaseEntityQueryableController<ExampleView, ExampleQueryCriteria>(logger, repository);
