@@ -1,12 +1,12 @@
 services:
-  api.data.repository.autosave:
-    image: api.data.repository.autosave
-    hostname: api-data-repository-autosave
+  api.data.lazyloading:
+    image: api.data.lazyloading
+    hostname: api-data-lazyloading
     restart: on-failure
     ports:
       - 8080:8080
     build:
-      context: ../Api.Data.Repository.AutoSave
+      context: ../Api.Data.LazyLoading
       dockerfile: "Dockerfile.Local"
     depends_on:
       - database

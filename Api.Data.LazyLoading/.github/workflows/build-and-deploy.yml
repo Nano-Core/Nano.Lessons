@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.Data.Repository.AutoSave
-  IMAGE_NAME: api.data.repository.autosave
-  SERVICE_NAME: api-data-repository-autosave
+  APP_NAME: Api.Data.LazyLoading
+  IMAGE_NAME: api.data.lazyloading
+  SERVICE_NAME: api-data-lazyloading
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0

@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.Data.Repository.AutoSave
-  IMAGE_NAME: api.data.repository.autosave
-  SERVICE_NAME: api-data-repository-autosave
+  APP_NAME: Api.Data.SoftDelete
+  IMAGE_NAME: api.data.softdelete
+  SERVICE_NAME: api-data-softdelete
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0

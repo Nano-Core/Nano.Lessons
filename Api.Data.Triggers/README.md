@@ -19,4 +19,8 @@ demonstrate repository autosave. Entity controllers have been simplified to show
 
 
 
+GO THROUGH IMPLEMENTATION AND CONSIDER IT...
+
+
+
 > 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#triggers)**.

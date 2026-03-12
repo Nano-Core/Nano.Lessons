@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using Api.Data.SoftDelete.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 using Nano.Data.Abstractions;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Api.Data.MySql.Mappings.Controllers;
+namespace Api.Data.SoftDelete.Controllers;
 
 /// <summary>
 /// Controller with examples.
@@ -17,18 +18,22 @@ public class ExamplesController(ILogger<ExamplesController> logger, IRepository 
     : BaseEntityController(logger, repository)
 {
     /// <summary>
-    /// Advanced Mappings Action.
+    /// No Save Action.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A message.</returns>
     /// <response code="200">Success.</response>
     [HttpGet]
-    [Route("advanced-mappings")]
+    [Route("no-save")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<IActionResult> AdvancedMappingsAsync(CancellationToken cancellationToken = default)
+    public virtual async Task<IActionResult> NoSaveAsync(CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
+        await this.Repository
+            .AddAsync(new Example
+            {
+                Name = "name"
+            }, cancellationToken);
 
-        return this.Ok("advanced-mappings");
+        return this.Ok("no-save");
     }
 }

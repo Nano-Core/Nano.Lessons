@@ -1,12 +1,12 @@
 services:
-  api.data.repository.autosave:
-    image: api.data.repository.autosave
-    hostname: api-data-repository-autosave
+  api.data.repository.softdelete:
+    image: api.data.repository.softdelete
+    hostname: api-data-softdelete
     restart: on-failure
     ports:
       - 8080:8080
     build:
-      context: ../Api.Data.Repository.AutoSave
+      context: ../Api.Data.SoftDelete
       dockerfile: "Dockerfile.Local"
     depends_on:
       - database

@@ -1,6 +1,6 @@
 ﻿using Nano.Data.Abstractions.Models;
 
-namespace Api.Data.MySql.Mappings.Models;
+namespace Api.Data.SoftDelete.Models;
 
 /// <summary>
 /// Example.
@@ -11,9 +11,4 @@ public class Example : BaseEntity
     /// Name.
     /// </summary>
     public virtual string Name { get; set; } = null!;
-
-    /// <summary>
-    /// Name Normalized.
-    /// </summary>
-    public virtual string NameNormalized { get; set; } = null!;
 }
