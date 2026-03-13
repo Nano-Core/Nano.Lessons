@@ -22,5 +22,15 @@ public class ExampleMapping : BaseEntityMapping<Example>
 
         builder
             .HasIndex(x => x.Name);
+
+        builder
+            .HasMany(x => x.Relations)
+            .WithOne(x => x.Example)
+            .IsRequired();
+
+        builder
+            .HasMany(x => x.IncludedRelations)
+            .WithOne(x => x.Example)
+            .IsRequired();
     }
 }

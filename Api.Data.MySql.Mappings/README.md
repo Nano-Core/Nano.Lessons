@@ -17,13 +17,12 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**. Entity controllers have been 
 simplified to showcase setting mysql views; full controllers are unnecessary.  
 
-Added `Profile` and nesetd classes for mapping owned types and nested owned types. 
-Added two properties on `Example` for `Profile` model, one that will be mapped as owned type and one for mapping the enture object hierachy serialzied to JSON and 
-added to a simple string column.  
+Three new entity models have been added, each demonstrating different types of advanced mappings. The first, `ExampleJson`, shows how to store a complex object in a 
+text column: it is serialized when added or updated in the database and deserialized when retrieved, mapping back into the complex object. The second, `ExampleOwned`, 
+also has a `Profile` reference like `ExampleJson`, but the complex object is stored as **owned entities** within the same table. The third, `ExampleNormalized`, 
+demonstrates property normalization for querying: `FirstName` and `LastName` are concatenated into `FullName`, and an uppercase version, `FullNameNormalized`, is 
+used for case-insensitive searches, with the LINQ query calling `.ToUpper()` on the search value to match the normalized property efficiently.  
 
-Also, a normalized (capitalized) property of `Example.Name` has been added - `Example.NameNormalized`. The query critiera is now using that property, and 
-calling `.ToUpper()`on the criteria value before building the linq expression.  
-
-Last, a unique index has been added to `Example.NameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
+Last, a unique index has also been added to `Example.NameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
 
 > 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.

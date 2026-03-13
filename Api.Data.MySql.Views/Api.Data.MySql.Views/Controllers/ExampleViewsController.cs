@@ -12,4 +12,4 @@ namespace Api.Data.MySql.Views.Controllers;
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
 public class ExampleViewsController(ILogger<ExampleViewsController> logger, IRepository repository)
-    : BaseEntityQueryableController<ExampleView, ExampleQueryCriteria>(logger, repository);
+    : BaseEntityViewController<ExampleView, ExampleQueryCriteria>(logger, repository);

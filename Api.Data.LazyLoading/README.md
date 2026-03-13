@@ -18,16 +18,14 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
-
-CHECK SERIALIZATION HOW IT BEHAVES
-
-
+Once the object graph is created, notice that only `IncludedRelations` appears in the response. Although `Relations` is lazy-loaded in the code, it is not included 
+because it lacks the `Include` annotation.  
 
 > 📖 Learn more about **[Nano Data Lazy Loading](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#lazy-loading)**.
 
 ## Configuration
 ```json
 "Data": {
-  "UseSoftDeletetion": true
+  "UseLazyLoading": true
 }
 ```

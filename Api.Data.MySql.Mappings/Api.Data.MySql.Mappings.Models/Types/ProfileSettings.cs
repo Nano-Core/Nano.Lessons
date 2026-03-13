@@ -21,10 +21,4 @@ public class ProfileSettings
     [Required]
     [DefaultValue(false)]
     public virtual bool HideProfileName { get; set; } = false;
-
-    /// <summary>
-    /// Email Settings.
-    /// </summary>
-    [Required]
-    public virtual EmailSettings EmailSettings { get; set; } = new();
 }

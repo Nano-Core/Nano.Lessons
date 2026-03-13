@@ -2,7 +2,7 @@
 using DynamicExpression;
 using Nano.App.Api.Controllers.Criteria;
 
-namespace Api.Data.MySql.Mappings.Models.Criterias;
+namespace Api.Data.LazyLoading.Models.Criterias;
 
 /// <inheritdoc />
 public class ExampleQueryCriteria : BaseQueryCriteria

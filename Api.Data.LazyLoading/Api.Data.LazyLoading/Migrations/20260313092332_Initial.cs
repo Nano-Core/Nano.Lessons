@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.MySql.Migrations
+namespace Api.Data.LazyLoading.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -115,7 +115,7 @@ namespace Api.Data.MySql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
@@ -349,6 +349,54 @@ namespace Api.Data.MySql.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "ExampleRelation",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ExampleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Text = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExampleRelation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExampleRelation_Example_ExampleId",
+                        column: x => x.ExampleId,
+                        principalTable: "Example",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ExampleRelationIncluded",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ExampleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Text = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExampleRelationIncluded", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExampleRelationIncluded_Example_ExampleId",
+                        column: x => x.ExampleId,
+                        principalTable: "Example",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_CreatedBy",
                 table: "__EFAudit",
@@ -475,6 +523,41 @@ namespace Api.Data.MySql.Migrations
                 name: "IX_Example_IsDeleted",
                 table: "Example",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Example_Name",
+                table: "Example",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelation_CreatedAt",
+                table: "ExampleRelation",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelation_ExampleId",
+                table: "ExampleRelation",
+                column: "ExampleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelation_IsDeleted",
+                table: "ExampleRelation",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelationIncluded_CreatedAt",
+                table: "ExampleRelationIncluded",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelationIncluded_ExampleId",
+                table: "ExampleRelationIncluded",
+                column: "ExampleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleRelationIncluded_IsDeleted",
+                table: "ExampleRelationIncluded",
+                column: "IsDeleted");
         }
 
         /// <inheritdoc />
@@ -511,7 +594,10 @@ namespace Api.Data.MySql.Migrations
                 name: "__EFIdentityUserToken");
 
             migrationBuilder.DropTable(
-                name: "Example");
+                name: "ExampleRelation");
+
+            migrationBuilder.DropTable(
+                name: "ExampleRelationIncluded");
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");
@@ -521,6 +607,9 @@ namespace Api.Data.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityUser");
+
+            migrationBuilder.DropTable(
+                name: "Example");
         }
     }
 }
