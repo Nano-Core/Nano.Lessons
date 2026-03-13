@@ -18,18 +18,9 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
+The `Example` entity implements `IEntitySoftDeletable`, so when an entity is deleted, it is not removed from the database but is marked as deleted 
+by setting the `IsDeleted` property.  
 
-
-TEST WHAT IEntitySoftDeleted do. Maybe we should not have setting but just enable soft delete for entities implementing the interface IEntitySoftDeleted?
-- TEST WHAT IEntitySoftDeleted do, and if it's possible to do soft-delete on only some interfaces, maybe it shouldn't be a configuration, just enabled when entities have the interface.
-
-
+Open the database and notice that the created `Example` entity has a non-zero `IsDeleted` value, indicating it has been soft-deleted.  
 
 > 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#soft-delete)**.
-
-## Configuration
-```json
-"Data": {
-  "UseSoftDeletetion": true
-}
-```
