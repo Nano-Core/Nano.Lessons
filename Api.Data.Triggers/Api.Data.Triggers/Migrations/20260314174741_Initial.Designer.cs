@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Data.Triggers.Migrations
 {
     [DbContext(typeof(MySqlDbContext))]
-    [Migration("20260314132207_Initial2")]
-    partial class Initial2
+    [Migration("20260314174741_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
