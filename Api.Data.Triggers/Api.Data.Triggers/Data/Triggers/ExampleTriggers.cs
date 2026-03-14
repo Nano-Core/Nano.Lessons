@@ -2,7 +2,7 @@
 using Api.Data.Triggers.Models;
 using EntityFrameworkCore.Triggers;
 
-namespace Api.Data.Triggers.Data.Triggerse;
+namespace Api.Data.Triggers.Data.Triggers;
 
 internal static class ExampleTriggers
 {

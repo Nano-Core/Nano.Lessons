@@ -1,5 +1,5 @@
 ﻿using System;
-using Api.Data.Triggers.Data.Triggerse;
+using Api.Data.Triggers.Data.Triggers;
 using Api.Data.Triggers.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
