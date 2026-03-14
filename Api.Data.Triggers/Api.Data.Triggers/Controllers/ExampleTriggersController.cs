@@ -7,9 +7,9 @@ using Nano.Data.Abstractions;
 namespace Api.Data.Triggers.Controllers;
 
 /// <summary>
-/// Controller with examples.
+/// Controller with example triggers.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
-public class ExamplesController(ILogger<ExamplesController> logger, IRepository repository)
-    : BaseEntityController<Example, ExampleQueryCriteria>(logger, repository);
+public class ExampleTriggersController(ILogger<ExampleTriggersController> logger, IRepository repository)
+    : BaseEntityController<ExampleTrigger, ExampleTriggerQueryCriteria>(logger, repository);

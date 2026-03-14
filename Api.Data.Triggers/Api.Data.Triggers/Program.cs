@@ -1,4 +1,4 @@
-﻿using Api.Data.SoftDelete.Data;
+﻿using Api.Data.Triggers.Data;
 using Nano.App.Api;
 using Nano.Data.Extensions;
 using Nano.Data.MySql;

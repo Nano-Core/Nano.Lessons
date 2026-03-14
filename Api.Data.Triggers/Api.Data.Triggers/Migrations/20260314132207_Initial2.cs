@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.MySql.Migrations
+namespace Api.Data.Triggers.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Initial2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -115,8 +115,9 @@ namespace Api.Data.MySql.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
@@ -124,6 +125,24 @@ namespace Api.Data.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Example", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ExampleTrigger",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ExampleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Trigger = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExampleTrigger", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -475,6 +494,26 @@ namespace Api.Data.MySql.Migrations
                 name: "IX_Example_IsDeleted",
                 table: "Example",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Example_Name",
+                table: "Example",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Example_UpdatedAt",
+                table: "Example",
+                column: "UpdatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleTrigger_CreatedAt",
+                table: "ExampleTrigger",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExampleTrigger_IsDeleted",
+                table: "ExampleTrigger",
+                column: "IsDeleted");
         }
 
         /// <inheritdoc />
@@ -512,6 +551,9 @@ namespace Api.Data.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Example");
+
+            migrationBuilder.DropTable(
+                name: "ExampleTrigger");
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");

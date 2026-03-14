@@ -7,5 +7,5 @@ using Nano.Eventing.Abstractions;
 namespace Api.Data.MySql.Collation.Data;
 
 /// <inheritdoc />
-public class MySqlDbContext(DbContextOptions contextOptions, IOptionsMonitor<DataOptions> dataOptions, IEventing? eventing = null)
-    : BaseDbContext(contextOptions, dataOptions, eventing);
+public class MySqlDbContext(DbContextOptions contextOptions, IOptionsMonitor<DataOptions> dataOptions)
+    : BaseDbContext(contextOptions, dataOptions);

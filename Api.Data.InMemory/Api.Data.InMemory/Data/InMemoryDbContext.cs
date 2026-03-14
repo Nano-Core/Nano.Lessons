@@ -7,5 +7,5 @@ using Nano.Eventing.Abstractions;
 namespace Api.Data.InMemory.Data;
 
 /// <inheritdoc />
-public class InMemoryDbContext(DbContextOptions contextOptions, IOptionsMonitor<DataOptions> dataOptions, IEventing? eventing = null)
-    : BaseDbContext(contextOptions, dataOptions, eventing);
+public class InMemoryDbContext(DbContextOptions contextOptions, IOptionsMonitor<DataOptions> dataOptions)
+    : BaseDbContext(contextOptions, dataOptions);

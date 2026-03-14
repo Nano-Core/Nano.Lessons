@@ -15,12 +15,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
+demonstrate repository autosave. Entity controllers have been simplified to showcase triggers; full controllers are unnecessary.   
 
-
-
-GO THROUGH IMPLEMENTATION AND CONSIDER IT...
-
-
+Triggers for `OnInserting`, `OnInserted`, `OnUpdating`, `OnUpdated`, `OnDeleting`, and `OnDeleted` have been configured in mappings for the `Example` entity model. Whenever 
+the `Example` entity is **added** or **updated**, the `Example.UpdatedAt` property is automatically set to `UtcNow`. Additionally, for each trigger execution, an 
+`ExampleTrigger` entity is created and stored. This serves as a record demonstrating that the trigger was invoked.  
 
 > 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#triggers)**.

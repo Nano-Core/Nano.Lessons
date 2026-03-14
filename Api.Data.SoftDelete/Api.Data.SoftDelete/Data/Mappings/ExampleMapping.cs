@@ -2,6 +2,7 @@
 using Api.Data.SoftDelete.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
+using Nano.Data.Mappings.Extensions;
 
 namespace Api.Data.SoftDelete.Data.Mappings;
 
@@ -22,5 +23,17 @@ public class ExampleMapping : BaseEntityMapping<Example>
 
         builder
             .HasIndex(x => x.Name);
+
+        builder
+            .OnDeleting(x =>
+            {
+                Console.WriteLine("OnDeleting");
+            });
+
+        builder
+            .OnDeleted(x =>
+            {
+                Console.WriteLine("OnDeleted");
+            });
     }
 }

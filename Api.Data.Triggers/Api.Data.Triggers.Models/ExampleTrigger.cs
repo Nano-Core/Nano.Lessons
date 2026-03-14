@@ -5,18 +5,18 @@ using Nano.Data.Abstractions.Models;
 namespace Api.Data.Triggers.Models;
 
 /// <summary>
-/// Example.
+/// Example Trigger.
 /// </summary>
-public class Example : BaseEntity
+public class ExampleTrigger : BaseEntity
 {
     /// <summary>
-    /// Name.
+    /// Example Id.
     /// </summary>
     [Required]
-    public virtual string Name { get; set; } = null!;
+    public virtual Guid ExampleId { get; set; }
 
     /// <summary>
-    /// Updated At.
+    /// Trigger.
     /// </summary>
-    public virtual DateTimeOffset? UpdatedAt { get; set; }
+    public virtual string Trigger { get; set; } = null!;
 }

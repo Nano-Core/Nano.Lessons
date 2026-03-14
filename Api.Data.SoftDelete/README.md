@@ -21,6 +21,8 @@ demonstrate repository autosave. Entity controllers have been simplified to show
 The `Example` entity implements `IEntitySoftDeletable`, so when an entity is deleted, it is not removed from the database but is marked as deleted 
 by setting the `IsDeleted` property.  
 
+The data mapping also includes two triggers for `OnDeleting` and `OnDeleted` to show that they are invoked also when soft-deleting entity models.  
+
 Open the database and notice that the created `Example` entity has a non-zero `IsDeleted` value, indicating it has been soft-deleted.  
 
 > 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#soft-delete)**.
