@@ -34,8 +34,4 @@
 	    <ProjectReference Include="..\Api.Data.MySql.Models\Api.Data.MySql.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
-
 </Project>

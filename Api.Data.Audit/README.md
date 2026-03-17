@@ -1,6 +1,6 @@
 ﻿# Api.Data.Audit
 
-> _Nano API application with data soft delete._  
+> _Nano API application with data audit logging._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -12,17 +12,21 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Configuration](#configuration)
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
+demonstrate audit logging. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary. Also an `AuditControlller` derived from 
+`BaseAuditControlller` has been added.  
 
-The `Example` entity implements `IEntitySoftDeletable`, so when an entity is deleted, it is not removed from the database but is marked as deleted 
-by setting the `IsDeleted` property.  
+The `Example` entity implements `IEntityAuditable`. The entity model is also mapped with a `OnUpdating(...)` trigger to prove that changes to the entity model will be reflected
+in audit properties. Last, the entity model also implements the `IEntitySoftDeletable` so when deleted the `AuditEntry.State` will be `SoftDeleted`.  
 
-The data mapping also includes two triggers for `OnDeleting` and `OnDeleted` to show that they are invoked also when soft-deleting entity models.  
+The `AuditController`, which derives from the base `BaseAuditController` in Nano, exposes read-only endpoints for the `AuditEntry` entity. When retrieving or querying 
+audit entries, the related `AuditEntryProperties` are automatically included, ensuring that all relevant details are available without additional queries.  
 
-Open the database and notice that the created `Example` entity has a non-zero `IsDeleted` value, indicating it has been soft-deleted.  
+Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
+here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#soft-delete)**.
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+
+> 📖 Learn more about **[Nano Data Audit](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#audit)**.

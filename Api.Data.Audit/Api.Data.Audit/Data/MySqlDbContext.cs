@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Nano.Data;
 using Nano.Data.Abstractions.Config;
 
-namespace Api.Data.SoftDelete.Data;
+namespace Api.Data.Audit.Data;
 
 /// <inheritdoc />
 public class MySqlDbContext(DbContextOptions contextOptions, IOptionsMonitor<DataOptions> dataOptions)

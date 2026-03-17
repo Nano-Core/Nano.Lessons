@@ -34,8 +34,4 @@
 	    <ProjectReference Include="..\Api.Data.SqlServer.Models\Api.Data.SqlServer.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
-
 </Project>

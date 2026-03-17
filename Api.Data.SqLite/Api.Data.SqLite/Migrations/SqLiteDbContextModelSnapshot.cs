@@ -320,14 +320,24 @@ namespace Api.Data.SqLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("EntityKey")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EntitySetName")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("EntityState")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("EntityTypeName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -338,22 +348,15 @@ namespace Api.Data.SqLite.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("State")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("StateName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityState");
+
                     b.HasIndex("EntityTypeName");
 
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("State");
 
                     b.ToTable("__EFAudit", (string)null);
                 });
@@ -385,6 +388,7 @@ namespace Api.Data.SqLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RelationName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 

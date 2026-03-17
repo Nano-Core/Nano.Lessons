@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Api.Data.MySql.Spatial": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59794;http://localhost:59795"
+    }
+  }
+}

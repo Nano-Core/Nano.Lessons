@@ -1,9 +1,10 @@
 ﻿using System;
-using Api.Data.MySql.Views.Models;
+using Api.Data.MySql.StoredProcedures.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
 
-namespace Api.Data.MySql.Views.Data.Mappings;
+namespace Api.Data.MySql.StoredProcedures.Data.Mappings;
 
 /// <summary>
 /// Example Mapping.
@@ -19,5 +20,13 @@ public class ExampleMapping : BaseEntityMapping<Example>
 
         builder
             .Property(x => x.Name);
+
+        builder
+            .HasIndex(x => x.Name);
+
+        builder
+            .Property(x => x.Counter)
+            .HasDefaultValue(0)
+            .IsRequired();
     }
 }

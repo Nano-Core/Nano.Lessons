@@ -20,5 +20,4 @@ showcase spatial types; full controllers are unnecessary.
 The `Example` entity now includes a `Point` property from `NetTopologySuite`. A query criterion has been added to check whether points are within a 10,000 meter distance. The 
 entity mappings for this spatial property have also been configured. Otherwise, no other changes were made.  
 
-
 > 📖 Learn more about **[Nano.Data.PostgreSQL](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.PostgreSQL)**.

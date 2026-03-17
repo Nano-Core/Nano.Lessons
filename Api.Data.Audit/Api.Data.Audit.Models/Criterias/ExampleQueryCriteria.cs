@@ -3,7 +3,7 @@ using System.Linq;
 using DynamicExpression;
 using Nano.App.Api.Controllers.Criteria;
 
-namespace Api.Data.SoftDelete.Models.Criterias;
+namespace Api.Data.Audit.Models.Criterias;
 
 /// <inheritdoc />
 public class ExampleQueryCriteria : BaseQueryCriteria

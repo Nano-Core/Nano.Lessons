@@ -1,10 +1,10 @@
-﻿using Api.Data.SoftDelete.Models;
-using Api.Data.SoftDelete.Models.Criterias;
+﻿using Api.Data.Audit.Models;
+using Api.Data.Audit.Models.Criterias;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 using Nano.Data.Abstractions;
 
-namespace Api.Data.SoftDelete.Controllers;
+namespace Api.Data.Audit.Controllers;
 
 /// <summary>
 /// Controller with examples.
@@ -12,4 +12,4 @@ namespace Api.Data.SoftDelete.Controllers;
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
 public class ExamplesController(ILogger<ExamplesController> logger, IRepository repository)
-    : BaseEntityController<Example, ExampleQueryCriteria> (logger, repository);
+    : BaseEntityController<Example, ExampleQueryCriteria>(logger, repository);

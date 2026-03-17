@@ -1,12 +1,12 @@
 ﻿using Nano.Data.Abstractions.Models;
 using Nano.Data.Abstractions.Models.Abstractions;
 
-namespace Api.Data.SoftDelete.Models;
+namespace Api.Data.Audit.Models;
 
 /// <summary>
 /// Example.
 /// </summary>
-public class Example : BaseEntity, IEntitySoftDeletable
+public class Example : BaseEntity, IEntityAuditable, IEntitySoftDeletable
 {
     /// <summary>
     /// Name.

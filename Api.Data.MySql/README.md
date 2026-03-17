@@ -73,11 +73,8 @@ Configured the application with the necessary data setup.
   "BulkBatchDelay": 1000,
   "QueryRetryCount": 0,
   "UseLazyLoading": false,
-  "UseCreateDatabase": false,
-  "UseMigrateDatabase": false,
-  "UseSoftDeletetion": false,
+  "StartupAction": "None",
   "UseSensitiveDataLogging": false,
-  "UseAudit": false,
   "QuerySplittingBehavior": "SingleQuery",
   "DefaultCollation": null,
   "ConnectionString": null,
@@ -97,7 +94,7 @@ Configured the application with the necessary data setup.
 
 ```json
 "Data": {
-  "UseMigrateDatabase": true,
+  "StartupAction": "Migrate",
   "ConnectionString": "Server=host.docker.internal;Database=nanoDb;Uid=sa;Pwd=myPassword_123"
 }
 ```

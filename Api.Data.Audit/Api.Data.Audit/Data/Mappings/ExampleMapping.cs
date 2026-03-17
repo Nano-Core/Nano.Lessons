@@ -1,10 +1,10 @@
 ﻿using System;
-using Api.Data.SoftDelete.Models;
+using Api.Data.Audit.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
 using Nano.Data.Mappings.Extensions;
 
-namespace Api.Data.SoftDelete.Data.Mappings;
+namespace Api.Data.Audit.Data.Mappings;
 
 /// <summary>
 /// Example Mapping.
@@ -22,18 +22,9 @@ public class ExampleMapping : BaseEntityMapping<Example>
             .Property(x => x.Name);
 
         builder
-            .HasIndex(x => x.Name);
-
-        builder
-            .OnDeleting(x =>
+            .OnUpdating(x =>
             {
-                Console.WriteLine("OnDeleting");
-            });
-
-        builder
-            .OnDeleted(x =>
-            {
-                Console.WriteLine("OnDeleted");
+                x.Entity.Name += "-triggered";
             });
     }
 }

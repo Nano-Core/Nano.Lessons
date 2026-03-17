@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Api.Data.MySql.Migrations
+namespace Api.Data.SoftDelete.Migrations
 {
     [DbContext(typeof(MySqlDbContext))]
     partial class MySqlDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace Api.Data.MySql.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Data.MySql.Models.Example", b =>
+            modelBuilder.Entity("Api.Data.SoftDelete.Models.Example", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,13 +41,15 @@ namespace Api.Data.MySql.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Example");
                 });
@@ -211,14 +213,24 @@ namespace Api.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<Guid>("EntityKey")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("EntitySetName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<int>("EntityState")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("EntityTypeName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
@@ -229,22 +241,15 @@ namespace Api.Data.MySql.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StateName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityState");
+
                     b.HasIndex("EntityTypeName");
 
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("State");
 
                     b.ToTable("__EFAudit", (string)null);
                 });
@@ -276,6 +281,7 @@ namespace Api.Data.MySql.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("RelationName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 

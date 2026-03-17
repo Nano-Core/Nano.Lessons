@@ -12,11 +12,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Configuration](#configuration)
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
+demonstrate soft delete. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
 The `Example` entity implements `IEntitySoftDeletable`, so when an entity is deleted, it is not removed from the database but is marked as deleted 
 by setting the `IsDeleted` property.  

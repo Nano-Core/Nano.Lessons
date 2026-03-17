@@ -341,14 +341,24 @@ namespace Api.Data.MySql.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<Guid>("EntityKey")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("EntitySetName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<int>("EntityState")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("EntityTypeName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
@@ -359,22 +369,15 @@ namespace Api.Data.MySql.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StateName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityState");
+
                     b.HasIndex("EntityTypeName");
 
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("State");
 
                     b.ToTable("__EFAudit", (string)null);
                 });
@@ -406,6 +409,7 @@ namespace Api.Data.MySql.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("RelationName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 

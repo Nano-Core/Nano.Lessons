@@ -34,8 +34,4 @@
 	    <ProjectReference Include="..\Api.Data.SqLite.Models\Api.Data.SqLite.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Migrations\" />
-	</ItemGroup>
-
 </Project>
