@@ -37,6 +37,7 @@ The controller return a response in the following format:
 > 📖 Learn more about **[Nano Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#localization)**.
 
 ## Configuration
+
 ```json
 "App": {
   "Localization": {
