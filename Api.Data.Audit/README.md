@@ -24,6 +24,9 @@ in audit properties. Last, the entity model also implements the `IEntitySoftDele
 The `AuditController`, which derives from the base `BaseAuditController` in Nano, exposes read-only endpoints for the `AuditEntry` entity. When retrieving or querying 
 audit entries, the related `AuditEntryProperties` are automatically included, ensuring that all relevant details are available without additional queries.  
 
+Notice, that when you set the `X-Request-Id` header, the value is automatically recorded in the audit entry. Also the `CreatedBy` is set, and in this case `Anonymous` because
+we are invoking the endpoint with an unauthenticated user.  
+
 Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 

@@ -17,8 +17,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-Try passing the `RequestId` request header and observe that Nano uses it and returns the same value in the response. 
-If no `RequestId` header is provided, Nano automatically generates one and returns it in the response.
+Try passing the `X-Request-Id` request header and observe that Nano uses it and returns the same value in the response. 
+If no `X-Request-Id` header is provided, Nano automatically generates one and returns it in the response.
 
 The following endpoint is available for testing.  
 
