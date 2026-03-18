@@ -33,6 +33,7 @@ A webhook is configured for health-check that will trigger if the application be
 > 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Apihealth-checks)**.
 
 ## Configuration
+
 ```json
 "App": {
   "HealthCheck": {

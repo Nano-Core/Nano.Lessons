@@ -90,7 +90,7 @@ Configured the application with the necessary data setup.
 }
 ```
 
-...and `appsettings.Development.json`
+...and `appsettings.Development.json`.  
 
 ```json
 "Data": {

@@ -1,0 +1,17 @@
+services:
+  api.authentication.rootlogin:
+    image: api.authentication.rootlogin
+    hostname: api-authentication-rootlogin
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Authentication.RootLogin
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge
