@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.Identity.Migrations
+namespace Api.Data.Identity.Authentication.Jwt.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -457,12 +457,6 @@ namespace Api.Data.Identity.Migrations
                 name: "IX___EFIdentityUserRefreshToken_ExpireAt",
                 table: "__EFIdentityUserRefreshToken",
                 column: "ExpireAt");
-
-            migrationBuilder.CreateIndex(
-                name: "UX___EFIdentityUserRefreshToken_IdentityUserId",
-                table: "__EFIdentityUserRefreshToken",
-                column: "IdentityUserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UX___EFIdentityUserRefreshToken_IdentityUserId_AppId",

@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.Data.Identity.Authentication.Jwt
-  IMAGE_NAME: api.data.identity.authentication.jwt
-  SERVICE_NAME: api-data-identity.authentication.jwt
+  APP_NAME: Api.Authentication.External.Direct
+  IMAGE_NAME: api.authentication.external.direct
+  SERVICE_NAME: api-authentication-external-direct
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
@@ -33,14 +33,6 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
-  MYSQL_DATABASE_NAME: nanoDb
-  MYSQL_DATABASE_USER: api-data-mysql-user
-  MYSQL_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_HOST || secrets.STAGING_MYSQL_HOST }}
-  MYSQL_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_NANO_DB_PASSWORD || secrets.STAGING_MYSQL_NANO_DB_PASSWORD }}
-  MYSQL_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_USER || secrets.STAGING_MYSQL_ADMIN_USER }}
-  MYSQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_PASSWORD || secrets.STAGING_MYSQL_ADMIN_PASSWORD }}
-  MYSQL_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_DATABASE_USER }};Pwd=${{ env.MYSQL_SERVICE_PASSWORD }};SslMode=Preferred;
-  MYSQL_MIGRATION_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_ADMIN_USER }};Pwd=${{ env.MYSQL_ADMIN_PASSWORD }};SslMode=Preferred;
   AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
   AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
@@ -126,41 +118,9 @@ jobs:
               throw "error";
           };  
 
-      - name: Database Migration
-        shell: pwsh
-        run: |
-          dotnet ef database update `
-            --no-build `
-            --startup-project $env:APP_NAME `
-            --connection "$env:MYSQL_MIGRATION_CONNECTIONSTRING";
-
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-          
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
-
-          $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:MYSQL_DATABASE_USER');" $env:MYSQL_MIGRATION_CONNECTIONSTRING
-
-          if ($userExists -eq 0) 
-          {
-              mysql --connect-expired-password -e " `
-                  CREATE USER '$env:MYSQL_DATABASE_USER'@'%' IDENTIFIED BY '$env:MYSQL_PASSWORD'; `
-                  GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:MYSQL_DATABASE_USER'@'%'; `
-                  FLUSH PRIVILEGES;" $env:MYSQL_MIGRATION_CONNECTIONSTRING
-          }
-
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          sudo kubectl create secret generic $env:SERVICE_NAME-secret ` --from-literal=data-connectionstring=$env:MYSQL_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           sudo kubectl create secret generic auth-jwt-secret --from-literal=jwt-public-key=$env:AUTH_JWT_PUBLIC_KEY --from-literal=jwt-private-key=$env:AUTH_JWT_PRIVATE_KEY --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
           if ($LastExitCode -ne 0)
           { 

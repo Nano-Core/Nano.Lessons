@@ -33,6 +33,8 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
+  AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
+  AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -119,7 +121,13 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-         Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
+          sudo kubectl create secret generic auth-jwt-secret --from-literal=jwt-public-key=$env:AUTH_JWT_PUBLIC_KEY --from-literal=jwt-private-key=$env:AUTH_JWT_PRIVATE_KEY --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+          Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 

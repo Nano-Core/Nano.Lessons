@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.Data.Identity.Authentication.Jwt
-  IMAGE_NAME: api.data.identity.authentication.jwt
-  SERVICE_NAME: api-data-identity.authentication.jwt
+  APP_NAME: Api.Data.Identity.Authentication.External.Direct
+  IMAGE_NAME: api.data.identity.authentication.external.direct
+  SERVICE_NAME: api-data-identity.authentication.external.direct
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0

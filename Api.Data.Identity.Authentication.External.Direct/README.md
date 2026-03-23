@@ -1,4 +1,4 @@
-﻿# Api.Data.Identity.Authentication.Jwt
+﻿# Api.Data.Identity.Authentication.External.Direct
 
 > _Nano API application with data identity jwt authentication._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
@@ -17,10 +17,24 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Api.Data.Identity](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.Identity)** and adds a derived `AuthController`.     
+This application builds on **[Api.Data.Identity.Authentication.Jwt](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.Identity.Authentication.Jwt)**.  
 
-Nothing else has changed for this example. The derived `AuthController` enables the identity users in the application to use the three endpoints inherited from 
-the `BaseAuthController`.  
+An authentication handler has been added, and registerd in the authentication builder in `ConfigureServices(...)` in `program.cs`. JWT is still configured and serves as 
+the primary authentication, but now and external direct authentication method is registered as well, and will be exposed in the `/auth/external/schemes` endpoint. The actual
+authentication needs to happen separately, and afterwards passing the authenticated data to the `/auth/login/external/direct/transient` endpoint.
+
+The custom external authentication provider will always suceeed, and is just a simple implementation for showcasing.
+
+
+EXPLAIN THE ABOVE TO CHAT-GPT. I AM NOT SURE I AM DOING THIS CORRECTLY
+- schemes ???
+
+ADD POSTMAN
+
+
+
+
+
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. In this example, only the root login action is exposed.  
@@ -74,45 +88,3 @@ Configured the application with the necessary authentication setup, in addition 
   }
 }
 ```
-
-## Kubernetes
-For `Staging` and `Production` environments, a secret must be created to securely store the public and private keys, and optionally the credentials for `RootLogin` if it shoud be 
-enabled. Below demonstrates how to map the secret containing the JWT keys.  
-
-```yaml
-spec:
-  template:
-    spec:
-      containers:
-        env:
-        - name: App__Authentication__Jwt__PublicKey
-          valueFrom:
-            secretKeyRef:
-              name: auth-jwt-secret
-              key: jwt-public-key
-        - name: App__Authentication__Jwt__PrivateKey
-          valueFrom:
-            secretKeyRef:
-              name: auth-jwt-secret
-              key: jwt-private-key
-```
-
-## GitHub Action
-The secrets defined in GitHub must also be mapped for the `Staging` and `Production` environments in the `build-and-deploy.yml` workflow, as shown below.
-
-```yaml
-env:
-  AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
-  AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
-```
-
-...and created during the Kubernetes deploy step.  
-
-```yaml
-sudo kubectl create secret generic auth-jwt-secret --from-literal=jwt-public-key=$env:AUTH_JWT_PUBLIC_KEY --from-literal=jwt-private-key=$env:AUTH_JWT_PRIVATE_KEY --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
-if ($LastExitCode -ne 0)
-{ 
-    throw "error";
-};
-```
-

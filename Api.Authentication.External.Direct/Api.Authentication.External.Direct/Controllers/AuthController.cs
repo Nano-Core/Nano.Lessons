@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 using Nano.App.Api.Mvc.Authentication.Abstractions;
 
-namespace Api.Data.Identity.Authentication.Jwt.Controllers;
+namespace Api.Authentication.External.Direct.Controllers;
 
 /// <inheritdoc />
 public class AuthController(ILogger<AuthController> logger, IAuthRepository authRepository)
-    : BaseAuthController(logger, authRepository);
+    : BaseAuthController<Guid>(logger, authRepository);

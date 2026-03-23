@@ -1,6 +1,6 @@
 ﻿# Api.Authentication.RootLogin
 
-> _Nano API application with root-login authentication._  
+> _Nano API application with root login authentication._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -13,6 +13,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Table of Contents
 * [Summary](#summary)
 * [Configuration](#summary)
+* [Kubernetes](#kubernetes)
+* [GitHub Actions](#github-actions)
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
@@ -27,12 +29,17 @@ The API documentation is available at: **http://localhost:8080/docs**.
 
 > 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
 
-The following endpoint is available for testing:
+The following endpoint from the auth controller is available for testing.  
 
 | Endpoint                                           | Description                                                                                                    |
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/auth/login/root`        | Logins with the root credentials from configuration, and returns a simple `200 OK` response with a JWT token   |
-| `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful, and otherwise a `401 Unauthorized`   |
+| `http://localhost:8080/api/auth/login/root`        | Logins with the root credentials from configuration, and returns a simple `200 OK` response with a JWT token.  |
+
+Additionally, the following endpoint is available for testing authorization.  
+
+| Endpoint                                           | Description                                                                                                    |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful, and otherwise a `401 Unauthorized`.  |
 
 > 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#authentication)**.
 
@@ -47,12 +54,8 @@ Configured the application with the necessary authentication setup.
       "Audience": null,
       "PublicKey": null,
       "PrivateKey": null,
-      "Expiration": "00:60:00",
-      "RefreshExpiration": "72:00:00",
-      "RootLogin": {
-        "Username": null,
-        "Password": null
-      }
+      "Expiration": "01:00:00",
+      "RefreshExpiration": "72:00:00"
     }
   }
 }
@@ -76,4 +79,45 @@ Configured the application with the necessary authentication setup.
     }
   }
 }
+```
+
+## Kubernetes
+For `Staging` and `Production` environments, a secret must be created to securely store the public and private keys, and optionally the credentials for `RootLogin` if it shoud be 
+enabled. Below demonstrates how to map the secret containing the JWT keys.  
+
+```yaml
+spec:
+  template:
+    spec:
+      containers:
+        env:
+        - name: App__Authentication__Jwt__PublicKey
+          valueFrom:
+            secretKeyRef:
+              name: auth-jwt-secret
+              key: jwt-public-key
+        - name: App__Authentication__Jwt__PrivateKey
+          valueFrom:
+            secretKeyRef:
+              name: auth-jwt-secret
+              key: jwt-private-key
+```
+
+## GitHub Action
+The secrets defined in GitHub must also be mapped for the `Staging` and `Production` environments in the `build-and-deploy.yml` workflow, as shown below.
+
+```yaml
+env:
+  AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
+  AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
+```
+
+...and created during the Kubernetes deploy step.  
+
+```yaml
+sudo kubectl create secret generic auth-jwt-secret --from-literal=jwt-public-key=$env:AUTH_JWT_PUBLIC_KEY --from-literal=jwt-private-key=$env:AUTH_JWT_PRIVATE_KEY --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
+if ($LastExitCode -ne 0)
+{ 
+    throw "error";
+};
 ```

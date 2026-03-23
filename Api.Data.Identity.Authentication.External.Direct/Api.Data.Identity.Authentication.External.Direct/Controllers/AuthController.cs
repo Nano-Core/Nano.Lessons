@@ -2,7 +2,7 @@
 using Nano.App.Api.Controllers;
 using Nano.App.Api.Mvc.Authentication.Abstractions;
 
-namespace Api.Data.Identity.Authentication.Jwt.Controllers;
+namespace Api.Data.Identity.Authentication.External.Direct.Controllers;
 
 /// <inheritdoc />
 public class AuthController(ILogger<AuthController> logger, IAuthRepository authRepository)
