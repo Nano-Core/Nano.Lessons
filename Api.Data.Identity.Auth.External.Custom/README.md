@@ -40,6 +40,13 @@ ADD POSTMAN
 - write that if you want to intermidiate things between external authentication and signup or login or add external login, you can use authenticate method from the external auth repository and then
   do what you want and then call direct signup or other methods in the identity and auth repositories.
 
+- Maybe make a table showing which endpoints for auth and identity that is available depending on configuration
+
+- ADD NEW ENDPOINTS TO TABLES (also if we generate some)
+
+
+
+  - UPDATE BaseIdentityCOntrlller derived in for example identity example, also jwt
 
 
 

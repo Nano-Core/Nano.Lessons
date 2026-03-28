@@ -6,10 +6,10 @@ using Nano.Data.Abstractions.Identity.Authentication.Models;
 namespace Api.Data.Identity.Auth.External.Custom.Authentication;
 
 /// <inheritdoc />
-public class ExternalProviderCustomRepository : BaseAuthExternalRepository<ExternalProviderCustom>
+public class ExternalProviderCustomRepository() : BaseAuthExternalRepository<ImplicitFlow>("Custom")
 {
     /// <inheritdoc />
-    public override async Task<ExternalAuthenticationData> AuthenticateAsync(ExternalProviderCustom provider, ImplicitFlow implicitFlow, CancellationToken cancellationToken = default)
+    public override async Task<ExternalAuthenticationData> AuthenticateAsync(ImplicitFlow flow, CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
@@ -30,18 +30,15 @@ public class ExternalProviderCustomRepository : BaseAuthExternalRepository<Exter
     }
 
     /// <inheritdoc />
-    public override async Task<ExternalAuthenticationData> AuthenticateAsync(ExternalProviderCustom provider, AuthCodeFlow authCodeFlow, CancellationToken cancellationToken = default)
+    public override async Task<ExternalAuthenticationToken> AuthenticateRefreshAsync(string refreshToken, CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
-        return new ExternalAuthenticationData();
-    }
-
-    /// <inheritdoc />
-    public override async Task<ExternalAuthenticationToken> AuthenticateRefreshAsync(ExternalProviderCustom provider, string refreshToken, CancellationToken cancellationToken = default)
-    {
-        await Task.CompletedTask;
-
-        return new ExternalAuthenticationToken();
+        return new ExternalAuthenticationToken
+        {
+            Name = this.ProviderName,
+            Token = "token",
+            RefreshToken = "refresh-token"
+        };
     }
 }
