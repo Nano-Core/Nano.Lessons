@@ -9,4 +9,4 @@ namespace Api.Data.Identity.Auth.External.Custom.Controllers;
 
 /// <inheritdoc />
 public class UsersController(ILogger<UsersController> logger, IRepository repository, IIdentityRepository identityRepository)
-    : BaseIdentityController<User, UserQueryCriteria>(logger, repository, identityRepository);
+    : BaseEntityUserController<User, UserQueryCriteria>(logger, repository, identityRepository);

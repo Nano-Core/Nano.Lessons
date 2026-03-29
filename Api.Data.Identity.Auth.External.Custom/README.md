@@ -47,6 +47,7 @@ ADD POSTMAN
 
 
   - UPDATE BaseIdentityCOntrlller derived in for example identity example, also jwt
+    update all identity related lessons, the controller has changed.
 
 
 
