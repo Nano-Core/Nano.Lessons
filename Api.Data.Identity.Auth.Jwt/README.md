@@ -35,7 +35,7 @@ The following endpoint from the auth controller is available for testing:
 | -------------------------------------------------- | ---------------------------------------------------------------------- |
 | `http://localhost:8080/api/auth/login`             | Authenticates a user and returns an access token (JWT).                |
 | `http://localhost:8080/api/auth/login/refresh`     | Refreshes an existing access token.                                    |
-| `http://localhost:8080/api/auth/logout`            | Logs out the current user and clears external authentication cookies.  |
+| `http://localhost:8080/api/auth/logout`            | Logs out the current user.                                             |
 
 Additionally, the identity controller is also avaialble, and the actions can be used for testing authorization.  
 

@@ -1,6 +1,6 @@
 ﻿# Api.Auth.External.Custom
 
-> _Nano API application with root-login authentication._  
+> _Nano API application with transient custom external authentication._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -20,14 +20,11 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
+The JWT authentication scheme has been configured, and a `BaseAuthExternalRepository<TFlow>` implementation named `ExternalProviderCustomRepository`, with `Custom` as provider-name,
+has been added. As a result, additional endpoints from the `AuthController` are now exposed, as shown below.  
 
-
-
-
-
-
-
-
+The `ExternalProviderCustomRepository` always succeeds and returns static (mocked) data. It serves as a simple example of how to implement a custom external authentication 
+provider in Nano.  
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. In this example, only the root login action is exposed.  
@@ -38,9 +35,10 @@ The API documentation is available at: **http://localhost:8080/docs**.
 
 The following endpoint from the auth controller is available for testing.  
 
-| Endpoint                                           | Description                                                                                                    |
-| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/auth/login/root`        | Logins with the root credentials from configuration, and returns a simple `200 OK` response with a JWT token.  |
+| Endpoint                                                          | Description                                                                        |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/auth/external/schemes`                 | Retrieves all configured external authentication methods, e.g., Google, Facebook.  |
+| `http://localhost:8080/api/auth/login/external/custom/transient`  | Signs in a user using external custom authentication transient                     |
 
 Additionally, the following endpoint is available for testing authorization.  
 
@@ -78,11 +76,7 @@ Configured the application with the necessary authentication setup.
       "Audience": "Development.nano",
       "PublicKey": "MIIBCgKCAQEAv7iVNUS5w...",
       "PrivateKey": "MIIEowIBAAKCAQEAv7iV...",
-      "Expiration": "24:00:00",
-      "RootLogin": {
-        "Username": "admin@domain.com",
-        "Password": "abc12|+d34DadD"
-      }
+      "Expiration": "24:00:00"
     }
   }
 }
