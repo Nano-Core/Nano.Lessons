@@ -24,9 +24,7 @@ The JWT authentication scheme has been configured. Simply invoke the root login 
 the example controller endpoint.  
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
-are automatically excluded. In this example, only the root login action is exposed.  
-
-The API documentation is available at: **http://localhost:8080/docs**.  
+are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
 > 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
 

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Api.Authentication.RootLogin": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53013;http://localhost:53014"
+    }
+  }
+}
