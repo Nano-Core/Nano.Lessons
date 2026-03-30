@@ -20,7 +20,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-Simply invoke the root login endpoint and use the returned JWT token in the `Authorization` header to authenticate when calling the example controller endpoint.  
+The JWT authentication scheme has been configured. Simply invoke the root login endpoint and use the returned JWT token in the `Authorization` header to authenticate when calling 
+the example controller endpoint.  
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. In this example, only the root login action is exposed.  
