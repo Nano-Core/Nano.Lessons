@@ -19,11 +19,9 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Api.Data.Identity.Auth.Jwt](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.Identity.Auth.Jwt)**.  
 
+The service has been configured for API key authentication. Nothing else has changed.  
 
-
-
-
-
+Use the `auth/login/apikey` to authenticate and receive a JWT token, to use in subsequent requests.  
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
@@ -32,15 +30,16 @@ are automatically excluded. The API documentation is available at: **http://loca
 
 The following endpoint from the auth controller is available for testing:
 
-| Endpoint                                           | Description                                                            |
-| -------------------------------------------------- | ---------------------------------------------------------------------- |
-| `http://localhost:8080/api/auth/login`             | Authenticates a user and returns an access token (JWT).                |
-| `http://localhost:8080/api/auth/login/refresh`     | Refreshes an existing access token.                                    |
-| `http://localhost:8080/api/auth/logout`            | Logs out the current user.                                             |
+| Endpoint                                           | Description                                                                               |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `http://localhost:8080/api/auth/login/apikey`      | Authenticates the user using `X-Api-Key` header value and returns an access token (JWT).  |
+| `http://localhost:8080/api/auth/login`             | Authenticates a user and returns an access token (JWT).                                   |
+| `http://localhost:8080/api/auth/login/refresh`     | Refreshes an existing access token.                                                       |
+| `http://localhost:8080/api/auth/logout`            | Logs out the current user.                                                                |
 
 Additionally, the identity controller is also avaialble, and the actions can be used for testing authorization.  
 
-> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#authentication)**.
+> 📖 Learn more about **[Nano API Key Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#authentication)**.
 
 ## Configuration
 Configured the application with the necessary authentication setup, in addition to the existing identity and jwt configuration.  

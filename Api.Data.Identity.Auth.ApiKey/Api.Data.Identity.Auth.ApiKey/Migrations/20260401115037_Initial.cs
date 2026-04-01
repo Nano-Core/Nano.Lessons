@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.Identity.Authentication.Jwt.Migrations
+namespace Api.Data.Identity.Auth.ApiKey.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -354,6 +354,55 @@ namespace Api.Data.Identity.Authentication.Jwt.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyClaim",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ApiKeyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ClaimType = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyClaim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyClaim___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyRole",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ApiKeyId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityRole_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "__EFIdentityRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_CreatedBy",
                 table: "__EFAudit",
@@ -398,6 +447,23 @@ namespace Api.Data.Identity.Authentication.Jwt.Migrations
                 name: "IX___EFIdentityApiKey_RevokedAt",
                 table: "__EFIdentityApiKey",
                 column: "RevokedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType",
+                table: "__EFIdentityApiKeyClaim",
+                columns: new[] { "ApiKeyId", "ClaimType" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFIdentityApiKeyRole_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyRole_ApiKeyId_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                columns: new[] { "ApiKeyId", "RoleId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -490,7 +556,10 @@ namespace Api.Data.Identity.Authentication.Jwt.Migrations
                 name: "__EFDataProtectionKeys");
 
             migrationBuilder.DropTable(
-                name: "__EFIdentityApiKey");
+                name: "__EFIdentityApiKeyClaim");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKeyRole");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRoleClaim");
@@ -518,6 +587,9 @@ namespace Api.Data.Identity.Authentication.Jwt.Migrations
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKey");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRole");
