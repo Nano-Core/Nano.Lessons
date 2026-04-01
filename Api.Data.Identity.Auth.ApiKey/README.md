@@ -19,9 +19,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Api.Data.Identity.Auth.Jwt](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.Identity.Auth.Jwt)**.  
 
-The service has been configured for API key authentication. Nothing else has changed.  
+The service has been configured for API key authentication. Nothing else has changed. It demonstrates how to manage API keys in Nano, and how to use both JWT and API key 
+authentication concurrently. Use the `auth/login/apikey` to authenticate and receive a JWT token, to use in subsequent requests.  
 
-Use the `auth/login/apikey` to authenticate and receive a JWT token, to use in subsequent requests.  
+Try out the different API key identity and authentication methods.  
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  

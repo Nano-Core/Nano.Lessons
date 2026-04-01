@@ -61,7 +61,6 @@ The following eventing provider has been registered using `ConfigureServices(...
 Configured the application with the necessary eventing setup.  
 
 ```json
-"App": {
 "Eventing": {
   "Host": "rabbitmq",
   "VHost": "/",
