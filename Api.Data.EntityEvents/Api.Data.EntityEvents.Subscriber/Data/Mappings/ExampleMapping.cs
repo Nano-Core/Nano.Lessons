@@ -1,9 +1,9 @@
 ﻿using System;
-using Api.Data.EntityEvents.Models;
+using Api.Data.EntityEvents.Subscriber.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
 
-namespace Api.Data.EntityEvents.Data.Mappings;
+namespace Api.Data.EntityEvents.Subscriber.Data.Mappings;
 
 /// <summary>
 /// Example Mapping.
@@ -18,20 +18,9 @@ public class ExampleMapping : BaseEntityMapping<Example>
         base.Configure(builder);
 
         builder
-            .Property(x => x.Name)
-            .IsRequired();
+            .Property(x => x.Name);
 
         builder
             .HasIndex(x => x.Name);
-
-        builder
-            .HasOne(x => x.Navigation)
-            .WithMany(x => x.Examples)
-            .IsRequired();
-
-        builder
-            .HasOne(x => x.NavigationIncluded)
-            .WithMany(x => x.ExamplesIncluded)
-            .IsRequired();
     }
 }

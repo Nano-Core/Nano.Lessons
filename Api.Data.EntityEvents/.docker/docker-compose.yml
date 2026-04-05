@@ -14,6 +14,21 @@ services:
     networks:
       - network
 
+  # api.data.entityevents.subscriber:
+  #   image: api.data.entityevents.subscriber
+  #   hostname: api-data-entityevents.subscriber
+  #   restart: on-failure
+  #   ports:
+  #     - 8181:8181
+  #   build:
+  #     context: ../Api.Data.EntityEvents.Subscriber
+  #     dockerfile: "Dockerfile.Local"
+  #   depends_on:
+  #     - database
+  #     - eventing
+  #   networks:
+  #     - network
+
   database:
     image: mysql/mysql-server:latest
     ports:
@@ -21,11 +36,10 @@ services:
     networks:
       - network
     environment:
-      MYSQL_USER: sa
-      MYSQL_PASSWORD: myPassword_123
       MYSQL_ROOT_PASSWORD: myPassword_123
-      MYSQL_DATABASE: nanoDb
       MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   eventing: 
     image: rabbitmq:management

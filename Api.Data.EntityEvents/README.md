@@ -20,6 +20,10 @@ but any eventing provider can be used. Entity controllers have been simplified t
 
 
 
+We have setup another service in the same solution. Normally, this would be two different solutions, but for demonstrating the entity events in Nano, we need an additional 
+applicationb to receive the published entity evnets.
+
+
 
 
 > 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#entity-events)**.

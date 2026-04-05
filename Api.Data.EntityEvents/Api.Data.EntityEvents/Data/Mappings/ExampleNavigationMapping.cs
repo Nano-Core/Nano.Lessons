@@ -6,32 +6,28 @@ using Nano.Data.Mappings;
 namespace Api.Data.EntityEvents.Data.Mappings;
 
 /// <summary>
-/// Example Mapping.
+/// Example Navigation Mapping.
 /// </summary>
-public class ExampleMapping : BaseEntityMapping<Example>
+public class ExampleNavigationMapping : BaseEntityMapping<ExampleNavigation>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    public override void Configure(EntityTypeBuilder<ExampleNavigation> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         base.Configure(builder);
 
         builder
-            .Property(x => x.Name)
+            .Property(x => x.NavigationName);
+
+        builder
+            .HasMany(x => x.Examples)
+            .WithOne(x => x.Navigation)
             .IsRequired();
 
         builder
-            .HasIndex(x => x.Name);
-
-        builder
-            .HasOne(x => x.Navigation)
-            .WithMany(x => x.Examples)
-            .IsRequired();
-
-        builder
-            .HasOne(x => x.NavigationIncluded)
-            .WithMany(x => x.ExamplesIncluded)
+            .HasMany(x => x.ExamplesIncluded)
+            .WithOne(x => x.NavigationIncluded)
             .IsRequired();
     }
 }
