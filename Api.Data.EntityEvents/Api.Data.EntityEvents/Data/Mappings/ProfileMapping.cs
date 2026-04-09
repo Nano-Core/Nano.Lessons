@@ -5,20 +5,24 @@ using Nano.Data.Mappings;
 
 namespace Api.Data.EntityEvents.Data.Mappings;
 
-/// <summary>
-/// Example Parent Mapping.
-/// </summary>
-public class ExampleParentMapping : BaseEntityMapping<ExampleParent>
+/// <inheritdoc />
+public class ProfileMapping : BaseEntityMapping<Profile>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleParent> builder)
+    public override void Configure(EntityTypeBuilder<Profile> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
         base.Configure(builder);
 
         builder
-            .Property(x => x.ParentName)
+            .HasOne(x => x.Address)
+            .WithMany(x => x.Profiles)
+            .IsRequired();
+
+        builder
+            .HasMany(x => x.Customers)
+            .WithOne(x => x.Profile)
             .IsRequired();
     }
 }

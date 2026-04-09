@@ -7,9 +7,9 @@ using Nano.Data.Abstractions;
 namespace Api.Data.EntityEvents.Controllers;
 
 /// <summary>
-/// Controller with customers.
+/// Controller with profiles.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
-public class CustomersController(ILogger<CustomersController> logger, IRepository repository)
-    : BaseEntityController<Customer, DefaultQueryCriteria>(logger, repository);
+public class ProfilesController(ILogger<ProfilesController> logger, IRepository repository)
+    : BaseEntityController<Profile, DefaultQueryCriteria>(logger, repository);

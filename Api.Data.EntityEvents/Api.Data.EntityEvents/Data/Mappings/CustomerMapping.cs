@@ -5,13 +5,11 @@ using Nano.Data.Mappings;
 
 namespace Api.Data.EntityEvents.Data.Mappings;
 
-/// <summary>
-/// Example Mapping.
-/// </summary>
-public class ExampleMapping : BaseEntityMapping<Example>
+/// <inheritdoc />
+public class CustomerMapping : BaseEntityMapping<Customer>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    public override void Configure(EntityTypeBuilder<Customer> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -25,13 +23,13 @@ public class ExampleMapping : BaseEntityMapping<Example>
             .HasIndex(x => x.Name);
 
         builder
-            .HasOne(x => x.Navigation)
-            .WithMany(x => x.Examples)
+            .HasOne(x => x.Profile)
+            .WithMany(x => x.Customers)
             .IsRequired();
 
-        builder
-            .HasOne(x => x.NavigationIncluded)
-            .WithMany(x => x.ExamplesIncluded)
-            .IsRequired();
+        //builder
+        //    .HasMany(x => x.Orders)
+        //    .WithOne(x => x.Customer)
+        //    .IsRequired();
     }
 }

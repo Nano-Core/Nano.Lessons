@@ -110,11 +110,11 @@ namespace Api.Data.EntityEvents.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ExampleNavigation",
+                name: "Address",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NavigationName = table.Column<string>(type: "longtext", nullable: false)
+                    Street = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
@@ -122,16 +122,32 @@ namespace Api.Data.EntityEvents.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExampleNavigation", x => x.Id);
+                    table.PrimaryKey("PK_Address", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ExampleParent",
+                name: "Payment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ParentName = table.Column<string>(type: "longtext", nullable: false)
+                    Amount = table.Column<double>(type: "double", nullable: false),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Identitifer = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
@@ -139,7 +155,7 @@ namespace Api.Data.EntityEvents.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExampleParent", x => x.Id);
+                    table.PrimaryKey("PK_Person", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -366,33 +382,22 @@ namespace Api.Data.EntityEvents.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Example",
+                name: "Profile",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    NavigationId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NavigationIncludedId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AddressId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ParentName = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Example", x => x.Id);
+                    table.PrimaryKey("PK_Profile", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Example_ExampleNavigation_NavigationId",
-                        column: x => x.NavigationId,
-                        principalTable: "ExampleNavigation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Example_ExampleNavigation_NavigationIncludedId",
-                        column: x => x.NavigationIncludedId,
-                        principalTable: "ExampleNavigation",
+                        name: "FK_Profile_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -442,6 +447,63 @@ namespace Api.Data.EntityEvents.Migrations
                         name: "FK___EFIdentityApiKeyRole___EFIdentityRole_RoleId",
                         column: x => x.RoleId,
                         principalTable: "__EFIdentityRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProfileId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Identitifer = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customer_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ReferenceNumber = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PaymentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Order_Payment_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -581,48 +643,89 @@ namespace Api.Data.EntityEvents.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_CreatedAt",
-                table: "Example",
+                name: "IX_Address_CreatedAt",
+                table: "Address",
                 column: "CreatedAt");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_IsDeleted",
-                table: "Example",
+                name: "IX_Address_IsDeleted",
+                table: "Address",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_Name",
-                table: "Example",
+                name: "IX_Customer_CreatedAt",
+                table: "Customer",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_IsDeleted",
+                table: "Customer",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_Name",
+                table: "Customer",
                 column: "Name");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_NavigationId",
-                table: "Example",
-                column: "NavigationId");
+                name: "IX_Customer_ProfileId",
+                table: "Customer",
+                column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_NavigationIncludedId",
-                table: "Example",
-                column: "NavigationIncludedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleNavigation_CreatedAt",
-                table: "ExampleNavigation",
+                name: "IX_Order_CreatedAt",
+                table: "Order",
                 column: "CreatedAt");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExampleNavigation_IsDeleted",
-                table: "ExampleNavigation",
+                name: "IX_Order_CustomerId",
+                table: "Order",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_IsDeleted",
+                table: "Order",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExampleParent_CreatedAt",
-                table: "ExampleParent",
+                name: "UX_Order_PaymentId",
+                table: "Order",
+                column: "PaymentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payment_CreatedAt",
+                table: "Payment",
                 column: "CreatedAt");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExampleParent_IsDeleted",
-                table: "ExampleParent",
+                name: "IX_Payment_IsDeleted",
+                table: "Payment",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_CreatedAt",
+                table: "Person",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Person_IsDeleted",
+                table: "Person",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_AddressId",
+                table: "Profile",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_CreatedAt",
+                table: "Profile",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_IsDeleted",
+                table: "Profile",
                 column: "IsDeleted");
         }
 
@@ -663,10 +766,10 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityUserToken");
 
             migrationBuilder.DropTable(
-                name: "Example");
+                name: "Order");
 
             migrationBuilder.DropTable(
-                name: "ExampleParent");
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");
@@ -678,10 +781,19 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityRole");
 
             migrationBuilder.DropTable(
-                name: "ExampleNavigation");
+                name: "Customer");
+
+            migrationBuilder.DropTable(
+                name: "Payment");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityUser");
+
+            migrationBuilder.DropTable(
+                name: "Profile");
+
+            migrationBuilder.DropTable(
+                name: "Address");
         }
     }
 }

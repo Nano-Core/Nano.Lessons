@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Data.EntityEvents.Migrations
 {
     [DbContext(typeof(MySqlDbContext))]
-    [Migration("20260403123607_Initial")]
+    [Migration("20260409100355_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Api.Data.EntityEvents.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Data.EntityEvents.Models.Example", b =>
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,6 +36,40 @@ namespace Api.Data.EntityEvents.Migrations
                         .HasColumnType("datetime(6)");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<string>("Identitifer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<long>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -46,15 +80,8 @@ namespace Api.Data.EntityEvents.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<Guid>("NavigationId")
+                    b.Property<Guid>("ProfileId")
                         .HasColumnType("char(36)");
-
-                    b.Property<Guid>("NavigationIncludedId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("ParentName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -64,17 +91,119 @@ namespace Api.Data.EntityEvents.Migrations
 
                     b.HasIndex("Name");
 
-                    b.HasIndex("NavigationId");
+                    b.HasIndex("ProfileId");
 
-                    b.HasIndex("NavigationIncludedId");
-
-                    b.ToTable("Example");
+                    b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("Api.Data.EntityEvents.Models.ExampleNavigation", b =>
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ReferenceNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Order_PaymentId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("double");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Payment");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Person", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<string>("Identitifer")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Person");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Profile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AddressId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -88,47 +217,15 @@ namespace Api.Data.EntityEvents.Migrations
                         .HasColumnType("bigint")
                         .HasDefaultValue(0L);
 
-                    b.Property<string>("NavigationName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("ExampleNavigation");
-                });
-
-            modelBuilder.Entity("Api.Data.EntityEvents.Models.ExampleParent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
-
-                    b.Property<long>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasDefaultValue(0L);
-
-                    b.Property<string>("ParentName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedAt");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("ExampleParent");
+                    b.ToTable("Profile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
@@ -590,23 +687,45 @@ namespace Api.Data.EntityEvents.Migrations
                     b.ToTable("__EFIdentityUserRefreshToken", (string)null);
                 });
 
-            modelBuilder.Entity("Api.Data.EntityEvents.Models.Example", b =>
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Customer", b =>
                 {
-                    b.HasOne("Api.Data.EntityEvents.Models.ExampleNavigation", "Navigation")
-                        .WithMany("Examples")
-                        .HasForeignKey("NavigationId")
+                    b.HasOne("Api.Data.EntityEvents.Models.Profile", "Profile")
+                        .WithMany("Customers")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Api.Data.EntityEvents.Models.ExampleNavigation", "NavigationIncluded")
-                        .WithMany("ExamplesIncluded")
-                        .HasForeignKey("NavigationIncludedId")
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Order", b =>
+                {
+                    b.HasOne("Api.Data.EntityEvents.Models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Navigation");
+                    b.HasOne("Api.Data.EntityEvents.Models.Payment", "Payment")
+                        .WithOne("Order")
+                        .HasForeignKey("Api.Data.EntityEvents.Models.Order", "PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("NavigationIncluded");
+                    b.Navigation("Customer");
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Profile", b =>
+                {
+                    b.HasOne("Api.Data.EntityEvents.Models.Address", "Address")
+                        .WithMany("Profiles")
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -734,11 +853,24 @@ namespace Api.Data.EntityEvents.Migrations
                     b.Navigation("IdentityUser");
                 });
 
-            modelBuilder.Entity("Api.Data.EntityEvents.Models.ExampleNavigation", b =>
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Address", b =>
                 {
-                    b.Navigation("Examples");
+                    b.Navigation("Profiles");
+                });
 
-                    b.Navigation("ExamplesIncluded");
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Payment", b =>
+                {
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Profile", b =>
+                {
+                    b.Navigation("Customers");
                 });
 
             modelBuilder.Entity("Nano.Data.Abstractions.Models.AuditEntry<System.Guid>", b =>
