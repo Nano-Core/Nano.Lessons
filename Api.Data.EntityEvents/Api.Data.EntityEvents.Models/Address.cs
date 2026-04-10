@@ -16,8 +16,7 @@ public class Address : BaseEntity
     public virtual string Street { get; set; } = null!;
 
     /// <summary>
-    /// Profiles.
+    /// Profile.
     /// </summary>
-    [Required]
-    public virtual ICollection<Profile> Profiles { get; set; } = [];
+    public virtual Profile? Profile { get; set; }
 }

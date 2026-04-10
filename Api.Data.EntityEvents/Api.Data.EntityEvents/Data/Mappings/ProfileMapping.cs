@@ -17,12 +17,17 @@ public class ProfileMapping : BaseEntityMapping<Profile>
 
         builder
             .HasOne(x => x.Address)
-            .WithMany(x => x.Profiles)
+            .WithOne(x => x.Profile)
             .IsRequired();
 
         builder
             .HasMany(x => x.Customers)
             .WithOne(x => x.Profile)
+            .IsRequired();
+
+        builder
+            .OwnsOne(x => x.Settings)
+            .Property(x => x.UseDarkMode)
             .IsRequired();
     }
 }

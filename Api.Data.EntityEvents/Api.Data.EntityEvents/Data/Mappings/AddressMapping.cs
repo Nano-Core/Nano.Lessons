@@ -20,7 +20,7 @@ public class AddressMapping : BaseEntityMapping<Address>
             .IsRequired();
 
         builder
-            .HasMany(x => x.Profiles)
+            .HasOne(x => x.Profile)
             .WithOne(x => x.Address)
             .IsRequired();
     }

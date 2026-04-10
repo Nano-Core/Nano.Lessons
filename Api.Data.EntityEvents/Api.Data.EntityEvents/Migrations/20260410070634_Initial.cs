@@ -127,22 +127,6 @@ namespace Api.Data.EntityEvents.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Payment",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Amount = table.Column<double>(type: "double", nullable: false),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Person",
                 columns: table => new
                 {
@@ -387,6 +371,7 @@ namespace Api.Data.EntityEvents.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     AddressId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Settings_UseDarkMode = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
@@ -473,37 +458,6 @@ namespace Api.Data.EntityEvents.Migrations
                         name: "FK_Customer_Profile_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "Profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Order",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    ReferenceNumber = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PaymentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Order_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_Payment_PaymentId",
-                        column: x => x.PaymentId,
-                        principalTable: "Payment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -673,37 +627,6 @@ namespace Api.Data.EntityEvents.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CreatedAt",
-                table: "Order",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_CustomerId",
-                table: "Order",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Order_IsDeleted",
-                table: "Order",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "UX_Order_PaymentId",
-                table: "Order",
-                column: "PaymentId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payment_CreatedAt",
-                table: "Payment",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Payment_IsDeleted",
-                table: "Payment",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Person_CreatedAt",
                 table: "Person",
                 column: "CreatedAt");
@@ -714,11 +637,6 @@ namespace Api.Data.EntityEvents.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profile_AddressId",
-                table: "Profile",
-                column: "AddressId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Profile_CreatedAt",
                 table: "Profile",
                 column: "CreatedAt");
@@ -727,6 +645,12 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "IX_Profile_IsDeleted",
                 table: "Profile",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "UX_Profile_AddressId",
+                table: "Profile",
+                column: "AddressId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -766,7 +690,7 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityUserToken");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "Person");
@@ -781,16 +705,10 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityRole");
 
             migrationBuilder.DropTable(
-                name: "Customer");
-
-            migrationBuilder.DropTable(
-                name: "Payment");
+                name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityUser");
-
-            migrationBuilder.DropTable(
-                name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "Address");

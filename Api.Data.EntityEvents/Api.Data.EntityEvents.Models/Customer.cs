@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Api.Data.EntityEvents.Models.Owned;
 using Nano.Data.Abstractions.Annotations;
 using Nano.Data.Abstractions.Eventing.Annotations;
 
@@ -13,6 +14,7 @@ namespace Api.Data.EntityEvents.Models;
     nameof(Name),
     nameof(ProfileId),
     $"{nameof(Profile)}.{nameof(Profile.AddressId)}",
+    $"{nameof(Profile)}.{nameof(Profile.Settings)}.{nameof(ProfileSettings.UseDarkMode)}",
     $"{nameof(Profile)}.{nameof(Profile.Address)}.{nameof(Address.Street)}")]
 public class Customer : Person
 {
