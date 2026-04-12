@@ -35,9 +35,9 @@ public class Customer : Person
     [Include]
     public virtual Profile? Profile { get; set; }
 
-    ///// <summary>
-    ///// Profile.
-    ///// </summary>
-    //[Required]
-    //public virtual ICollection<Order> Orders { get; set; } = [];
+    /// <summary>
+    /// Profile.
+    /// </summary>
+    [Required]
+    public virtual ICollection<Order> Orders { get; set; } = [];
 }

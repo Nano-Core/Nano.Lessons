@@ -16,18 +16,26 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate entity events. Additionally, eventing has been enabled mirroring the setup from **[Api.Eventing.RabbityMq](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Eventing.RabbityMq)**,
-but any eventing provider can be used. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
+but any eventing provider can be used. New entity controllers have been added for use with showcasing entity events.  
 
-We have setup another service in the same solution. Normally, this would be two different solutions, but for demonstrating the entity events in Nano, we need an additional 
-applicationb to receive the published entity evnets.
+An additional application has been added to the solution. In a typical architecture, this application would be placed in a separate solution. However, for the purpose of demonstrating 
+entity events in Nano, it has been included within the same solution. This setup allows the second application to receive and handle the published entity events from the first application, 
+enabling a complete end-to-end event flow for demonstration purposes.  
 
-The main application contains models to demonstrate different aspects of entity eventing.  
-The `Example` entity contains several foreign key references to `ExampleNavigation`, one required and not part of the publish properties, one nullable and with `NavigationName` 
-as part of publish properties, and one included using `Include` attribute. The first shows that when the navigation is not part of the publish properties, the reference won't 
-be loaded during add, update and delete. The second shows that when a nullable navigations is `null` then all publish properties from that navigation will be null as well. The last
-shows that when an update is issued over nested navigations, that Nano hydrates that.
+A set of entities has been introduced to demonstrate the eventing behavior. The core structure consists of a `Customer` entity that derives from `Person`. A `Customer` contains 
+a `Profile`, which in turn contains an `Address`. In addition, the `Customer` has a collection of `Order` entities, and the `Profile` includes an owned navigation property. The full 
+entity relationships can be inspected directly in the codebase.  
 
+Also an `OnInserting` and `OnUpdating` trigger has been mapped for `Customer`, to show how the entity events will get the updated value.  
 
+> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#triggers)**.
 
+Both `Person` and `Customer` are annotated with the `PublishAttribute`, and define property names that determine which fields should trigger publish events on added, modified, 
+and deleted actions. Several controllers have also been added to support these entities, enabling various create, update, and delete operations to trigger `Customer` entity events. When 
+a `Customer` is added, modified, or deleted directly, an event is published. However, changes to dependent navigation properties will also result in a `Modified` event being published 
+for the `Customer`.  
+
+It is also important to note that `Customer` inherits publishable property definitions from `Person`. To ensure all property names defined across the entire inheritance hierarchy are 
+included, Nano aggregates the `PublishAttribute` metadata and hydrates entities both forward (for direct changes) and in reverse (via foreign key relationships) to capture deferred changes.
 
 > 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#entity-events)**.

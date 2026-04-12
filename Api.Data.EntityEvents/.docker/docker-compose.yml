@@ -14,20 +14,20 @@ services:
     networks:
       - network
 
-  # api.data.entityevents.subscriber:
-  #   image: api.data.entityevents.subscriber
-  #   hostname: api-data-entityevents.subscriber
-  #   restart: on-failure
-  #   ports:
-  #     - 8181:8181
-  #   build:
-  #     context: ../Api.Data.EntityEvents.Subscriber
-  #     dockerfile: "Dockerfile.Local"
-  #   depends_on:
-  #     - database
-  #     - eventing
-  #   networks:
-  #     - network
+  api.data.entityevents.subscriber:
+    image: api.data.entityevents.subscriber
+    hostname: api-data-entityevents.subscriber
+    restart: on-failure
+    ports:
+      - 8181:8181
+    build:
+      context: ../Api.Data.EntityEvents.Subscriber
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+      - eventing
+    networks:
+      - network
 
   database:
     image: mysql/mysql-server:latest

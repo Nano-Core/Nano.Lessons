@@ -21,7 +21,6 @@ public class AddressMapping : BaseEntityMapping<Address>
 
         builder
             .HasOne(x => x.Profile)
-            .WithOne(x => x.Address)
-            .IsRequired();
+            .WithOne(x => x.Address);
     }
 }

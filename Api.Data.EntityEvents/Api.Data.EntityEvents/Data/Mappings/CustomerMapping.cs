@@ -2,6 +2,7 @@
 using Api.Data.EntityEvents.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nano.Data.Mappings;
+using Nano.Data.Mappings.Extensions;
 
 namespace Api.Data.EntityEvents.Data.Mappings;
 
@@ -27,9 +28,21 @@ public class CustomerMapping : BaseEntityMapping<Customer>
             .WithMany(x => x.Customers)
             .IsRequired();
 
-        //builder
-        //    .HasMany(x => x.Orders)
-        //    .WithOne(x => x.Customer)
-        //    .IsRequired();
+        builder
+            .HasMany(x => x.Orders)
+            .WithOne(x => x.Customer)
+            .IsRequired();
+
+        builder
+            .OnInserting(x =>
+            {
+                x.Entity.Name += "-triggred";
+            });
+
+        builder
+            .OnUpdating(x =>
+            {
+                x.Entity.Name += "-triggred";
+            });
     }
 }

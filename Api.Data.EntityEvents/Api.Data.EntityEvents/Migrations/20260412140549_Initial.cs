@@ -370,7 +370,7 @@ namespace Api.Data.EntityEvents.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AddressId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AddressId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Settings_UseDarkMode = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
@@ -383,8 +383,7 @@ namespace Api.Data.EntityEvents.Migrations
                         name: "FK_Profile_Address_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -458,6 +457,28 @@ namespace Api.Data.EntityEvents.Migrations
                         name: "FK_Customer_Profile_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Order",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CustomerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Order_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -627,6 +648,21 @@ namespace Api.Data.EntityEvents.Migrations
                 column: "ProfileId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Order_CreatedAt",
+                table: "Order",
+                column: "CreatedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_CustomerId",
+                table: "Order",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_IsDeleted",
+                table: "Order",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Person_CreatedAt",
                 table: "Person",
                 column: "CreatedAt");
@@ -690,7 +726,7 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityUserToken");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Person");
@@ -705,10 +741,13 @@ namespace Api.Data.EntityEvents.Migrations
                 name: "__EFIdentityRole");
 
             migrationBuilder.DropTable(
-                name: "Profile");
+                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityUser");
+
+            migrationBuilder.DropTable(
+                name: "Profile");
 
             migrationBuilder.DropTable(
                 name: "Address");

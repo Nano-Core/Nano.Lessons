@@ -17,8 +17,7 @@ public class ProfileMapping : BaseEntityMapping<Profile>
 
         builder
             .HasOne(x => x.Address)
-            .WithOne(x => x.Profile)
-            .IsRequired();
+            .WithOne(x => x.Profile);
 
         builder
             .HasMany(x => x.Customers)

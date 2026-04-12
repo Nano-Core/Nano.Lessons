@@ -14,8 +14,7 @@ public class Profile : BaseEntity
     /// <summary>
     /// Address Id.
     /// </summary>
-    [Required]
-    public virtual Guid AddressId { get; set; }
+    public virtual Guid? AddressId { get; set; }
 
     /// <summary>
     /// Address.

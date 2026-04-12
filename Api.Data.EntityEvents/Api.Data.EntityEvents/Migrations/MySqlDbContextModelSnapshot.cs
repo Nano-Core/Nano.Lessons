@@ -93,6 +93,37 @@ namespace Api.Data.EntityEvents.Migrations
                     b.ToTable("Customer");
                 });
 
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("Api.Data.EntityEvents.Models.Person", b =>
                 {
                     b.Property<Guid>("Id")
@@ -129,7 +160,7 @@ namespace Api.Data.EntityEvents.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -626,13 +657,22 @@ namespace Api.Data.EntityEvents.Migrations
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Order", b =>
+                {
+                    b.HasOne("Api.Data.EntityEvents.Models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Api.Data.EntityEvents.Models.Profile", b =>
                 {
                     b.HasOne("Api.Data.EntityEvents.Models.Address", "Address")
                         .WithOne("Profile")
-                        .HasForeignKey("Api.Data.EntityEvents.Models.Profile", "AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Api.Data.EntityEvents.Models.Profile", "AddressId");
 
                     b.OwnsOne("Api.Data.EntityEvents.Models.Owned.ProfileSettings", "Settings", b1 =>
                         {
@@ -783,8 +823,12 @@ namespace Api.Data.EntityEvents.Migrations
 
             modelBuilder.Entity("Api.Data.EntityEvents.Models.Address", b =>
                 {
-                    b.Navigation("Profile")
-                        .IsRequired();
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Api.Data.EntityEvents.Models.Customer", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Api.Data.EntityEvents.Models.Profile", b =>
