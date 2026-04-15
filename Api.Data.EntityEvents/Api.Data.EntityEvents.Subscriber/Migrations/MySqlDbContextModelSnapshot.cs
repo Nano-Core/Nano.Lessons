@@ -28,7 +28,7 @@ namespace Api.Data.EntityEvents.Subscriber.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AddressId")
+                    b.Property<Guid?>("AddressId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -54,7 +54,6 @@ namespace Api.Data.EntityEvents.Subscriber.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("UseDarkMode")

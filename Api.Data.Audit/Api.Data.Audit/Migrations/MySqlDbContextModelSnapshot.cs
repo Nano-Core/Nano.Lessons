@@ -43,13 +43,78 @@ namespace Api.Data.Audit.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<Guid?>("NavigationId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedAt");
 
                     b.HasIndex("IsDeleted");
 
+                    b.HasIndex("NavigationId");
+
                     b.ToTable("Example");
+                });
+
+            modelBuilder.Entity("Api.Data.Audit.Models.ExampleNavigation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.Property<string>("NavigationName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("ExampleNavigation");
+                });
+
+            modelBuilder.Entity("Api.Data.Audit.Models.ExampleNoAudit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<DateTimeOffset>("CreatedAt"));
+
+                    b.Property<long>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasDefaultValue(0L);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("ExampleNoAudit");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
@@ -243,6 +308,8 @@ namespace Api.Data.Audit.Migrations
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityKey");
+
                     b.HasIndex("EntityState");
 
                     b.HasIndex("EntityTypeName");
@@ -322,6 +389,54 @@ namespace Api.Data.Audit.Migrations
                     b.HasIndex("RevokedAt");
 
                     b.ToTable("__EFIdentityApiKey", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ClaimType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiKeyId", "ClaimType")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType");
+
+                    b.ToTable("__EFIdentityApiKeyClaim", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("ApiKeyId", "RoleId")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyRole_ApiKeyId_RoleId");
+
+                    b.ToTable("__EFIdentityApiKeyRole", (string)null);
                 });
 
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
@@ -454,15 +569,20 @@ namespace Api.Data.Audit.Migrations
 
                     b.HasIndex("ExpireAt");
 
-                    b.HasIndex("IdentityUserId")
-                        .IsUnique()
-                        .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId");
-
                     b.HasIndex("IdentityUserId", "AppId")
                         .IsUnique()
                         .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId_AppId");
 
                     b.ToTable("__EFIdentityUserRefreshToken", (string)null);
+                });
+
+            modelBuilder.Entity("Api.Data.Audit.Models.Example", b =>
+                {
+                    b.HasOne("Api.Data.Audit.Models.ExampleNavigation", "Navigation")
+                        .WithMany("Examples")
+                        .HasForeignKey("NavigationId");
+
+                    b.Navigation("Navigation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -538,6 +658,36 @@ namespace Api.Data.Audit.Migrations
                     b.Navigation("IdentityUser");
                 });
 
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
@@ -552,12 +702,17 @@ namespace Api.Data.Audit.Migrations
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
-                        .WithOne()
-                        .HasForeignKey("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", "IdentityUserId")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("IdentityUser");
+                });
+
+            modelBuilder.Entity("Api.Data.Audit.Models.ExampleNavigation", b =>
+                {
+                    b.Navigation("Examples");
                 });
 
             modelBuilder.Entity("Nano.Data.Abstractions.Models.AuditEntry<System.Guid>", b =>

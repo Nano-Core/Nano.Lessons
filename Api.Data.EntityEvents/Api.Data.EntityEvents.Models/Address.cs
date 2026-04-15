@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Nano.Data.Abstractions.Models;
+﻿using Nano.Data.Abstractions.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Data.EntityEvents.Models;

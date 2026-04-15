@@ -27,13 +27,12 @@ public class Customer : BaseEntity
     /// Profile Id.
     /// </summary>
     [Required]
-    public virtual Guid ProfileId { get; set; } = Guid.Empty;
+    public virtual Guid ProfileId { get; set; }
 
     /// <summary>
     /// Address Id.
     /// </summary>
-    [Required]
-    public virtual Guid AddressId { get; set; } = Guid.Empty;
+    public virtual Guid? AddressId { get; set; }
 
     /// <summary>
     /// Use Dark Mode.

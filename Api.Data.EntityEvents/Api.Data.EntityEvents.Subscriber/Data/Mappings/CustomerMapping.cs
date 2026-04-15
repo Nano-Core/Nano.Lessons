@@ -26,19 +26,16 @@ public class CustomerMapping : BaseEntityMapping<Customer>
             .IsRequired();
 
         builder
-            .Property(x => x.ProfileId)
-            .IsRequired();
+            .Property(x => x.ProfileId);
 
         builder
-            .Property(x => x.AddressId)
-            .IsRequired();
+            .Property(x => x.AddressId);
 
         builder
             .Property(x => x.UseDarkMode)
             .IsRequired();
 
         builder
-            .Property(x => x.Street)
-            .IsRequired();
+            .Property(x => x.Street);
     }
 }

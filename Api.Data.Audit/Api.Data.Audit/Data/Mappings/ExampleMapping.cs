@@ -22,6 +22,10 @@ public class ExampleMapping : BaseEntityMapping<Example>
             .Property(x => x.Name);
 
         builder
+            .HasOne(x => x.Navigation)
+            .WithMany(x => x.Examples);
+
+        builder
             .OnUpdating(x =>
             {
                 x.Entity.Name += "-triggered";
