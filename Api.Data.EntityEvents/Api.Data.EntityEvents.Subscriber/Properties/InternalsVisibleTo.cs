@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Tests.Api.Data.EntityEvents.Subscriber")]
+[assembly: InternalsVisibleTo("Tests.Api.Data.EntityEvents")]

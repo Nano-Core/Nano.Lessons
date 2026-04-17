@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
-		<NoWarn>NU1902; NU1903; NU5104</NoWarn>
+		<NoWarn>NU1902; NU5104</NoWarn>
 		<AssemblyVersion>10.0.0.0</AssemblyVersion>
 		<FileVersion>10.0.0.0</FileVersion>
 		<Version>10.0.0.0</Version>
@@ -31,7 +31,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	    <ProjectReference Include="..\Api.Data.MySql.Models\Api.Data.MySql.Models.csproj" />
+	    <ProjectReference Include="..\Api.ApiClient.Models\Api.ApiClient.Models.csproj" />
+	    <ProjectReference Include="..\Api.ApiClient.Service.Models\Api.ApiClient.Service.Models.csproj" />
 	</ItemGroup>
 
 </Project>
