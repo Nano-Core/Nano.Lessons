@@ -55,27 +55,28 @@ A webhook is configured for health-check that will trigger if the application be
 ```
 
 ## GitHub Actions
+Optionally, you can configure an availability check in Azure using Application Insights to continuously monitor your application's health and responsiveness.  
+
+Add the following environment variables.  
 
 ```yaml
-
+env:
+  AVAILABILITY_URI: ${{ github.ref == 'refs/heads/master' && format('https://{0}/healthz', secrets.PRODUCTION_HOST) || format('https://{0}/healthz', secrets.STAGING_HOST) }}
   AVAILABILITY_CHECK_FREQUENCY: 300
-      - name: Set Environmental Variables
-        id: set-variables
+```
+
+...and then add the `Add Availability Check` step to the action pipeline.  
+
+```yaml
+      - name: Add Availability Check
+        id: add-availability-check
         shell: pwsh
         run: |
-          if ('${{ github.ref }}' -eq 'refs/heads/master') {
-              echo "APPLICATION_INSIGHT_AVAILABILITY_URI=https://${{ secrets.PRODUCTION_HOST }}/healthz" >> $env:GITHUB_ENV;
-          }
-          else {
-              echo "APPLICATION_INSIGHT_AVAILABILITY_URI=https://${{ secrets.STAGING_HOST }}/healthz" >> $env:GITHUB_ENV;
-          }
-
-
-
           sudo az extension add -n application-insights;
 
           $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
           $env:APPLICATION_INSIGHT_ID = sudo az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
+
           if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
           {
               $env:WORKSPACE_ID = sudo az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
@@ -96,9 +97,10 @@ A webhook is configured for health-check that will trigger if the application be
               }
           };
 
-          $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME +'-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
-          $env:APPLICATION_INSIGHT_AVAILABILITY_ID = sudo az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
-          if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_AVAILABILITY_ID))
+          $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
+          $env:AVAILABILITY_ID = sudo az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
+
+          if ([string]::IsNullOrEmpty($env:AVAILABILITY_ID))
           {
               $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
               sudo az monitor app-insights web-test create `
@@ -114,7 +116,7 @@ A webhook is configured for health-check that will trigger if the application be
                   --ssl-check true `
                   --ssl-lifetime-check 30 `
                   --http-verb GET `
-                  --request-url $env:APPLICATION_INSIGHT_AVAILABILITY_URI `
+                  --request-url $env:AVAILABILITY_URI `
                   --expected-status-code 200 `
                   --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
                   --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
@@ -128,8 +130,4 @@ A webhook is configured for health-check that will trigger if the application be
           { 
               throw "error";
           };
-
-
-
-
 ``` 
