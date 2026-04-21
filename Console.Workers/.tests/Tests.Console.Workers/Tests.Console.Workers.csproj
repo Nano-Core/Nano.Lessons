@@ -4,8 +4,8 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<IsPackable>false</IsPackable>
 		<LangVersion>latest</LangVersion>
-		<NoWarn>NU1902</NoWarn>
 		<WarningsAsErrors />
+		<NoWarn />
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
