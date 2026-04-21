@@ -15,6 +15,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Table of Contents
 * [Summary](#summary)
 * [Configuration](#configuration)
+* [GitHub Actions](#gitHub-actions)
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
@@ -52,3 +53,83 @@ A webhook is configured for health-check that will trigger if the application be
   }
 }
 ```
+
+## GitHub Actions
+
+```yaml
+
+  AVAILABILITY_CHECK_FREQUENCY: 300
+      - name: Set Environmental Variables
+        id: set-variables
+        shell: pwsh
+        run: |
+          if ('${{ github.ref }}' -eq 'refs/heads/master') {
+              echo "APPLICATION_INSIGHT_AVAILABILITY_URI=https://${{ secrets.PRODUCTION_HOST }}/healthz" >> $env:GITHUB_ENV;
+          }
+          else {
+              echo "APPLICATION_INSIGHT_AVAILABILITY_URI=https://${{ secrets.STAGING_HOST }}/healthz" >> $env:GITHUB_ENV;
+          }
+
+
+
+          sudo az extension add -n application-insights;
+
+          $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
+          $env:APPLICATION_INSIGHT_ID = sudo az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
+          if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
+          {
+              $env:WORKSPACE_ID = sudo az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
+
+              if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
+              {
+                  $env:APPLICATION_INSIGHT_ID = sudo az monitor app-insights component create `
+                      -a $env:SERVICE_NAME_INSIGTHS `
+                      -l $env:AZURE_LOCATION `
+                      -g $env:AZURE_GROUP `
+                      --workspace $env:WORKSPACE_ID `
+                      --query "[id]" -o tsv;
+
+                  if ($LastExitCode -ne 0)
+                  { 
+                      throw "error";
+                  };
+              }
+          };
+
+          $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME +'-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
+          $env:APPLICATION_INSIGHT_AVAILABILITY_ID = sudo az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
+          if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_AVAILABILITY_ID))
+          {
+              $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
+              sudo az monitor app-insights web-test create `
+                  -n $env:SERVICE_NAME_AVAILABILITY `
+                  --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
+                  -g $env:AZURE_GROUP `
+                  -l $env:AZURE_LOCATION `
+                  --kind multistep `
+                  --web-test-kind standard `
+                  --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
+                  --enabled true `
+                  --retry-enabled true `
+                  --ssl-check true `
+                  --ssl-lifetime-check 30 `
+                  --http-verb GET `
+                  --request-url $env:APPLICATION_INSIGHT_AVAILABILITY_URI `
+                  --expected-status-code 200 `
+                  --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
+                  --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
+                  --locations Id='us-ca-sjc-azr' `
+                  --locations Id='us-va-ash-azr' `
+                  --locations Id='emea-gb-db3-azr' `
+                  --locations Id='emea-nl-ams-azr' `
+                  --locations Id='apac-hk-hkn-azr';
+          };
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
+
+
+
+
+``` 
