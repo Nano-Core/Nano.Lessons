@@ -24,7 +24,6 @@ that inherits from the top-level Nano `BaseController`.
 This example illustrates the use of Nano API health-checks.  
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the startup health-check JSON report.  
-Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the startup health-check in the web-based UI.  
 
 A webhook is configured for health-check that will trigger if the application becomes unhealthy.  
 
@@ -36,26 +35,19 @@ A webhook is configured for health-check that will trigger if the application be
 > 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Apihealth-checks)**.
 
 ## Configuration
+There is no configuration for HealtCheck, the section has just been added to enable the feature.  
 
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50,
-    "WebHooks": [
-      {
-        "Name": "Test",
-        "Url": "http://localhost:8080/api/examples/webhook",
-        "Payload": null
-      }
-    ]
   }
 }
 ```
 
 ## GitHub Actions
 Optionally, you can configure an availability check in Azure using Application Insights to continuously monitor your application's health and responsiveness.  
+
+> ⚠️ This requires the application to be exposed publicly from Kubernetes via an `ingress` configuration.
 
 Add the following environment variables.  
 

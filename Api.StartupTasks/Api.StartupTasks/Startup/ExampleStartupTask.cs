@@ -10,7 +10,7 @@ namespace Api.StartupTasks.Startup;
 /// Example Startup Task.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class ExampleStartupTask(ILogger logger) : BaseStartupTask(logger)
+public class ExampleStartupTask(ILogger<ExampleStartupTask> logger) : BaseStartupTask(logger)
 {
     /// <summary>
     /// Example On Start.

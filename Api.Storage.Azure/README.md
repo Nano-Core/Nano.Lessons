@@ -29,17 +29,17 @@ When running locally, files are **NOT** written to the Azure File Share. Instead
 Files are saved in `.docker/bin/`.  
 
 A storage health check is configured to target the Azure File Share, but it requires valid credentials to be provided under `Storage.Credentials`. If the 
-crednetials are omitted from the configuration, the application will still run, but the healthcheck will report `degraded`.  
+credentials are omitted from the configuration, the application will still run, but the health-check will report `degraded`.  
 
-Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the storage health-check in the web-based UI.  
+Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check JSON response.  
 
 > 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.  
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.
 
 | Endpoint                                            | Description                                                                     |
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/storage`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
+| `http://localhost:8080/api/examples/storage`        | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
 > 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
 

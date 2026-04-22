@@ -24,7 +24,7 @@ that inherits from the top-level Nano `BaseController`.
 This application demonstrates logging with NLog for a API application. Also note the `LogLevelOverrides` configuration, 
 where logs under the `Microsoft` namespace are set to `Warning`, which suppresses several informational messages during application startup.  
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                                | Description                                                                                                        |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |

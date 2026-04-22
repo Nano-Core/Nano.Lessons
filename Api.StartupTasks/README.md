@@ -37,9 +37,6 @@ The health-check configuration has just been added to observe that the `self` he
 ```json
   "App": {
     "HealthCheck": {
-      "EvaluationInterval": 2,
-      "FailureNotificationInterval": 5,
-      "MaximumHistoryEntriesPerEndpoint": 5000
     }
   }
 ````

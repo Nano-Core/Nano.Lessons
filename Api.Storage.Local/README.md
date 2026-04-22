@@ -28,7 +28,7 @@ This application demonstrates uploading a file and saving it to a locally mapped
 Files are saved in `.docker/bin/`.  
 
 Storage health-check has also been configured.  
-Open [http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui) to view the storage health-check in the web-based UI.  
+Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check in the JSON response.  
 
 The following endpoint is available for testing:
 

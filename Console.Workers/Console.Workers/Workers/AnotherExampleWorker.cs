@@ -9,7 +9,7 @@ namespace Console.Workers.Workers;
 /// Another Example Worker.
 /// </summary>
 /// <param name="logger">The <see cref="ILogger"/>.</param>
-public class AnotherExampleWorker(ILogger logger) : BaseWorker(logger)
+public class AnotherExampleWorker(ILogger<AnotherExampleWorker> logger) : BaseWorker(logger)
 {
     /// <summary>
     /// Example On Start.

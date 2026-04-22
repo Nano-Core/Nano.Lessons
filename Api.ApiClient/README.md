@@ -37,7 +37,7 @@ Configured the application with a connection to the `NanoApi`.
 ```json
 "App": {
   "Apis": {
-    "NanoApi": {
+    "NanoApiClient": {
       "Host": "localhost",
       "Root": "api",
       "Port": 8181,

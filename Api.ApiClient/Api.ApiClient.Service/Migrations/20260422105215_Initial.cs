@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Api.Data.MySql.Migrations
+namespace Api.ApiClient.Service.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -123,74 +123,6 @@ namespace Api.Data.MySql.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Example", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ExampleCreatable",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExampleCreatable", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ExampleCreatableAndEditable",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExampleCreatableAndEditable", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ExampleDeletable",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExampleDeletable", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "ExampleUpdatable",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExampleUpdatable", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -612,66 +544,6 @@ namespace Api.Data.MySql.Migrations
                 name: "IX_Example_Name",
                 table: "Example",
                 column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatable_CreatedAt",
-                table: "ExampleCreatable",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatable_IsDeleted",
-                table: "ExampleCreatable",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatable_Name",
-                table: "ExampleCreatable",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatableAndEditable_CreatedAt",
-                table: "ExampleCreatableAndEditable",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatableAndEditable_IsDeleted",
-                table: "ExampleCreatableAndEditable",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleCreatableAndEditable_Name",
-                table: "ExampleCreatableAndEditable",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleDeletable_CreatedAt",
-                table: "ExampleDeletable",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleDeletable_IsDeleted",
-                table: "ExampleDeletable",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleDeletable_Name",
-                table: "ExampleDeletable",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleUpdatable_CreatedAt",
-                table: "ExampleUpdatable",
-                column: "CreatedAt");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleUpdatable_IsDeleted",
-                table: "ExampleUpdatable",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExampleUpdatable_Name",
-                table: "ExampleUpdatable",
-                column: "Name");
         }
 
         /// <inheritdoc />
@@ -712,18 +584,6 @@ namespace Api.Data.MySql.Migrations
 
             migrationBuilder.DropTable(
                 name: "Example");
-
-            migrationBuilder.DropTable(
-                name: "ExampleCreatable");
-
-            migrationBuilder.DropTable(
-                name: "ExampleCreatableAndEditable");
-
-            migrationBuilder.DropTable(
-                name: "ExampleDeletable");
-
-            migrationBuilder.DropTable(
-                name: "ExampleUpdatable");
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");

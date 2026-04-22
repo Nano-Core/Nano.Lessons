@@ -33,7 +33,7 @@ event is received.
 You can also monitor the messages via the RabbitMQ management interface: **[http://localhost:15672](http://localhost:15672)**
 
 An eventing health check is configured to target the RabbitMQ.  
-Open the health-check UI here to view the eventing status: **[http://localhost:8080/healthz-ui](http://localhost:8080/healthz-ui)**
+Open **[http://localhost:8080/healthz](http://localhost:8080/healthz-ui)** to view the health-check status in the JSON response.
 
 > 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**
 
@@ -86,9 +86,6 @@ Additionally, application health-checks have been enabled with the configuration
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50
   }
 }
 ```
