@@ -609,9 +609,10 @@ namespace Api.Data.MySql.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Example_Name",
+                name: "UX_Example_Name",
                 table: "Example",
-                column: "Name");
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExampleCreatable_CreatedAt",

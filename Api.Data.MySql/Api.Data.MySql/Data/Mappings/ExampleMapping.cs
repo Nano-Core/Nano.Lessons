@@ -21,6 +21,7 @@ public class ExampleMapping : BaseEntityMapping<Example>
             .Property(x => x.Name);
 
         builder
-            .HasIndex(x => x.Name);
+            .HasIndex(x => x.Name)
+            .IsUnique();
     }
 }
