@@ -1,0 +1,29 @@
+services:
+  api.apiclients:
+    image: api.apiclients
+    hostname: api-apiclients
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.ApiClients
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+  api.apiclients.service:
+    image: api.apiclients.service
+    hostname: api-apiclients-service
+    restart: on-failure
+    ports:
+      - 8181:8181
+    build:
+      context: ../Api.ApiClients.Service
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge
