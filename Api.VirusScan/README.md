@@ -23,6 +23,11 @@ that inherits from the top-level Nano `BaseController`.
 
 This example demonstrates using virus scan for all uploaded files in a Nano application.  
 
+An virus scan health check is configured.  
+Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.  
+
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**
+
 Invoke the endpoint. To test virus detection, you can use the EICAR test files 
 available here: [https://www.eicar.org/download-anti-malware-testfile](https://www.eicar.org/download-anti-malware-testfile).  
 

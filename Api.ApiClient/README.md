@@ -27,6 +27,8 @@ the inner application.
 Also root login has been enabled for the application, to try out usingn the root login when connecting one application to another.
 Last, health-checks for the api-client has also been configured for the application.
 
+A health check is configured to target the application of the api-client.  
+Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.
 
 
 > 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#api-clients)**.
@@ -43,10 +45,6 @@ Configured the application with a connection to the `NanoApi`.
       "Port": 8181,
       "UseSsl": false,
       "Timeout": "00:00:30",
-      "LogInRoot": {
-        "Username": "username",
-        "Password": "password"
-      },
       "HealthCheck": {
         "UnhealthyStatus": "Unhealthy"
       }

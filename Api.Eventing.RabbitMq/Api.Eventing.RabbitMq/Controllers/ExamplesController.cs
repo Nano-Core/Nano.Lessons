@@ -48,10 +48,10 @@ public class ExamplesController(ILogger<ExamplesController> logger, IEventing ev
     public virtual async Task<IActionResult> EventingRoutingKeyAsync(CancellationToken cancellationToken = default)
     {
         await eventing
-            .PublishAsync(new EventModel
+            .PublishAsync(new EventModelRoutingKey
             {
                 Text = "Testing eventing"
-            }, cancellationToken: cancellationToken);
+            }, "routing-key", cancellationToken);
 
         return this.Ok("eventing-routing-key");
     }

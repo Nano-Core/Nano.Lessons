@@ -28,62 +28,38 @@ public class ExamplesController(ILogger<ExamplesController> logger, NanoApiClien
     private readonly NanoApiClient nanoApiClient = nanoApiClient ?? throw new ArgumentNullException(nameof(nanoApiClient));
 
 
-    ///// <summary>
-    ///// Custom Action.
-    ///// </summary>
-    ///// <param name="cancellationToken">The cancellation token.</param>
-    ///// <returns>A message.</returns>
-    ///// <response code="200">Success.</response>
-    //[HttpGet]
-    //[Route("custom")]
-    //[ProducesResponseType((int)HttpStatusCode.OK)]
-    //public virtual async Task<IActionResult> CustomAsync(CancellationToken cancellationToken = default)
-    //{
-    //    await this.nanoApiClient.Entity
-    //        .IndexAsync<Example>(new IndexRequest(), cancellationToken);
+    #region Read
 
-    //    return this.Ok("custom");
-    //}
+    /// <summary>
+    /// Gets all entities matching the specified query.
+    /// </summary>
+    /// <param name="query">The query used to filter entities.</param>
+    /// <param name="includeDepth">Optional include depth for related entities.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A collection of entities matching the query.</returns>
+    /// <response code="200">Entities retrieved successfully.</response>
+    /// <response code="400">Invalid query parameters.</response>
+    /// <response code="401">Unauthorized access.</response>
+    /// <response code="404">No entities found.</response>
+    /// <response code="500">Internal server error.</response>
+    [HttpGet]
+    [Route(ActionRoutes.INDEX)]
+    [Produces(HttpContentType.JSON)]
+    [ProducesResponseType(typeof(IEnumerable<IEntity>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public virtual async Task<IActionResult> IndexAsync([FromQuery][Required] IQuery query, [FromQuery] int? includeDepth, CancellationToken cancellationToken = default)
+    {
+        var examples = await this.nanoApiClient.Entity
+            .IndexAsync<Example>(new IndexRequest
+            {
+                IncludeDepth = includeDepth
+            }, cancellationToken);
 
-    //#region Read
-
-    ///// <summary>
-    ///// Gets all entities matching the specified query.
-    ///// </summary>
-    ///// <param name="query">The query used to filter entities.</param>
-    ///// <param name="includeDepth">Optional include depth for related entities.</param>
-    ///// <param name="cancellationToken">The cancellation token.</param>
-    ///// <returns>A collection of entities matching the query.</returns>
-    ///// <response code="200">Entities retrieved successfully.</response>
-    ///// <response code="400">Invalid query parameters.</response>
-    ///// <response code="401">Unauthorized access.</response>
-    ///// <response code="404">No entities found.</response>
-    ///// <response code="500">Internal server error.</response>
-    //[HttpGet]
-    //[Route(ActionRoutes.INDEX)]
-    //[Produces(HttpContentType.JSON)]
-    //[ProducesResponseType(typeof(IEnumerable<IEntity>), (int)HttpStatusCode.OK)]
-    //[ProducesResponseType((int)HttpStatusCode.NotFound)]
-    //[ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    //[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    //public virtual async Task<IActionResult> IndexAsync([FromQuery][Required] IQuery query, [FromQuery] int? includeDepth, CancellationToken cancellationToken = default)
-    //{
-    //    IEnumerable<TEntity> results;
-
-    //    if (includeDepth.HasValue)
-    //    {
-    //        results = await this.Repository
-    //            .GetManyAsync<TEntity>(query, includeDepth.Value, cancellationToken);
-    //    }
-    //    else
-    //    {
-    //        results = await this.Repository
-    //            .GetManyAsync<TEntity>(query, cancellationToken);
-    //    }
-
-    //    return this.Ok(results);
-    //}
+        return this.Ok(examples);
+    }
 
     ///// <summary>
     ///// Gets a single entity by its identifier.
@@ -278,7 +254,7 @@ public class ExamplesController(ILogger<ExamplesController> logger, NanoApiClien
     //    return this.Ok(result);
     //}
 
-    //#endregion
+    #endregion
 
 
     //#region Create

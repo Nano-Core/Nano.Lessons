@@ -7,10 +7,15 @@ using Nano.Eventing.Abstractions;
 namespace Api.Eventing.RabbitMq.Eventing;
 
 /// <inheritdoc />
-public class EventingHandlerRoutingKey() : BaseEventHandler<EventModel>("routing-key")
+public class EventingHandlerRoutingKey : BaseEventHandler<EventModelRoutingKey>
 {
+    /// <summary>
+    /// Routing Key.
+    /// </summary>
+    public static string RoutingKey => "routing-key";
+
     /// <inheritdoc />
-    public override async Task CallbackAsync(EventModel @event, bool isRedelivered, CancellationToken cancellationToken = default)
+    public override async Task CallbackAsync(EventModelRoutingKey @event, bool isRedelivered, CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask;
 
