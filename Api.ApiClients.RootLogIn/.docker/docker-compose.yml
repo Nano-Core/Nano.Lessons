@@ -1,0 +1,29 @@
+services:
+  api.apiclients.rootlogin:
+    image: api.apiclients.rootlogin
+    hostname: api-apiclients-rootlogin
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.ApiClients.RootLogIn
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+  api.apiclients.rootlogin.service:
+    image: api.apiclients.rootlogin.service
+    hostname: api-apiclients-rootlogin-service
+    restart: on-failure
+    ports:
+      - 8181:8181
+    build:
+      context: ../Api.ApiClients.RootLogIn.Service
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

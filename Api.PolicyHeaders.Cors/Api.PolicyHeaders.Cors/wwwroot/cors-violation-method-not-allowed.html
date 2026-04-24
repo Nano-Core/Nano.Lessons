@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CORS Method Violation</title>
+</head>
+<body>
+    <h1>CORS Method Violation</h1>
+
+    <script>
+        fetch("http://localhost:8080/api/test", {
+            method: "PUT"
+        })
+        .then(r => r.text())
+        .then(console.log)
+        .catch(err => console.error("Blocked:", err));
+    </script>
+</body>
+</html>

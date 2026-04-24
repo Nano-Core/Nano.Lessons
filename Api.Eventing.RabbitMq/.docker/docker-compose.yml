@@ -1,0 +1,34 @@
+services:
+  api.eventing.rabbitmq:
+    image: api.eventing.rabbitmq
+    hostname: api-eventing-rabbitmq
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Eventing.RabbitMq
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - eventing
+    networks:
+      - network
+
+  eventing: 
+    image: rabbitmq:management
+    hostname: rabbitmq
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15671:15671
+      - 15672:15672
+    networks:
+      - network
+    environment: 
+      RABBITMQ_DEFAULT_USER: rabbitmq_user
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_VHOST: /
+
+networks:
+  network:
+    name: network
+    driver: bridge

@@ -1,0 +1,14 @@
+services:
+  console.data.inmemory:
+    image: console.data.inmemory
+    restart: on-failure
+    build:
+      context: ../Console.Data.InMemory
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

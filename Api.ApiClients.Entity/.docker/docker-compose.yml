@@ -1,0 +1,44 @@
+services:
+  api.apiclients.entity:
+    image: api.apiclients.entity
+    hostname: api.apiclients.entity
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.ApiClients.Entity
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+  api.apiclients.entity.service:
+    image: api.apiclients.entity.service
+    hostname: api-apiclients-entity-service
+    restart: on-failure
+    ports:
+      - 8181:8181
+    build:
+      context: ../Api.ApiClients.Entity.Service
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: mysql/mysql-server:latest
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: myPassword_123
+      MYSQL_ROOT_PASSWORD: myPassword_123
+      MYSQL_DATABASE: nanoDb
+      MYSQL_ROOT_HOST: '%'
+
+networks:
+  network:
+    name: network
+    driver: bridge

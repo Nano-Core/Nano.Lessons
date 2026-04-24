@@ -1,0 +1,14 @@
+services:
+  console.exceptionhandling:
+    image: console.exceptionhandling
+    restart: on-failure
+    build:
+      context: ../Console.ExceptionHandling
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

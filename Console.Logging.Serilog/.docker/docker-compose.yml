@@ -1,0 +1,14 @@
+services:
+  console.logging.serilog:
+    image: console.logging.serilog
+    restart: on-failure
+    build:
+      context: ../Console.Logging.Serilog
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

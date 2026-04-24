@@ -1,0 +1,20 @@
+services:
+  api.policyheaders.hsts:
+    image: api.policyheaders.hsts
+    hostname: api-policyheaders-hsts
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 4443:4443
+    build:
+      context: ../Api.PolicyHeaders.Hsts
+      dockerfile: "Dockerfile.Local"
+    volumes:
+      - ../:/root/.dotnet/https
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

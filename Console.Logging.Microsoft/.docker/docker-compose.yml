@@ -1,0 +1,14 @@
+services:
+  console.logging.microsoft:
+    image: console.logging.microsoft
+    restart: on-failure
+    build:
+      context: ../Console.Logging.Microsoft
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

@@ -1,0 +1,29 @@
+services:
+  console.data.mysql:
+    image: console.data.mysql
+    restart: on-failure
+    build:
+      context: ../Console.Data.MySql
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: mysql/mysql-server:latest
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: myPassword_123
+      MYSQL_ROOT_PASSWORD: myPassword_123
+      MYSQL_DATABASE: nanoDb
+      MYSQL_ROOT_HOST: '%'
+
+networks:
+  network:
+    name: network
+    external: true

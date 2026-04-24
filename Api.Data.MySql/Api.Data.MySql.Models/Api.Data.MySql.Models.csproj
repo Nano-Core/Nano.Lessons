@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<NoWarn>NU1902; NU1903; NU5104</NoWarn>
+		<AssemblyVersion>10.0.0.0</AssemblyVersion>
+		<FileVersion>10.0.0.0</FileVersion>
+		<Version>10.0.0.0</Version>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Configurations>Debug;Release</Configurations>
+		<LangVersion>latest</LangVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<nullable>enable</nullable>
+		<License>LICENSE</License>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<WarningsAsErrors />
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IsPackable>true</IsPackable>
+		<Authors>Michael Vivet</Authors>
+		<Owners>Michael Vivet</Owners>
+		<Product>$(ProjectName)</Product>
+		<Summary>Example project demonstrating a focused aspect of the Nano Library.</Summary>
+		<Description>
+			A practical example highlighting a specific area or scenario of Nano for learning
+			and experimentation. Shows how features or patterns can be applied without
+			representing a full application or complete reference.
+		</Description>
+		<PackageReleaseNotes>
+			- Added .NET 10 support
+		</PackageReleaseNotes>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryBranch>master</RepositoryBranch>
+		<RepositoryUrl>https://github.com/Nano-Core/Nano.Examples.git</RepositoryUrl>
+		<RepositoryCommit>$(GitCommitHash)</RepositoryCommit>
+		<EmbedAllSources>true</EmbedAllSources>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageVersion>$(Version)</PackageVersion>
+		<PackageTags>nano;example;sample;framework;library;learning;showcase</PackageTags>
+		<PackageProjectUrl>https://github.com/Nano-Core/Nano.Library/$(ProjectName)</PackageProjectUrl>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='RELEASE'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\icon.png" Pack="true" Visible="false" PackagePath="" />
+		<None Include="..\README.md" Pack="true" Visible="false" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.App.Api\Nano.App.Api.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.App\Nano.App.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Common\Nano.Common.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Data.Abstractions\Nano.Data.Abstractions.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Data.MySql\Nano.Data.MySql.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Data\Nano.Data.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Eventing.Abstractions\Nano.Eventing.Abstractions.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj" />
+	    <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Abstractions\Nano.Storage.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>

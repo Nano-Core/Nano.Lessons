@@ -1,0 +1,62 @@
+services:
+  api.data.entityevents:
+    image: api.data.entityevents
+    hostname: api-data-entityevents
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Data.EntityEvents
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+      - eventing
+    networks:
+      - network
+
+  api.data.entityevents.subscriber:
+    image: api.data.entityevents.subscriber
+    hostname: api-data-entityevents.subscriber
+    restart: on-failure
+    ports:
+      - 8181:8181
+    build:
+      context: ../Api.Data.EntityEvents.Subscriber
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+      - eventing
+    networks:
+      - network
+
+  database:
+    image: mysql/mysql-server:latest
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_ROOT_PASSWORD: myPassword_123
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  eventing: 
+    image: rabbitmq:management
+    hostname: rabbitmq
+    ports:
+      - 5671:5671
+      - 5672:5672
+      - 15671:15671
+      - 15672:15672
+    networks:
+      - network
+    environment: 
+      RABBITMQ_DEFAULT_USER: rabbitmq_user
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_VHOST: /
+
+networks:
+  network:
+    name: network
+    driver: bridge

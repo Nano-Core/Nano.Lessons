@@ -1,0 +1,32 @@
+services:
+  api.data.mysql.collation:
+    image: api.data.mysql.collation
+    hostname: api-data-mysql-collation
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Data.MySql.Collation
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: mysql/mysql-server:latest
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: myPassword_123
+      MYSQL_ROOT_PASSWORD: myPassword_123
+      MYSQL_DATABASE: nanoDb
+      MYSQL_ROOT_HOST: '%'
+
+networks:
+  network:
+    name: network
+    driver: bridge

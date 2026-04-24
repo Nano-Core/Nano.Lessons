@@ -1,0 +1,14 @@
+services:
+  console.startuptasks:
+    image: console.startuptasks
+    restart: on-failure
+    build:
+      context: ../Console.StartupTasks
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true
