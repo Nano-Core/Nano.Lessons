@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)**. All custom methods have been removed and replaced 
+This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.ApiClients)**. All custom methods have been removed and replaced 
 with a new method that triggers the configured root login.
 
 The service is configured with Root Login and JWT authentication enabled, along with a concrete implementation of `BaseAuthController`. When invoking methods through the 
