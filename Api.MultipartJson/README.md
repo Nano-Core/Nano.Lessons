@@ -21,7 +21,7 @@ that inherits from the top-level Nano `BaseController`.
 
 This example simply shows uploading a file together with a JSON body. Observe the filename of the file is written to console, as well as the json body passed.  
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                             | Description                            |
 | ---------------------------------------------------- | -------------------------------------- |

@@ -34,8 +34,4 @@
 	    <ProjectReference Include="..\Api.StaticFiles.Models\Api.StaticFiles.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
-	</ItemGroup>
-
 </Project>

@@ -40,8 +40,4 @@
 	  <ProjectReference Include="..\..\..\Nano.Library\Nano.Storage.Abstractions\Nano.Storage.Abstractions.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Workers\" />
-	</ItemGroup>
-
 </Project>
