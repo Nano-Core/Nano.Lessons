@@ -24,8 +24,8 @@ API client, the automatic root login mechanism is triggered.
 
 The following endpoint is available for testing.
 
-| Endpoint                                                     | Description                            |
-| ------------------------------------------------------------ | -------------------------------------- |
+| Endpoint                                                     | Description                                                                                                     |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/auto-authenticate-root`  | Returns a `200 OK` response. Uses the API client’s automatic root login to obtain and return an access token.   |
 
 > 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#api-clients)**.
