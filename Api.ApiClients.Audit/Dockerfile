@@ -32,4 +32,4 @@ COPY --from=publish /app .
 ENV COMPlus_EnableDiagnostics=0
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 
-ENTRYPOINT ["dotnet", "Api.ApiClients.RootLogIn.dll"]
+ENTRYPOINT ["dotnet", "Api.ApiClients.Audit.dll"]

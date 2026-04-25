@@ -2,9 +2,9 @@ name: Build And Deploy
 on:
   push
 env:
-  APP_NAME: Api.ApiClients.RootLogIn
-  IMAGE_NAME: api.apiclients.rootlogin
-  SERVICE_NAME: api-apiclients-rootlogin
+  APP_NAME: Api.ApiClients.Audit
+  IMAGE_NAME: api.apiclients.audit
+  SERVICE_NAME: api-apiclients-audit
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0

@@ -1,27 +1,42 @@
 services:
-  api.apiclients.rootlogin:
-    image: api.apiclients.rootlogin
-    hostname: api-apiclients-rootlogin
+  api.apiclients.audit:
+    image: api.apiclients.audit
+    hostname: api-apiclients-audit
     restart: on-failure
     ports:
       - 8080:8080
     build:
-      context: ../Api.ApiClients.RootLogIn
+      context: ../Api.ApiClients.Audit
       dockerfile: "Dockerfile.Local"
     networks:
       - network
 
-  api.apiclients.rootlogin.service:
-    image: api.apiclients.rootlogin.service
-    hostname: api-apiclients-rootlogin-service
+  api.apiclients.audit.service:
+    image: api.apiclients.audit.service
+    hostname: api-apiclients-audit-service
     restart: on-failure
     ports:
       - 8181:8181
     build:
-      context: ../Api.ApiClients.RootLogIn.Service
+      context: ../Api.ApiClients.Audit.Service
       dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
     networks:
       - network
+
+  database:
+    image: mysql/mysql-server:latest
+    ports:
+      - 3306:3306
+    networks:
+      - network
+    environment:
+      MYSQL_USER: sa
+      MYSQL_PASSWORD: myPassword_123
+      MYSQL_ROOT_PASSWORD: myPassword_123
+      MYSQL_DATABASE: nanoDb
+      MYSQL_ROOT_HOST: '%'
 
 networks:
   network:
