@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nano.App.Api.Controllers;
 using Nano.App.Exceptions;
-using Nano.Data.Abstractions.Identity.Exceptions;
+using Nano.Data.Abstractions.Exceptions;
 using Vivet.AspNetCore.RequestVirusScan.Exceptions;
 using Vivet.AspNetCore.RequestVirusScan.Models.Enums;
 

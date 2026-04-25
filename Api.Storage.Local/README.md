@@ -67,9 +67,6 @@ Additionally, application health-checks have been enabled with the configuration
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50
   }
 }
 ```

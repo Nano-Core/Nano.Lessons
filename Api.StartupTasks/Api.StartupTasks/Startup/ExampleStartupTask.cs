@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Nano.App.Startup;
+using Nano.App.StartUp;
 
 namespace Api.StartupTasks.Startup;
 

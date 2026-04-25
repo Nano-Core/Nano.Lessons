@@ -46,6 +46,17 @@ Configured the application with the necessary storage setup.
 "Storage": {
   "ShareName": "nano-storage-azure",
   "Credentials": {
+    "Id": null,
+    "Secret": null
+  }
+}
+```
+
+...and in `appsettings.Development.json`.
+
+```json
+"Storage": {
+  "Credentials": {
     "Id": "id",
     "Secret": "secret"
   }

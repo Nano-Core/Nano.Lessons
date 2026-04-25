@@ -1,11 +1,10 @@
 services:
   api.data.sqlite:
-    image: api.data.postgresql.spatial
-    hostname: api-data-postgresql-spatial
+    image: api.data.sqlite
+    hostname: api-data-sqlite
     build:
       context: ../Api.Data.SqLite
       dockerfile: Dockerfile.Local
-    hostname: api-data-sqlite
     restart: on-failure
     ports:
       - 8080:8080

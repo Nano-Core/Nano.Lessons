@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Console.Data.PostgreSQL.Migrations
+namespace Console.Data.SqlServer.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -12,22 +11,19 @@ namespace Console.Data.PostgreSQL.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:postgis", ",,");
-
             migrationBuilder.CreateTable(
                 name: "__EFAudit",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EntitySetName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EntityTypeName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    State = table.Column<int>(type: "integer", nullable: false),
-                    StateName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    RequestId = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EntityKey = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EntitySetName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EntityTypeName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    EntityState = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    RequestId = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,10 +34,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFDataProtectionKeys",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FriendlyName = table.Column<string>(type: "text", nullable: true),
-                    Xml = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FriendlyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Xml = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,10 +48,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityRole",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,22 +62,22 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUser",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,10 +88,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "Example",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false, defaultValue: 0L),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,14 +102,14 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFAuditProperties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ParentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PropertyName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    RelationName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NewValue = table.Column<string>(type: "text", nullable: true),
-                    OldValue = table.Column<string>(type: "text", nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    RelationName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NewValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,11 +126,11 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityRoleClaim",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -151,12 +147,12 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityApiKey",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Hash = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    RevokedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdentityUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Hash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RevokedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,10 +169,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserChangeData",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    NewEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NewPhoneNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdentityUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NewPhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,11 +189,11 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserClaim",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClaimType = table.Column<string>(type: "text", nullable: true),
-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -214,10 +210,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserLogin",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,11 +230,11 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserRefreshToken",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdentityUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppId = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Value = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    ExpireAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdentityUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AppId = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    ExpireAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -255,8 +251,8 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserRole",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -279,10 +275,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFIdentityUserToken",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Value = table.Column<string>(type: "text", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -295,10 +291,65 @@ namespace Console.Data.PostgreSQL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyClaim",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApiKeyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyClaim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyClaim___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyRole",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ApiKeyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityRole_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "__EFIdentityRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_CreatedBy",
                 table: "__EFAudit",
                 column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFAudit_EntityKey",
+                table: "__EFAudit",
+                column: "EntityKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFAudit_EntityState",
+                table: "__EFAudit",
+                column: "EntityState");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_EntityTypeName",
@@ -309,11 +360,6 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "IX___EFAudit_RequestId",
                 table: "__EFAudit",
                 column: "RequestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX___EFAudit_State",
-                table: "__EFAudit",
-                column: "State");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFAuditProperties_ParentId",
@@ -336,10 +382,28 @@ namespace Console.Data.PostgreSQL.Migrations
                 column: "RevokedAt");
 
             migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType",
+                table: "__EFIdentityApiKeyClaim",
+                columns: new[] { "ApiKeyId", "ClaimType" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFIdentityApiKeyRole_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyRole_ApiKeyId_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                columns: new[] { "ApiKeyId", "RoleId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "__EFIdentityRole",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFIdentityRoleClaim_RoleId",
@@ -355,7 +419,8 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "IX___EFIdentityUser_Email",
                 table: "__EFIdentityUser",
                 column: "Email",
-                unique: true);
+                unique: true,
+                filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFIdentityUser_IsActive",
@@ -366,13 +431,15 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "IX___EFIdentityUser_PhoneNumber",
                 table: "__EFIdentityUser",
                 column: "PhoneNumber",
-                unique: true);
+                unique: true,
+                filter: "[PhoneNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "__EFIdentityUser",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "UX___EFIdentityUserChangeData_IdentityUserId",
@@ -394,12 +461,6 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "IX___EFIdentityUserRefreshToken_ExpireAt",
                 table: "__EFIdentityUserRefreshToken",
                 column: "ExpireAt");
-
-            migrationBuilder.CreateIndex(
-                name: "UX___EFIdentityUserRefreshToken_IdentityUserId",
-                table: "__EFIdentityUserRefreshToken",
-                column: "IdentityUserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UX___EFIdentityUserRefreshToken_IdentityUserId_AppId",
@@ -438,7 +499,10 @@ namespace Console.Data.PostgreSQL.Migrations
                 name: "__EFDataProtectionKeys");
 
             migrationBuilder.DropTable(
-                name: "__EFIdentityApiKey");
+                name: "__EFIdentityApiKeyClaim");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKeyRole");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRoleClaim");
@@ -466,6 +530,9 @@ namespace Console.Data.PostgreSQL.Migrations
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKey");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRole");

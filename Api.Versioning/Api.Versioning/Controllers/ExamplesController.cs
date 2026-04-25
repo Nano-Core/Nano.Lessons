@@ -4,6 +4,7 @@ using Nano.App.Api.Controllers;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Asp.Versioning;
 
 namespace Api.Versioning.Controllers;
 

@@ -20,7 +20,7 @@ public class ExternalProviderCustomRepository() : BaseAuthExternalRepository<Imp
             EmailAddress = "johndoe@domain.com",
             PhoneNumber = "+4520111112",
             Name = "John Doe",
-            ExternalToken =
+            ExternalToken = new ExternalAuthenticationToken
             {
                 Name = this.ProviderName,
                 Token = "token",

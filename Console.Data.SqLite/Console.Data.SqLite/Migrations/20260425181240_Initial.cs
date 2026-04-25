@@ -16,11 +16,11 @@ namespace Console.Data.SqLite.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CreatedBy = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    EntityKey = table.Column<Guid>(type: "TEXT", nullable: false),
                     EntitySetName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EntityTypeName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    State = table.Column<int>(type: "INTEGER", nullable: false),
-                    StateName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EntityTypeName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: false),
+                    EntityState = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 0),
                     RequestId = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     IsDeleted = table.Column<long>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
@@ -291,10 +291,65 @@ namespace Console.Data.SqLite.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyClaim",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ApiKeyId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyClaim", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyClaim___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "__EFIdentityApiKeyRole",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ApiKeyId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK___EFIdentityApiKeyRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityApiKey_ApiKeyId",
+                        column: x => x.ApiKeyId,
+                        principalTable: "__EFIdentityApiKey",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK___EFIdentityApiKeyRole___EFIdentityRole_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "__EFIdentityRole",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_CreatedBy",
                 table: "__EFAudit",
                 column: "CreatedBy");
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFAudit_EntityKey",
+                table: "__EFAudit",
+                column: "EntityKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFAudit_EntityState",
+                table: "__EFAudit",
+                column: "EntityState");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFAudit_EntityTypeName",
@@ -305,11 +360,6 @@ namespace Console.Data.SqLite.Migrations
                 name: "IX___EFAudit_RequestId",
                 table: "__EFAudit",
                 column: "RequestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX___EFAudit_State",
-                table: "__EFAudit",
-                column: "State");
 
             migrationBuilder.CreateIndex(
                 name: "IX___EFAuditProperties_ParentId",
@@ -330,6 +380,23 @@ namespace Console.Data.SqLite.Migrations
                 name: "IX___EFIdentityApiKey_RevokedAt",
                 table: "__EFIdentityApiKey",
                 column: "RevokedAt");
+
+            migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType",
+                table: "__EFIdentityApiKeyClaim",
+                columns: new[] { "ApiKeyId", "ClaimType" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX___EFIdentityApiKeyRole_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "UX___EFIdentityApiKeyRole_ApiKeyId_RoleId",
+                table: "__EFIdentityApiKeyRole",
+                columns: new[] { "ApiKeyId", "RoleId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -392,12 +459,6 @@ namespace Console.Data.SqLite.Migrations
                 column: "ExpireAt");
 
             migrationBuilder.CreateIndex(
-                name: "UX___EFIdentityUserRefreshToken_IdentityUserId",
-                table: "__EFIdentityUserRefreshToken",
-                column: "IdentityUserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "UX___EFIdentityUserRefreshToken_IdentityUserId_AppId",
                 table: "__EFIdentityUserRefreshToken",
                 columns: new[] { "IdentityUserId", "AppId" },
@@ -434,7 +495,10 @@ namespace Console.Data.SqLite.Migrations
                 name: "__EFDataProtectionKeys");
 
             migrationBuilder.DropTable(
-                name: "__EFIdentityApiKey");
+                name: "__EFIdentityApiKeyClaim");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKeyRole");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRoleClaim");
@@ -462,6 +526,9 @@ namespace Console.Data.SqLite.Migrations
 
             migrationBuilder.DropTable(
                 name: "__EFAudit");
+
+            migrationBuilder.DropTable(
+                name: "__EFIdentityApiKey");
 
             migrationBuilder.DropTable(
                 name: "__EFIdentityRole");

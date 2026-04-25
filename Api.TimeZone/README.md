@@ -38,7 +38,7 @@ The following endpoint is available for testing.
 
 | Endpoint                                                    | Description                                                                                                            |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/timezone` (GET,POST)   | Returns a `200 OK` response with various `DateTimeOffset` properties illustrating the date-time timezone conversions.  |
+| `http://localhost:8080/api/examples/timezone` (GET,POST)    | Returns a `200 OK` response with various `DateTimeOffset` properties illustrating the date-time timezone conversions.  |
 
 > 📖 Learn more about **[Nano TimeZone](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#timezone)**.
 

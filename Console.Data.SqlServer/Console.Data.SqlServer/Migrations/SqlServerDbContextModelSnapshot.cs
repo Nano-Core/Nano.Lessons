@@ -17,7 +17,7 @@ namespace Console.Data.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.11")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -212,14 +212,24 @@ namespace Console.Data.SqlServer.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<Guid>("EntityKey")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("EntitySetName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int>("EntityState")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("EntityTypeName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -230,22 +240,17 @@ namespace Console.Data.SqlServer.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StateName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityKey");
+
+                    b.HasIndex("EntityState");
+
                     b.HasIndex("EntityTypeName");
 
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("State");
 
                     b.ToTable("__EFAudit", (string)null);
                 });
@@ -320,6 +325,54 @@ namespace Console.Data.SqlServer.Migrations
                     b.HasIndex("RevokedAt");
 
                     b.ToTable("__EFIdentityApiKey", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClaimType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiKeyId", "ClaimType")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType");
+
+                    b.ToTable("__EFIdentityApiKeyClaim", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("ApiKeyId", "RoleId")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyRole_ApiKeyId_RoleId");
+
+                    b.ToTable("__EFIdentityApiKeyRole", (string)null);
                 });
 
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
@@ -455,10 +508,6 @@ namespace Console.Data.SqlServer.Migrations
 
                     b.HasIndex("ExpireAt");
 
-                    b.HasIndex("IdentityUserId")
-                        .IsUnique()
-                        .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId");
-
                     b.HasIndex("IdentityUserId", "AppId")
                         .IsUnique()
                         .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId_AppId");
@@ -539,6 +588,36 @@ namespace Console.Data.SqlServer.Migrations
                     b.Navigation("IdentityUser");
                 });
 
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
@@ -553,8 +632,8 @@ namespace Console.Data.SqlServer.Migrations
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
-                        .WithOne()
-                        .HasForeignKey("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", "IdentityUserId")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

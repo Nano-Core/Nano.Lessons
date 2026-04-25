@@ -62,8 +62,8 @@ Add the storage configuration.
 "Storage": {
   "ShareName": "nano-storage-azure",
   "Credentials": {
-    "Id": "id",
-    "Secret": "secret"
+    "Id": null,
+    "Secret": null
   },
   "HealthCheck": {
     "UnhealthyStatus": "Degraded"
@@ -71,14 +71,23 @@ Add the storage configuration.
 }
 ```
 
+..and it `appsettings.Development` we need to add the required `Credentials`.  
+
+```json
+"Storage": {
+  "Credentials": {
+    "Id": "id",
+    "Secret": "secret"
+  }
+}
+```
+
+
 Additionally, application health-checks have been enabled with the configuration.  
 
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50
   }
 }
 ```

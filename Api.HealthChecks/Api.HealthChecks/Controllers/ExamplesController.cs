@@ -51,20 +51,4 @@ public class ExamplesController(ILogger<ExamplesController> logger, HealthCheckS
                 })
         });
     }
-
-    /// <summary>
-    /// Webhook Action.
-    /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A message.</returns>
-    /// <response code="200">Success.</response>
-    [HttpPost]
-    [Route("webhook")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public virtual async Task<IActionResult> WebhookAsync(CancellationToken cancellationToken = default)
-    {
-        await Task.CompletedTask;
-
-        return this.Ok();
-    }
 }
