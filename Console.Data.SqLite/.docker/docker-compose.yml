@@ -6,7 +6,7 @@ services:
       context: ../Console.Data.SqLite
       dockerfile: "Dockerfile.Local"
     volumes:
-      - ./bin/data:/data
+      - ./bin/data:/app/bin/data
     networks:
       - network
 

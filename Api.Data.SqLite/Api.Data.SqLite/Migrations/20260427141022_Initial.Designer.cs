@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Data.SqLite.Migrations
 {
     [DbContext(typeof(SqLiteDbContext))]
-    [Migration("20260415151010_Initial")]
+    [Migration("20260427141022_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.7");
 
             modelBuilder.Entity("Api.Data.SqLite.Models.Example", b =>
                 {

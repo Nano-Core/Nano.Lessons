@@ -9,7 +9,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./bin/data:/data
+      - ./bin/data:/app/bin/data
     networks:
       - network
 

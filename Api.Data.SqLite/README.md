@@ -107,15 +107,7 @@ Added SqLite as a service dependency in `docker-compose.yml`.
 services:
   api.data.sqlite:
     volumes:
-      - ./bin/data:/data
-```
-
-Also the `Dockerfile` must have SqLite installed with spatial support. Add the following to both the `Dockerfile` and the `Dockerfile.Local`.  
-
-```dockerfile
-RUN apt-get update \
-    && apt-get install -y libsqlite3-mod-spatialite \
-    && apt-get install -y libspatialite-dev
+      - ./bin/data:/app/bin/data
 ```
 
 ## Kubernetes

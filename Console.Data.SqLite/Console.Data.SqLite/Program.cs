@@ -2,6 +2,8 @@
 using Nano.App.Console;
 using Nano.Data.Extensions;
 using Nano.Data.SqLite;
+using System;
+using System.IO;
 
 NanoConsoleApplication
     .ConfigureApp(args)

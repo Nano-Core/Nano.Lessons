@@ -9,10 +9,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:$DOTNET_ASPNET_VERSION AS base
 
 LABEL org.opencontainers.image.source=CONTAINER_REGISTRY_SOURCE_LABEL
 
-RUN apt-get update \
-    && apt-get install -y libsqlite3-mod-spatialite \
-    && apt-get install -y libspatialite-dev
-
 EXPOSE 8080
 WORKDIR /app
 
