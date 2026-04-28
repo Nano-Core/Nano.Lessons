@@ -28,12 +28,12 @@ The application is configured to audit all identity models.
 Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
 
 Not all identity actions are enabled in this example. It demonstrates identity functionality without any authentication enabled. Other lessons cover the different supported 
 authentication methods and the corresponding identity actions to manage them.  
 
-> 📖 Learn more about **[Nano Data Identity](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#identity)**.
+> 📖 Learn more about **[Nano Data Identity](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#identity)**.
 
 ## Configuration
 The data identity has been configured for the application. The `UseAudit` ahs been set to `All` in order to audit log all identity changes. Normally, you would probably be more 

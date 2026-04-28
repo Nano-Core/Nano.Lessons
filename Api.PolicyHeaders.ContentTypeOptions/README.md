@@ -27,7 +27,7 @@ served with an incorrect `.txt` content-type.
 | -------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/nosniff` | Returns a `200 OK` response including the Content-Type `nosniff` response header.  |
 
-> 📖 Learn more about **[Nano Content Type Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#content-type-options)**.
+> 📖 Learn more about **[Nano Content Type Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#content-type-options)**.
 
 ## Configuration
 ```json

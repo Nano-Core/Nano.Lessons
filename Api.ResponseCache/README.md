@@ -29,7 +29,7 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/examples/response-cache`    | Returns a `200 OK` response cached. Header: `Cache-Control=public, max-age=1200`                              |
 | `http://localhost:8080/api/examples/no-response-cache` | Returns a `200 OK` response with no cache using Header: `[ResponseCache]`. `Cache-Control=no-store,no-cache`  |
 
-> 📖 Learn more about **[Nano Response Cache](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#response-cache)**.
+> 📖 Learn more about **[Nano Response Cache](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#response-cache)**.
 
 ## Configuration
 ```json

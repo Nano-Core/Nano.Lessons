@@ -35,7 +35,7 @@ The following endpoints are available for testing:
 | `http://localhost:8080/api/examples/http`    | Redirects to HTTPS.                    |
 | `https://localhost:4443/api/examples/https`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Hosting HTTPS](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#https)**.
+> 📖 Learn more about **[Nano Hosting HTTPS](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#https)**.
 
 ## Configuration
 For `appsettings.json`, nothing has changed - HTTP is still exposed.  

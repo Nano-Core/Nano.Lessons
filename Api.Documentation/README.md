@@ -32,7 +32,7 @@ for the same example endpoint. When set to `true`, Swagger only displays the non
 | -------------------------------------------------- | -------------------- |
 | `http://localhost:8080/api/examples/documentation` | Returns a `200 OK`.  |
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.
 
 ## Configuration
 ```json

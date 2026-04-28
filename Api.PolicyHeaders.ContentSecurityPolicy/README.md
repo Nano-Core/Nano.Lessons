@@ -35,7 +35,7 @@ To observe CSP violations in action, load the provided `csp-violation.html` file
 | ---------------------------------------- | --------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/csp` | Returns a `200 OK` response including the CSP response header.  |
 
-> 📖 Learn more about **[Nano Content Security Options](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#content-type-options)**.
+> 📖 Learn more about **[Nano Content Security Options](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#content-type-options)**.
 
 ## Configuration
 Added content security policy header configuration.  

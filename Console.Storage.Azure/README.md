@@ -25,7 +25,7 @@ This application demonstrates creating a file and saving it to a mapped file sha
 When running locally, files are **NOT** written to the Azure File Share. Instead, Docker mounts a local directory to simulate the file share.  
 Files are saved in `.docker/bin/`.  
 
-> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure/README#nanostorageazure)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  

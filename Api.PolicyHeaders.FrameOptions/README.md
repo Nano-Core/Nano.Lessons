@@ -26,7 +26,7 @@ To observe X-Frame-Options enforcement, load the `frame-options-violation.html` 
 | ------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/frameoptions` | Returns a `200 OK` response including the `X-Frame-Options` response header.  |
 
-> 📖 Learn more about **[Nano Frame Options Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#frame-options)**.
+> 📖 Learn more about **[Nano Frame Options Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#frame-options)**.
 
 ## Configuration
 ```json

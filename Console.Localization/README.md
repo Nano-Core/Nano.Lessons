@@ -20,7 +20,7 @@ This application demonstrates configuring `Localization` in a Nano console appli
 
 Run the application and observe how the configured localization is used when printing out `DateTimeOffset.Now`.  
 
-> 📖 Learn more about **[Nano Console Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console#localization)**.
+> 📖 Learn more about **[Nano Console Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console/README.md#localization)**.
 
 ## Configuration
 ```json

@@ -28,7 +28,7 @@ Also try out the endpoint, and observe how CORS returns the allowed hosts, heade
 | ----------------------------------------- | ----------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/cors` | Returns a `200 OK` response including the CORS response headers.  |
 
-> 📖 Learn more about **[Nano Cors](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#cors)**.
+> 📖 Learn more about **[Nano Cors](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#cors)**.
 
 ## Configuration
 ```json 

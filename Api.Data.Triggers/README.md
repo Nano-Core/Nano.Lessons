@@ -23,4 +23,4 @@ Triggers for `OnInserting`, `OnInserted`, `OnUpdating`, `OnUpdated`, `OnDeleting
 the `Example` entity is **added** or **updated**, the `Example.UpdatedAt` property is automatically set to `UtcNow`. Additionally, for each trigger execution, an 
 `ExampleTrigger` entity is created and stored. This serves as a record demonstrating that the trigger was invoked.  
 
-> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#triggers)**.
+> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#triggers)**.

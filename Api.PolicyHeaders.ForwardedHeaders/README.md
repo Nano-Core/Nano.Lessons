@@ -27,7 +27,7 @@ which reflect the internal service values rather than the forwarded ones. The ex
 | -------------------------------------------- | ------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/nosniff` | Returns a `200 OK` response with `HttpContext` forwarded header values.  |
 
-> 📖 Learn more about **[Nano Forwarded Headers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#forwarded-headers)**.
+> 📖 Learn more about **[Nano Forwarded Headers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#forwarded-headers)**.
 
 ## Configuration
 ```json

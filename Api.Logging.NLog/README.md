@@ -31,7 +31,7 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/examples/logging`            | Returns a simple `200 OK` response. Won't log the `.LogDebug(...)` due to configuration `LogLevel=Information`.    |
 | `http://localhost:8080/api/examples/logging-exception`  | Returns a simple `500 Internal Server Error` response. The exception will be logged.                               |
 
-> 📖 Learn more about **[Nano.Logging.NLog](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.NLog)**.
+> 📖 Learn more about **[Nano.Logging.NLog](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.NLog/README.md#nanologgingnlog)**.
 
 ## Registration
 The following logging has been registered using `ConfigureServices(...)` in `program.cs`.

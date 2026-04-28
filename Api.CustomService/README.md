@@ -28,7 +28,7 @@ The following endpoint is available for testing.
 | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/custom-servuce`  | Returns a simple `200 OK` response, with a message from the `IExampleServuce`    |
 
-> 📖 Learn more about **[Nano Custom Services](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#custom-services)**.
+> 📖 Learn more about **[Nano Custom Services](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#custom-services)**.
 
 ## Registration
 A custom service, `IExampleService` has been added and implemented. In `program.cs` the service is registered using `ConfigureService(...)` method as shown below

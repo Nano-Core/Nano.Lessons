@@ -29,7 +29,7 @@ The following endpoint is available for testing.
 | --------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/response-compression` | Returns a `200 OK` response. Headers: `Content-Encoding: gzip` and `Vary: Accept-Encoding`  |
 
-> 📖 Learn more about **[Nano Response Compression](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#response-compression)**.
+> 📖 Learn more about **[Nano Response Compression](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#response-compression)**.
 
 ## Configuration
 ```json

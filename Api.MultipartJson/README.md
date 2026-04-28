@@ -27,4 +27,4 @@ The following endpoint is available for testing.
 | ---------------------------------------------------- | -------------------------------------- |
 | `http://localhost:8080/api/examples/multipart-json`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Request Multipart JSON](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#request-multipart-json)**.
+> 📖 Learn more about **[Nano Request Multipart JSON](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#request-multipart-json)**.

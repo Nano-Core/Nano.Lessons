@@ -27,4 +27,4 @@ The following endpoint is available for testing:
 | --------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/content-negotiation`  | Returns a simple `200 OK` response, no matter if `Accept` header is set or not.   |
 
-> 📖 Learn more about **[Nano Content Negotiation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#content-negotiation)**.
+> 📖 Learn more about **[Nano Content Negotiation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#content-negotiation)**.

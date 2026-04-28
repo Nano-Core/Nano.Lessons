@@ -24,7 +24,7 @@ This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.L
 This application demonstrates creating a file and saving it to a locally mapped file-share.  
 Files are saved in `.docker/bin/`.  
 
-> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
+> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local/README#nanostoragelocal)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  

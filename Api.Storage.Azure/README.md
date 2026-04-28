@@ -33,7 +33,7 @@ credentials are omitted from the configuration, the application will still run, 
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check JSON response.  
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.  
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**.  
 
 The following endpoint is available for testing.
 
@@ -41,7 +41,7 @@ The following endpoint is available for testing.
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`        | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure/README#nanostorageazure)**.
 
 ## Registration
 The following storage provider has been registered using `ConfigureServices(...)` in `program.cs`.  

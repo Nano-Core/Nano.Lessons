@@ -20,4 +20,4 @@ This application demonstrates exception handling for a console application.
 
 Run the application and observe the `Exception` being thrown in the worker `OnStartAsync()`.  
 
-> 📖 Learn more about **[Nano Exception Handling](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console#exception-handling)**.
+> 📖 Learn more about **[Nano Exception Handling](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console/README.md#exception-handling)**.

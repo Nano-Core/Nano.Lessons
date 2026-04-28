@@ -28,7 +28,7 @@ the outer application has been configured to include the API client, enabling it
 A health check is configured to target the application of the api-client.  
 Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**.
 
 The following endpoint is available for testing.
 
@@ -41,7 +41,7 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/examples/problem-details-exception` | Returns a `417 Expectation Failed` response. A `ProblemDetailsException` is thrown to demonstrate structured error handling using Problem Details.        |
 | `http://localhost:8080/api/examples/request-tracing`           | Returns a `200 OK` response. The `X-Request-Id` header is extracted from the request and returned in the response for traceability purposes.              |
 
-> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#api-clients)**.
+> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#api-clients)**.
 
 ## Configuration
 Configured the application with a connection to the `NanoApiClient`.

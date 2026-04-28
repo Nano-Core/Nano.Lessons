@@ -35,7 +35,7 @@ The following endpoint is available for testing.
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/xss` | Returns a `200 OK` response including the `X-XSS-Protection` response header.  |
 
-> 📖 Learn more about **[Nano Xxs Protection Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#xxs-protection)**.
+> 📖 Learn more about **[Nano Xxs Protection Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#xxs-protection)**.
 
 ## Configuration
 ```json

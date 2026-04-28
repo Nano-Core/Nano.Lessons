@@ -30,7 +30,7 @@ The following endpoints is available for testing.
 | `http://localhost:8080/api/examples/get-session`   | Gets the session variable if set and returns a `200 OK`.  |
 | `http://localhost:8080/api/examples/clear-session` | Clear the session and returns a `200 OK`.                 |
 
-> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#session)**.
+> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#session)**.
 
 ## Configuration
 ```json

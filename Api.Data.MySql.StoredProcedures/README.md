@@ -35,4 +35,4 @@ The following endpoint is available for testing:
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/stored-procedure`  | Returns a simple `200 OK` response with the result of the stored procedure as response.    |
 
-> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql/README.md#nanodatamysql)**.

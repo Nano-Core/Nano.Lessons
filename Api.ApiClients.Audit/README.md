@@ -33,7 +33,7 @@ The following endpoint is available for testing.
 | -------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/create`  | Returns a `200 OK` response. Creates an `Example` with nested `ExampleNavigation` which is audited.   |
 
-> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#api-clients)**.
+> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#api-clients)**.
 
 
 
