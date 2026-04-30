@@ -35,6 +35,7 @@ You can also remove the `HttpPolicyHeaders` from `appsettings` and set `Document
 > 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.
 
 ## Configuration
+
 ```json
 "App": {
   "Documentation": {

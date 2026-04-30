@@ -33,10 +33,10 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
+  STORAGE_SIZE: 1000
   STORAGE_SHARE_NAME: nano-storage-azure
   STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
   STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
-  STORAGE_SIZE: 1000
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -81,10 +81,19 @@ jobs:
       - name: Create Fileshare
         shell: pwsh
         run: |
-          $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
-          if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
+          $env:STORAGE_FILE_SHARE = sudo az storage share list `
+              --account-name $env:STORAGE_CREDENTIALS_ID `
+              --account-key $env:STORAGE_CREDENTIALS_SECRET `
+              --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+
+          if ([string]::IsNullOrEmpty($env:STORAGE_FILE_SHARE))
           { 
-              sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --quota $env:STORAGE_SIZE;
+              sudo az storage share create `
+                  -n $env:STORAGE_SHARE_NAME `
+                  --account-name $env:STORAGE_CREDENTIALS_ID `
+                  --account-key $env:STORAGE_CREDENTIALS_SECRET `
+                  --quota $env:STORAGE_SIZE;
+              
               if ($LastExitCode -ne 0) 
               { 
                   throw "error";
@@ -136,7 +145,7 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-         Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
+          Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 

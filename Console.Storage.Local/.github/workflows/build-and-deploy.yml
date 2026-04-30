@@ -16,11 +16,10 @@ env:
   NUGET_HOST: ${{ secrets.NUGET_HOST }}
   NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
   NUGET_PASSWORD: ${{ secrets.NUGET_APIKEY }}
-  NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }}
   CONTAINER_REGISTRY_HOST: ${{ vars.CONTAINER_REGISTRY_HOST }}
   CONTAINER_REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
-  CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/Nano-Core/Nano.Template.Console
+  CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
   KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: default
@@ -30,6 +29,7 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
+  STORAGE_SIZE: 1000
   STORAGE_SHARE_NAME: nano-storage-local
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:

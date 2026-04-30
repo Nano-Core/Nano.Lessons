@@ -184,7 +184,7 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-         Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
+          Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 

@@ -152,10 +152,19 @@ And add this step below as well, ensuring that the fileshare gets created before
 - name: Create Fileshare
   shell: pwsh
   run: |
-    $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
-    if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
+    $env:STORAGE_FILE_SHARE = sudo az storage share list `
+        --account-name $env:STORAGE_CREDENTIALS_ID `
+        --account-key $env:STORAGE_CREDENTIALS_SECRET `
+        --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+
+    if ([string]::IsNullOrEmpty($env:STORAGE_FILE_SHARE))
     { 
-        sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --quota $env:STORAGE_SIZE;
+        sudo az storage share create `
+            -n $env:STORAGE_SHARE_NAME `
+            --account-name $env:STORAGE_CREDENTIALS_ID `
+            --account-key $env:STORAGE_CREDENTIALS_SECRET `
+            --quota $env:STORAGE_SIZE;
+             
         if ($LastExitCode -ne 0) 
         { 
             throw "error";

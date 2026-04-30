@@ -32,6 +32,7 @@ env:
   KUBERNETES_MEMORY_SCALING: 180
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
+  STORAGE_SIZE: 1000
   STORAGE_SHARE_NAME: nano-storage-local
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:

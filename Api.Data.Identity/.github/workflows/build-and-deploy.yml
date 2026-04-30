@@ -34,14 +34,14 @@ env:
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
-  MYSQL_DATABASE_NAME: nanoDb
-  MYSQL_DATABASE_USER: api-data-mysql-user
-  MYSQL_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_HOST || secrets.STAGING_MYSQL_HOST }}
-  MYSQL_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_NANO_DB_PASSWORD || secrets.STAGING_MYSQL_NANO_DB_PASSWORD }}
-  MYSQL_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_USER || secrets.STAGING_MYSQL_ADMIN_USER }}
-  MYSQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_MYSQL_ADMIN_PASSWORD || secrets.STAGING_MYSQL_ADMIN_PASSWORD }}
-  MYSQL_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_DATABASE_USER }};Pwd=${{ env.MYSQL_SERVICE_PASSWORD }};SslMode=Preferred;
-  MYSQL_MIGRATION_CONNECTIONSTRING: Server=${{ env.MYSQL_HOST }};Port=${{ vars.MYSQL_PORT }};Database=${{ env.MYSQL_DATABASE_NAME }};Uid=${{ env.MYSQL_ADMIN_USER }};Pwd=${{ env.MYSQL_ADMIN_PASSWORD }};SslMode=Preferred;
+  DATA_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_DATA_HOST || secrets.STAGING_DATA_HOST }}
+  DATA_NAME: nanoDb
+  DATA_USER: api-data-mysql-user
+  DATA_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_DATA_NANO_DB_PASSWORD || secrets.STAGING_DATA_NANO_DB_PASSWORD }}
+  DATA_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_DATA_ADMIN_USER || secrets.STAGING_DATA_ADMIN_USER }}
+  DATA_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_DATA_ADMIN_PASSWORD || secrets.STAGING_DATA_ADMIN_PASSWORD }}
+  DATA_CONNECTIONSTRING: Server=${{ env.DATA_HOST }};Port=${{ vars.DATA_PORT }};Database=${{ env.DATA_NAME }};Uid=${{ env.DATA_USER }};Pwd=${{ env.DATA_PASSWORD }};SslMode=Preferred;
+  DATA_MIGRATION_CONNECTIONSTRING: Server=${{ env.DATA_HOST }};Port=${{ vars.DATA_PORT }};Database=${{ env.DATA_NAME }};Uid=${{ env.DATA_ADMIN_USER }};Pwd=${{ env.DATA_ADMIN_PASSWORD }};SslMode=Preferred;
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -130,7 +130,7 @@ jobs:
           dotnet ef database update `
             --no-build `
             --startup-project $env:APP_NAME `
-            --connection "$env:MYSQL_MIGRATION_CONNECTIONSTRING";
+            --connection "$env:DATA_MIGRATION_CONNECTIONSTRING";
 
           if ($LastExitCode -ne 0)
           { 
@@ -140,20 +140,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mysql-client
 
-          $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:MYSQL_DATABASE_USER');" $env:MYSQL_MIGRATION_CONNECTIONSTRING
+          $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:DATA_USER');" $env:DATA_MIGRATION_CONNECTIONSTRING
 
           if ($userExists -eq 0) 
           {
               mysql --connect-expired-password -e " `
-                  CREATE USER '$env:MYSQL_DATABASE_USER'@'%' IDENTIFIED BY '$env:MYSQL_PASSWORD'; `
-                  GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:MYSQL_DATABASE_USER'@'%'; `
-                  FLUSH PRIVILEGES;" $env:MYSQL_MIGRATION_CONNECTIONSTRING
+                  CREATE USER '$env:DATA_USER'@'%' IDENTIFIED BY '$env:DATA_PASSWORD'; `
+                  GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:DATA_USER'@'%'; `
+                  FLUSH PRIVILEGES;" $env:DATA_MIGRATION_CONNECTIONSTRING
           }
 
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          sudo kubectl create secret generic $env:SERVICE_NAME-secret ` --from-literal=data-connectionstring=$env:MYSQL_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
+          sudo kubectl create secret generic $env:SERVICE_NAME-secret ` --from-literal=data-connectionstring=$env:DATA_CONNECTIONSTRING --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
           if ($LastExitCode -ne 0)
           { 
               throw "error";
