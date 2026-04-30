@@ -126,30 +126,30 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y postgresql-client
 
-          $userExists = psql "$env:DATA_CONNECTION_STRING" `
+          $userExists = psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
               -tAc "SELECT 1 FROM pg_roles WHERE rolname='$env:DATA_USER';"
 
           if ($userExists -ne "1")
           {
-              psql "$env:DATA_CONNECTION_STRING" `
+              psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
                   -c "CREATE ROLE $env:DATA_USER WITH LOGIN PASSWORD '$env:DATA_PASSWORD';"
           }
 
-          $userDbExists = psql "$env:DATA_CONNECTION_STRING" `
+          $userDbExists = psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
               -tAc "SELECT 1 FROM pg_roles WHERE rolname='$env:DATA_USER';"
 
           if ($userDbExists -ne "1")
           {
-              psql "$env:DATA_CONNECTION_STRING" `
+              psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
                   -c "GRANT CONNECT ON DATABASE $env:DATA_NAME TO $env:DATA_USER;"
 
-              psql "$env:DATA_CONNECTION_STRING" `
+              psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
                   -c "GRANT USAGE ON SCHEMA public TO $env:DATA_USER;"
 
-              psql "$env:DATA_CONNECTION_STRING" `
+              psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
                   -c "GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO $env:DATA_USER;"
 
-              psql "$env:DATA_CONNECTION_STRING" `
+              psql "$env:DATA_MIGRATION_CONNECTIONSTRING" `
                   -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $env:DATA_USER;"
           }
 
