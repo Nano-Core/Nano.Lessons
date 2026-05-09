@@ -23,7 +23,7 @@ env:
   CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
   KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
-  KUBERNETES_NAMESPACE: default
+  KUBERNETES_NAMESPACE: apps
   KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}
   KUBERNETES_REPLICA_COUNT_MAX: ${{ github.ref == 'refs/heads/master' && 8 || 5 }}
   KUBERNETES_REPLICA_HISTORY_COUNT: 0
