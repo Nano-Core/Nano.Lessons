@@ -44,22 +44,7 @@ Configured the application with the necessary storage setup.
 
 ```json
 "Storage": {
-  "ShareName": "nano-storage-azure",
-  "Credentials": {
-    "Id": null,
-    "Secret": null
-  }
-}
-```
-
-...and in `appsettings.Development.json`.
-
-```json
-"Storage": {
-  "Credentials": {
-    "Id": "id",
-    "Secret": "secret"
-  }
+  "ShareName": "nano-storage-azure"
 }
 ```
 
@@ -73,37 +58,24 @@ docker
 ```
 
 ## Kubernetes
-Added the volumes, volume mounts and secrets to the `cronjob.yaml`.  
+Added two new kubernetes templaets, the `storage-pv.yaml` and `storage-pvc.yaml`. Updated the `cronjob.yaml` mounting the volume.  
 
-```json
+```yaml
 spec:
   template:
     spec:
       containers:
-        env:
-        - name: Storage__Credentials__Id
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountname
-        - name: Storage__Credentials__Secret
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountkey
         volumeMounts:
-        - name: tmp
-          mountPath: /tmp
         - name: %SERVICE_NAME%-volume
           mountPath: /mnt/%STORAGE_SHARE_NAME%
+        - name: tmp
+          mountPath: /tmp
       volumes:
+      - name: %SERVICE_NAME%-volume
+        persistentVolumeClaim:
+          claimName: %SERVICE_NAME%-azurefile-pvc
       - name: tmp
         emptyDir: {}
-      - name: %SERVICE_NAME%-volume
-        azureFile:
-          secretName: storage-account-secret
-          shareName: %STORAGE_SHARE_NAME%
-          readOnly: false
 ```
 
 ## GitHub Actions
@@ -111,10 +83,10 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  STORAGE_SHARE_NAME: nano-storage-azure
-  STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
-  STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
+  AZURE_GROUP_BACKUP: ${{ vars.AZURE_BACKUP_RESOURCE_GROUP }}
+  AZURE_GROUP_STORAGE: ${{ vars.AZURE_STORAGE_RESOURCE_GROUP }}
   STORAGE_SIZE: 1000
+  STORAGE_SHARE_NAME: nano-storage-azure
 ```
 
 Additionally, this step has been added to ensure the file share is created before the application is deployed.  
@@ -123,22 +95,40 @@ Additionally, this step has been added to ensure the file share is created befor
 - name: Create Fileshare
   shell: pwsh
   run: |
-    $env:STORAGE_FILE_SHARE = sudo az storage share list `
-        --account-name $env:STORAGE_CREDENTIALS_ID `
-        --account-key $env:STORAGE_CREDENTIALS_SECRET `
-        --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+    $env:STORAGE_ACCOUNT_NAME = sudo az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
-    if ([string]::IsNullOrEmpty($env:STORAGE_FILE_SHARE))
+    $env:FILE_SHARE_EXISTS = sudo az storage share-rm exists `
+        -g $env:AZURE_GROUP_STORAGE `
+        -n $env:STORAGE_SHARE_NAME `
+        --storage-account $env:STORAGE_ACCOUNT_NAME `
+        --query exists;
+
+    if ($env:FILE_SHARE_EXISTS -eq "false")
     { 
-        sudo az storage share create `
+        sudo az storage share-rm create `
+            -g $env:AZURE_GROUP_STORAGE `
             -n $env:STORAGE_SHARE_NAME `
-            --account-name $env:STORAGE_CREDENTIALS_ID `
-            --account-key $env:STORAGE_CREDENTIALS_SECRET `
+            --storage-account $env:STORAGE_ACCOUNT_NAME `
+            --access-tier TransactionOptimized `
             --quota $env:STORAGE_SIZE;
-             
+              
         if ($LastExitCode -ne 0) 
         { 
             throw "error";
-        };  
+        };
+
+        $env:BACKUP_VAULT_NAME = sudo az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
+
+        sudo az backup protection enable-for-azurefileshare `
+            -g $env:AZURE_GROUP_BACKUP `
+            -v $env:BACKUP_VAULT_NAME `
+            -p $env:STORAGE_ACCOUNT_NAME-backup-policy `
+            --storage-account $env:STORAGE_ACCOUNT_NAME `
+            --azure-file-share $env:STORAGE_SHARE_NAME;
+              
+        if ($LastExitCode -ne 0) 
+        { 
+            throw "error";
+        };
     }
 ```

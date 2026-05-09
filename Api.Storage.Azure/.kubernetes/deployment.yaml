@@ -37,17 +37,6 @@ spec:
         ports:
         - containerPort: 8080
         imagePullPolicy: Always 
-        env:
-        - name: Storage__Credentials__id
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountname
-        - name: Storage__Credentials__Secret
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountkey
         volumeMounts:
         - name: tmp
           mountPath: /tmp
@@ -96,10 +85,8 @@ spec:
           mountPath: /tmp
       volumes:
       - name: %SERVICE_NAME%-volume
-        azureFile:
-          secretName: storage-account-secret
-          shareName: %STORAGE_SHARE_NAME%
-          readOnly: false
+        persistentVolumeClaim:
+          claimName: %SERVICE_NAME%-azurefile-pvc
       - name: tmp
         emptyDir: {}
       imagePullSecrets:

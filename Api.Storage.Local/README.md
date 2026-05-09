@@ -85,7 +85,7 @@ Added two additional kubernetes templates, `storage-storageclass.yaml` and `stor
 
 Also, updated `deployment.yaml` adding the volumes and volume mounts.  
 
-```json
+```yaml
 spec:
   template:
     spec:

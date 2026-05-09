@@ -25,17 +25,6 @@ spec:
           - name: %SERVICE_NAME%
             image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
             imagePullPolicy: Always 
-            env:
-            - name: Storage__Credentials__Id
-              valueFrom:
-                secretKeyRef:
-                  name: storage-account-secret
-                  key: azurestorageaccountname
-            - name: Storage__Credentials__Secret
-              valueFrom:
-                secretKeyRef:
-                  name: storage-account-secret
-                  key: azurestorageaccountkey
             envFrom:
             - configMapRef:
                 name: %SERVICE_NAME%-config
@@ -64,10 +53,8 @@ spec:
           restartPolicy: OnFailure
           volumes:
           - name: %SERVICE_NAME%-volume
-            azureFile:
-              secretName: storage-account-secret
-              shareName: %STORAGE_SHARE_NAME%
-              readOnly: false
+            persistentVolumeClaim:
+              claimName: %SERVICE_NAME%-azurefile-pvc
           - name: tmp
             emptyDir: {}
           imagePullSecrets:

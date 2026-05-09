@@ -9,6 +9,8 @@ env:
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
   AZURE_GROUP: ${{ vars.AZURE_KUBERNETES_RESOURCE_GROUP }}
+  AZURE_GROUP_BACKUP: ${{ vars.AZURE_BACKUP_RESOURCE_GROUP }}
+  AZURE_GROUP_STORAGE: ${{ vars.AZURE_STORAGE_RESOURCE_GROUP }}
   AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -29,10 +31,8 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
-  STORAGE_SHARE_NAME: nano-storage-azure
-  STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
-  STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
   STORAGE_SIZE: 1000
+  STORAGE_SHARE_NAME: nano-storage-azure
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -77,23 +77,41 @@ jobs:
       - name: Create Fileshare
         shell: pwsh
         run: |
-          $env:STORAGE_FILE_SHARE = sudo az storage share list `
-              --account-name $env:STORAGE_CREDENTIALS_ID `
-              --account-key $env:STORAGE_CREDENTIALS_SECRET `
-              --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
+          $env:STORAGE_ACCOUNT_NAME = sudo az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
-          if ([string]::IsNullOrEmpty($env:STORAGE_FILE_SHARE))
+          $env:FILE_SHARE_EXISTS = sudo az storage share-rm exists `
+              -g $env:AZURE_GROUP_STORAGE `
+              -n $env:STORAGE_SHARE_NAME `
+              --storage-account $env:STORAGE_ACCOUNT_NAME `
+              --query exists;
+
+          if ($env:FILE_SHARE_EXISTS -eq "false")
           { 
-              sudo az storage share create `
+              sudo az storage share-rm create `
+                  -g $env:AZURE_GROUP_STORAGE `
                   -n $env:STORAGE_SHARE_NAME `
-                  --account-name $env:STORAGE_CREDENTIALS_ID `
-                  --account-key $env:STORAGE_CREDENTIALS_SECRET `
+                  --storage-account $env:STORAGE_ACCOUNT_NAME `
+                  --access-tier TransactionOptimized `
                   --quota $env:STORAGE_SIZE;
               
               if ($LastExitCode -ne 0) 
               { 
                   throw "error";
-              };  
+              };
+
+              $env:BACKUP_VAULT_NAME = sudo az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
+
+              sudo az backup protection enable-for-azurefileshare `
+                  -g $env:AZURE_GROUP_BACKUP `
+                  -v $env:BACKUP_VAULT_NAME `
+                  -p $env:STORAGE_ACCOUNT_NAME-backup-policy `
+                  --storage-account $env:STORAGE_ACCOUNT_NAME `
+                  --azure-file-share $env:STORAGE_SHARE_NAME;
+              
+              if ($LastExitCode -ne 0) 
+              { 
+                  throw "error";
+              };
           }
 
       - name: Publish Image
@@ -130,6 +148,20 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
+          Get-Content .kubernetes/storage-pv.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pv.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/storage-pv.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          {
+              throw "error";
+          };  
+
+          Get-Content .kubernetes/storage-pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pvc.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/storage-pvc.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          };  
+
           Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
           sudo kubectl apply -f .kubernetes/configmap.tmp.yaml;
           if ($LastExitCode -ne 0) 

@@ -132,7 +132,7 @@ jobs:
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
-          };  
+          };
 
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;
