@@ -20,6 +20,7 @@ spec:
       securityContext:
         runAsUser: 1000
         runAsGroup: 2000 
+        fsGroup: 2000
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -27,7 +28,6 @@ spec:
           labelSelector:
             matchLabels:
               app: %SERVICE_NAME%  
-      automountServiceAccountToken: false
       nodeSelector:
         nodepool.compute: %KUBERNETES_NODEPOOL_COMPUTE%
         kubernetes.io/os: linux
@@ -94,11 +94,6 @@ spec:
           periodSeconds: 5
           initialDelaySeconds: 20
           timeoutSeconds: 2
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
-        - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
       imagePullSecrets:
         - name: ghcr-pull-secret
 

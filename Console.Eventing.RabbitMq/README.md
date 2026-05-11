@@ -47,10 +47,9 @@ The following eventing provider has been registered using `ConfigureServices(...
 ```
 
 ## Configuration
-Configured the application with the necessary eventing setup.  
+Configured the application `appsettings.json` with the necessary eventing setup.  
 
 ```json
-"App": {
 "Eventing": {
   "Host": "rabbitmq",
   "VHost": "/",
@@ -59,6 +58,17 @@ Configured the application with the necessary eventing setup.
   "Timeout": "00:00:30",
   "Heartbeat": 60,
   "PrefetchCount": 50,
+  "Credentials": {
+    "Id": "rabbitmq_user",
+    "Secret": "password"
+  }
+}
+```
+
+...and the `appsettings.Development.json` eventing configuration.  
+
+```json
+"Eventing": {
   "Credentials": {
     "Id": "rabbitmq_user",
     "Secret": "password"
@@ -100,11 +110,17 @@ spec:
     spec:
       containers:
         env:
+        - name: Eventing__Credentials__Id
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-auth
+              key: username
+           envFrom:
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
-              name: rabbitmq
-              key: rabbitmq-password
+              name: rabbitmq-auth
+              key: password
 ```
 
 > ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 

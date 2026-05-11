@@ -1,6 +1,11 @@
 name: Build And Deploy
 on:
-  push
+  pull_request:
+    branches:
+      - master 
+  push:
+    branches:
+      - master 
 env:
   APP_NAME: Api.Data.SqLite
   IMAGE_NAME: api.data.sqlite
@@ -36,7 +41,7 @@ env:
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
   DATA_NAME: nanoDb
   DATA_SIZE: 10Gi
-  DATA_MIGRATION_CONNECTIONSTRING: "Data Source=/data/{{ env.nanoDb }}.sqlite"
+  DATA_MIGRATION_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.DATA_NAME }}.sqlite"
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

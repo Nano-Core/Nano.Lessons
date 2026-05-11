@@ -107,7 +107,7 @@ Added SqLite as a service dependency in `docker-compose.yml`.
 services:
   api.data.sqlite:
     volumes:
-      - ./bin/data:/app/bin/data
+      - ./bin/data:/mnt/data
 ```
 
 ## Kubernetes
@@ -122,7 +122,7 @@ spec:
       containers:
         volumeMounts:
         - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
+          mountPath: /mnt/data
       volumes:
       - name: %SERVICE_NAME%-volume
         persistentVolumeClaim:
@@ -136,7 +136,7 @@ Add the following environment variables to the `buid-and-deply.yml`.
 env:
   DATA_NAME: nanoDb
   DATA_SIZE: 10Gi
-  DATA_CONNECTIONSTRING: "Data Source=/data/{{ env.nanoDb }}.sqlite"
+  DATA_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.nanoDb }}.sqlite"
 ```
 
 Additionally, this step has been added to ensure database migrations are applied.  
