@@ -13,7 +13,7 @@ env:
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
-  AZURE_GROUP: ${{ vars.AZURE_KUBERNETES_RESOURCE_GROUP }}
+  AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -53,7 +53,7 @@ jobs:
         run: |
           sudo az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
           sudo az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
-          sudo az aks get-credentials -g $env:AZURE_GROUP -n $env:KUBERNETES_CLUSTER --overwrite -o none;
+          sudo az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Build
         shell: pwsh

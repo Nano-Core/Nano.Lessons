@@ -19,11 +19,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".kubernetes", ".kubernetes", "{0C4D782F-72EF-42B4-BC1B-AF4044CC863A}"
 	ProjectSection(SolutionItems) = preProject
 		.kubernetes\autoscaler.yaml = .kubernetes\autoscaler.yaml
-		.kubernetes\certificate.yaml = .kubernetes\certificate.yaml
 		.kubernetes\configmap.yaml = .kubernetes\configmap.yaml
 		.kubernetes\deployment.yaml = .kubernetes\deployment.yaml
-		.kubernetes\ingress.yaml = .kubernetes\ingress.yaml
 		.kubernetes\service.yaml = .kubernetes\service.yaml
+		.kubernetes\httproute.yaml = .kubernetes\httproute.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nano", ".nano", "{3339F5B7-AA56-4192-B201-75B2620036B1}"

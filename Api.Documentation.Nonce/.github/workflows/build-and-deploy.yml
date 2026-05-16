@@ -13,7 +13,7 @@ env:
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
-  AZURE_GROUP: ${{ vars.AZURE_KUBERNETES_RESOURCE_GROUP }}
+  AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -38,11 +38,8 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
-  CERTIFICATE_ISSUER: letsencrypt-prod
-  CERTIFICATE_ORGANIZATION: ${{ vars.CERTIFICATE_ORGANIZATION }}
-  CERTIFICATE_HOST: ${{ github.ref == 'refs/heads/master' && vars.HOST_API_SUBDOMAIN + '.' + vars.PRODUCTION_HOST || vars.HOST_API_SUBDOMAIN + '.' + vars.STAGING_HOST }}
+  SUB_DOMAIN: nano
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
-  NONCE_TOKEN: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_NONCE_TOKEN || secrets.STAGING_NONCE_TOKEN }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -61,7 +58,7 @@ jobs:
         run: |
           sudo az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
           sudo az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
-          sudo az aks get-credentials -g $env:AZURE_GROUP -n $env:KUBERNETES_CLUSTER --overwrite -o none;
+          sudo az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Build
         shell: pwsh
@@ -128,6 +125,8 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
+          $env:GATEWAY_NAME: kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
+
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
@@ -156,15 +155,8 @@ jobs:
               throw "error";
           };
 
-          Get-Content .kubernetes/certificate.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/certificate.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/certificate.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
-          Get-Content .kubernetes/ingress.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/ingress.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/ingress.tmp.yaml;
+          Get-Content .kubernetes/httproute.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/httproute.tmp.yaml;
+          sudo kubectl apply -f .kubernetes/httproute.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";
