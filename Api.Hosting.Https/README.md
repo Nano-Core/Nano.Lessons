@@ -83,7 +83,7 @@ A `httproute.yaml` resource has been added to the `.kubernetes` folder.
 |  `httproute.yaml`    | `yaml`  | The http route spec for Kubernetes Gateway.  |
 
 ## GitHub Actions
-Deployment commands have been updated to apply each of the new Kubernetes templates.  
+Deployment commands have been updated to apply the new Kubernetes `HTTPRoute` template.  
 
 ```powershell
 Get-Content .kubernetes/{resource-name}.yaml `

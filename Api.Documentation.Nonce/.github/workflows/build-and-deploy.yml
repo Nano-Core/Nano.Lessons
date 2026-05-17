@@ -127,43 +127,51 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
+          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query [].name;
+
+          $env:ROUTE_HOST_NAMES = @(
+              foreach ($zoneName in $zoneNames) {
+          @"
+              - $env:SUB_DOMAIN_NAME.$($zoneName)
+          "@
+              }
+          ) -join "`n";
+
           $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
-          $env:DNS_ZONE_NAME = az network dns zone list -g $env:AZURE_GROUP_DNS --query [0].name -o tsv;
 
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/service.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/configmap.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/deployment.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/deployment.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/deployment.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/autoscaler.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/autoscaler.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/autoscaler.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/httproute.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/httproute.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/httproute.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
+        
+          $command = @"
+              set -eu
+
+              kubectl apply -f service.tmp.yaml || exit 1
+              kubectl apply -f configmap.tmp.yaml || exit 2
+              kubectl apply -f deployment.tmp.yaml || exit 3
+              kubectl apply -f autoscaler.tmp.yaml || exit 4
+              kubectl apply -f httproute.tmp.yaml || exit 5
+          "@;
+
+          $result = az aks command invoke `
+              -g $env:AZURE_GROUP_KUBERNETES `
+              -n $env:KUBERNETES_CLUSTER `
+              --file .kubernetes/service.tmp.yaml `
+              --file .kubernetes/configmap.tmp.yaml `
+              --file .kubernetes/deployment.tmp.yaml `
+              --file .kubernetes/autoscaler.tmp.yaml `
+              --file .kubernetes/httproute.tmp.yaml `
+              --command $command `
+              --output json | ConvertFrom-Json;
+
+          echo $result;
+
+          if ($result.exitCode -ne 0)
+          {
               throw "error";
-          };
+          }        
 
       - name: GitHub Release
         if: github.ref == 'refs/heads/master'
