@@ -1,8 +1,9 @@
-  apiVersion: v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: %SERVICE_NAME%-config
   namespace: %KUBERNETES_NAMESPACE%
 data:
   App__Version: %VERSION%
+  App__Documentation__CspNonce: %NONCE_TOKEN%
   ASPNETCORE_ENVIRONMENT: %ASPNETCORE_ENVIRONMENT%

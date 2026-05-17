@@ -15,7 +15,6 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Table of Contents
 * [Summary](#summary)
 * [Configuration](#configuration)
-* [Kubernetes](#kubernetes)
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
@@ -59,18 +58,10 @@ You can also remove the `HttpPolicyHeaders` from `appsettings` and set `Document
 ```
 
 ## Kubernetes
-Annotations are configured below to automatically replace the static CSP nonce with a dynamically generated token, 
-ensuring that scripts and styles comply with the Content Security Policy.
+The nonce token should be configured in `configmap.yaml` by mapping the GitHub organization variable to the Nano documentation configuration.  
 
 ```
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: | 
-      more_set_headers "Content-Security-Policy: script-src 'self' 'nonce-${request_id}'; style-src 'self' 'nonce-${request_id}'";
-      sub_filter_once off;
-      sub_filter '%NONCE_TOKEN%' $request_id;
-      sub_filter '(<body[^>]*>)(.*?)%NONCE_TOKEN%(.*?<\/body>)' '$1$2"$request_id"$3';
+App__Documentation__CspNonce: %NONCE_TOKEN%
 ```
 
 ## GitHub Actions
@@ -78,5 +69,5 @@ Additional environment variables have been added to `build-and-deploy.yml` to su
 
 ```yaml
 env:
-  NONCE_TOKEN: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_NONCE_TOKEN || secrets.STAGING_NONCE_TOKEN }}
+  NONCE_TOKEN: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_NONCE_TOKEN || vars.STAGING_NONCE_TOKEN }}
 ```

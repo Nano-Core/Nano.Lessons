@@ -10,10 +10,12 @@ env:
   APP_NAME: Api.PolicyHeaders.Hsts
   IMAGE_NAME: api.policyheaders.hsts
   SERVICE_NAME: api-policyheaders-hsts
+  SUB_DOMAIN_NAME: nano
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
+  AZURE_GROUP_DNS: ${{ vars.AZURE_RESOURCE_GROUP_DNS }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -38,7 +40,6 @@ env:
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
-  SUB_DOMAIN: nano
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -125,7 +126,8 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          $env:GATEWAY_NAME: kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
+          $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
+          $env:DNS_ZONE_NAME = az network dns zone list -g $env:AZURE_GROUP_DNS --query [0].name -o tsv;
 
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           sudo kubectl apply -f .kubernetes/service.tmp.yaml;

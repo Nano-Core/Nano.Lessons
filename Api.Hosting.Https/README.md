@@ -76,25 +76,14 @@ services:
 ```
 
 ## Kubernetes
-A `certificate.yaml` and a `ingress.yml` resource has been added to the `.kubernetes` folder.  
+A `httproute.yaml` resource has been added to the `.kubernetes` folder.  
 
-| File / Directory     | Type    | Description                            |
-| -------------------- | ------- | -------------------------------------- |
-|  `ingress.yaml`      | `yaml`  | The ingress spec for Kubernetes.       |
-|  `certificate.yaml`  | `yaml`  | The certificate spec for Kuberentes.   |
-
+| File / Directory     | Type    | Description                                  |
+| -------------------- | ------- | -------------------------------------------- |
+|  `httproute.yaml`    | `yaml`  | The http route spec for Kubernetes Gateway.  |
 
 ## GitHub Actions
-Additional environment variables have been added to `build-and-deploy.yml` to support the new Kubernetes resources.  
-
-```yaml
-env:
-  CERTIFICATE_ISSUER: letsencrypt-prod
-  CERTIFICATE_ORGANIZATION: ${{ vars.CERTIFICATE_ORGANIZATION }}
-  CERTIFICATE_HOST: ${{ github.ref == 'refs/heads/master' && vars.HOST_API_SUBDOMAIN + '.' + vars.PRODUCTION_HOST || vars.HOST_API_SUBDOMAIN + '.' + vars.STAGING_HOST }}
-```
-
-Deployment commands have also been updated to apply each of the new Kubernetes templates.  
+Deployment commands have been updated to apply each of the new Kubernetes templates.  
 
 ```powershell
 Get-Content .kubernetes/{resource-name}.yaml `
