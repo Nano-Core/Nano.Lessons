@@ -142,17 +142,17 @@ jobs:
               throw "error";
           };
           
-          sudo apt-get update
-          sudo apt-get install -y mysql-client
+          sudo apt-get update;
+          sudo apt-get install -y mysql-client;
 
-          $userExists = mysql --connect-expired-password --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:DATA_USER');" $env:DATA_MIGRATION_CONNECTIONSTRING
+          $userExists = mysql --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:DATA_USER');" $env:DATA_MIGRATION_CONNECTIONSTRING;
 
           if ($userExists -eq 0) 
           {
-              mysql --connect-expired-password -e " `
+              mysql -e " `
                   CREATE USER '$env:DATA_USER'@'%' IDENTIFIED BY '$env:DATA_PASSWORD'; `
                   GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:DATA_USER'@'%'; `
-                  FLUSH PRIVILEGES;" $env:DATA_MIGRATION_CONNECTIONSTRING
+                  FLUSH PRIVILEGES;" $env:DATA_MIGRATION_CONNECTIONSTRING;
           }
 
       - name: Kubernetes Deploy
