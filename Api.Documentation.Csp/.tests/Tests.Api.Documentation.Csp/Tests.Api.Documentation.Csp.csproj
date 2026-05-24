@@ -16,8 +16,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Api.Hosting.Https.Models\Api.Hosting.Https.Models.csproj" />
-	  <ProjectReference Include="..\..\Api.Hosting.Https\Api.Hosting.Https.csproj" />
+		<ProjectReference Include="..\..\Api.Documentation.Csp\Api.Documentation.Csp.csproj" />
+		<ProjectReference Include="..\..\Api.Documentation.Csp.Models\Api.Documentation.Csp.Models.csproj" />
 	</ItemGroup>
 
 </Project>

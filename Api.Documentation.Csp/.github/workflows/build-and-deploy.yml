@@ -7,9 +7,9 @@ on:
     branches:
       - master 
 env:
-  APP_NAME: Api.Documentation.Nonce
-  IMAGE_NAME: api.documentation.nonce
-  SERVICE_NAME: api-documentation-nonce
+  APP_NAME: Api.Documentation.Csp
+  IMAGE_NAME: api.documentation.csp
+  SERVICE_NAME: api-documentation-csp
   SUB_DOMAIN_NAME: nano
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: 10.0
@@ -41,12 +41,11 @@ env:
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
-  NONCE_TOKEN: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_NONCE_TOKEN || secrets.STAGING_NONCE_TOKEN }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
     concurrency:
@@ -143,7 +142,6 @@ jobs:
           Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
           Get-Content .kubernetes/deployment.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/deployment.tmp.yaml;
           Get-Content .kubernetes/autoscaler.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/autoscaler.tmp.yaml;
-          Get-Content .kubernetes/httproute.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/httproute.tmp.yaml;
         
           $command = @"
               set -eu
@@ -152,7 +150,6 @@ jobs:
               kubectl apply -f configmap.tmp.yaml || exit 2
               kubectl apply -f deployment.tmp.yaml || exit 3
               kubectl apply -f autoscaler.tmp.yaml || exit 4
-              kubectl apply -f httproute.tmp.yaml || exit 5
           "@;
 
           $result = az aks command invoke `
@@ -162,7 +159,6 @@ jobs:
               --file .kubernetes/configmap.tmp.yaml `
               --file .kubernetes/deployment.tmp.yaml `
               --file .kubernetes/autoscaler.tmp.yaml `
-              --file .kubernetes/httproute.tmp.yaml `
               --command $command `
               --output json | ConvertFrom-Json;
 

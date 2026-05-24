@@ -5,5 +5,4 @@ metadata:
   namespace: %KUBERNETES_NAMESPACE%
 data:
   App__Version: %VERSION%
-  App__Documentation__CspNonce: %NONCE_TOKEN%
   ASPNETCORE_ENVIRONMENT: %ASPNETCORE_ENVIRONMENT%

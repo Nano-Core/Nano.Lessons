@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{
 		Dockerfile = Dockerfile
 		icon.png = icon.png
 		LICENSE = LICENSE
-		localhost.pfx = localhost.pfx
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -24,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".kubernetes", ".kubernetes"
 		.kubernetes\configmap.yaml = .kubernetes\configmap.yaml
 		.kubernetes\deployment.yaml = .kubernetes\deployment.yaml
 		.kubernetes\service.yaml = .kubernetes\service.yaml
-		.kubernetes\httproute.yaml = .kubernetes\httproute.yaml
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", ".docker\docker-compose.dcproj", "{557A0C48-DA6A-4D7C-8668-94F08A390F4B}"
@@ -55,11 +53,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Storage.Abstractions",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.App.Api", "..\..\Nano.Library\Nano.App.Api\Nano.App.Api.csproj", "{E55DCB7C-9082-3538-6288-5A6E5C8DE183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Documentation.Nonce.Models", "Api.Documentation.Nonce.Models\Api.Documentation.Nonce.Models.csproj", "{55CA3ADE-88B1-B763-9FAB-EE5D4F418EB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Documentation.Csp.Models", "Api.Documentation.Csp.Models\Api.Documentation.Csp.Models.csproj", "{55CA3ADE-88B1-B763-9FAB-EE5D4F418EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Documentation.Nonce", "Api.Documentation.Nonce\Api.Documentation.Nonce.csproj", "{77596F3E-C6F4-A01F-B4D9-9370C3ED3CBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Documentation.Csp", "Api.Documentation.Csp\Api.Documentation.Csp.csproj", "{77596F3E-C6F4-A01F-B4D9-9370C3ED3CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Api.Documentation.Nonce", ".tests\Tests.Api.Documentation.Nonce\Tests.Api.Documentation.Nonce.csproj", "{B008D867-12B4-7EB7-D707-1C1503E4151A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Api.Documentation.Csp", ".tests\Tests.Api.Documentation.Csp\Tests.Api.Documentation.Csp.csproj", "{B008D867-12B4-7EB7-D707-1C1503E4151A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nano.Logging.Abstractions", "..\..\Nano.Library\Nano.Logging.Abstractions\Nano.Logging.Abstractions.csproj", "{6BE9DA86-B487-64ED-7BF6-08CA10A05A97}"
 EndProject

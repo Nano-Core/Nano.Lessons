@@ -32,4 +32,4 @@ COPY --from=publish /app .
 ENV COMPlus_EnableDiagnostics=0
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 
-ENTRYPOINT ["dotnet", "Api.Documentation.Nonce.dll"]
+ENTRYPOINT ["dotnet", "Api.Documentation.Csp.dll"]
