@@ -126,7 +126,8 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          kubectl create secret generic auth-jwt-secret --from-literal=jwt-public-key=$env:AUTH_JWT_PUBLIC_KEY --from-literal=jwt-private-key=$env:AUTH_JWT_PRIVATE_KEY --save-config --dry-run=client -o yaml | kubectl apply -f -;
+          Get-Content .kubernetes/auth-jwt-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-jwt-secret.tmp.yaml;
+          kubectl apply -f .kubernetes/auth-jwt-secret.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";

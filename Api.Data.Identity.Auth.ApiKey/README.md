@@ -84,11 +84,3 @@ env:
 ```
 
 ...and created during the Kubernetes deploy step.  
-
-```yaml
-sudo kubectl create secret generic auth-api-key-secret --from-literal=apikey-secret=$env:AUTH_API_KEY_SECRET --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
-if ($LastExitCode -ne 0)
-{ 
-    throw "error";
-};
-```
