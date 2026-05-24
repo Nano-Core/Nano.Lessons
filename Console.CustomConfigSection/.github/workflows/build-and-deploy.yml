@@ -18,12 +18,12 @@ env:
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  NUGET_HOST: ${{ secrets.NUGET_HOST }}
-  NUGET_USERNAME: ${{ secrets.NUGET_USERNAME }}
-  NUGET_PASSWORD: ${{ secrets.NUGET_APIKEY }}
-  CONTAINER_REGISTRY_HOST: ${{ vars.CONTAINER_REGISTRY_HOST }}
-  CONTAINER_REGISTRY_USERNAME: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
-  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+  NUGET_HOST: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+  NUGET_USERNAME: ${{ github.actor }}
+  NUGET_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+  CONTAINER_REGISTRY_HOST: ghcr.io
+  CONTAINER_REGISTRY_USERNAME: ${{ github.actor }}
+  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
   KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
@@ -98,7 +98,7 @@ jobs:
               throw "error";
           };
 
-          sudo docker login -u="$env:CONTAINER_REGISTRY_USERNAME" -p="$env:CONTAINER_REGISTRY_PASSWORD" $env:CONTAINER_REGISTRY_HOST;
+          echo $env:CONTAINER_REGISTRY_PASSWORD | docker login $env:CONTAINER_REGISTRY_HOST -u $env:CONTAINER_REGISTRY_USERNAME --password-stdin;
           sudo docker push $imageLatestTag;
           sudo docker push $imageVersionTag;
           if ($LastExitCode -ne 0) 
