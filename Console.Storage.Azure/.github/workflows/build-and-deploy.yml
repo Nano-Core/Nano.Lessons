@@ -27,7 +27,6 @@ env:
   CONTAINER_REGISTRY_USERNAME: ${{ github.actor }}
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
-  KUBERNETES_CLUSTER: ${{ github.ref == 'refs/heads/master' && vars.PRODUCTION_KUBERNETES_CLUSTER || vars.STAGING_KUBERNETES_CLUSTER }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: apps
   KUBERNETES_REPLICA_HISTORY_COUNT: 4
@@ -55,9 +54,11 @@ jobs:
       - name: Azure Login
         shell: pwsh
         run: |
-          sudo az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
-          sudo az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
-          sudo az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
+          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
+          az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
+
+          $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
+          az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Build
         shell: pwsh
@@ -82,9 +83,9 @@ jobs:
       - name: Create Fileshare
         shell: pwsh
         run: |
-          $env:STORAGE_ACCOUNT_NAME = sudo az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
+          $env:STORAGE_ACCOUNT_NAME = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
-          $env:FILE_SHARE_EXISTS = sudo az storage share-rm exists `
+          $env:FILE_SHARE_EXISTS = az storage share-rm exists `
               -g $env:AZURE_GROUP_STORAGE `
               -n $env:STORAGE_SHARE_NAME `
               --storage-account $env:STORAGE_ACCOUNT_NAME `
@@ -92,7 +93,7 @@ jobs:
 
           if ($env:FILE_SHARE_EXISTS -eq "false")
           { 
-              sudo az storage share-rm create `
+              az storage share-rm create `
                   -g $env:AZURE_GROUP_STORAGE `
                   -n $env:STORAGE_SHARE_NAME `
                   --storage-account $env:STORAGE_ACCOUNT_NAME `
@@ -104,9 +105,9 @@ jobs:
                   throw "error";
               };
 
-              $env:BACKUP_VAULT_NAME = sudo az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
+              $env:BACKUP_VAULT_NAME = az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
 
-              sudo az backup protection enable-for-azurefileshare `
+              az backup protection enable-for-azurefileshare `
                   -g $env:AZURE_GROUP_BACKUP `
                   -v $env:BACKUP_VAULT_NAME `
                   -p $env:STORAGE_ACCOUNT_NAME-backup-policy `
@@ -126,7 +127,7 @@ jobs:
           $imageLatestTag = $registryHost + "/" + $env:IMAGE_NAME + ":latest";
           $imageVersionTag = $registryHost + "/" + $env:IMAGE_NAME + ":" + $env:VERSION
 
-          sudo docker build `
+          docker build `
               -t $imageLatestTag `
               -t $imageVersionTag `
               --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
@@ -143,8 +144,8 @@ jobs:
           };
 
           echo $env:CONTAINER_REGISTRY_PASSWORD | docker login $env:CONTAINER_REGISTRY_HOST -u $env:CONTAINER_REGISTRY_USERNAME --password-stdin;
-          sudo docker push $imageLatestTag;
-          sudo docker push $imageVersionTag;
+          docker push $imageLatestTag;
+          docker push $imageVersionTag;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
@@ -154,28 +155,28 @@ jobs:
         shell: pwsh
         run: |
           Get-Content .kubernetes/storage-pv.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pv.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/storage-pv.tmp.yaml;
+          kubectl apply -f .kubernetes/storage-pv.tmp.yaml;
           if ($LastExitCode -ne 0) 
           {
               throw "error";
           };  
 
           Get-Content .kubernetes/storage-pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pvc.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/storage-pvc.tmp.yaml;
+          kubectl apply -f .kubernetes/storage-pvc.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           };  
 
           Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/configmap.tmp.yaml;
+          kubectl apply -f .kubernetes/configmap.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           };  
 
           Get-Content .kubernetes/cronjob.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/cronjob.tmp.yaml;
-          sudo kubectl apply -f .kubernetes/cronjob.tmp.yaml;
+          kubectl apply -f .kubernetes/cronjob.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
