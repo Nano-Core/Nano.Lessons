@@ -41,7 +41,7 @@ spec:
         - name: Data__ConnectionString
           valueFrom:
             secretKeyRef:
-              name: %SERVICE_NAME%-secret
+              name: %SERVICE_NAME%-sql-auth-secret
               key: data-connectionstring
         envFrom:
         - configMapRef:
