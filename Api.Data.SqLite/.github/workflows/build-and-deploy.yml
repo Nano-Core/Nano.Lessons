@@ -37,9 +37,9 @@ env:
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
-  DATA_NAME: nanoDb
-  DATA_SIZE: 10Gi
-  DATA_MIGRATION_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.DATA_NAME }}.sqlite"
+  SQL_NAME: nanoDb
+  SQL_SIZE: 10Gi
+  SQL_MIGRATION_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.SQL_NAME }}.sqlite"
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -130,7 +130,7 @@ jobs:
           dotnet ef database update `
             --no-build `
             --startup-project $env:APP_NAME `
-            --connection "$env:DATA_MIGRATION_CONNECTIONSTRING";
+            --connection "$env:SQL_MIGRATION_CONNECTIONSTRING";
 
           if ($LastExitCode -ne 0)
           { 

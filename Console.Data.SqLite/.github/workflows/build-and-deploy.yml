@@ -33,9 +33,9 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
-  DATA_NAME: nanoDb
-  DATA_SIZE: 10Gi
-  DATA_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.DATA_NAME }}.sqlite"
+  SQL_NAME: nanoDb
+  SQL_SIZE: 10Gi
+  SQL_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.SQL_NAME }}.sqlite"
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
 jobs:
   build-and-deploy:
@@ -116,7 +116,7 @@ jobs:
           dotnet ef database update `
             --no-build `
             --startup-project $env:APP_NAME `
-            --connection "$env:DATA_MIGRATION_CONNECTIONSTRING";
+            --connection "$env:SQL_MIGRATION_CONNECTIONSTRING";
 
           if ($LastExitCode -ne 0)
           { 
