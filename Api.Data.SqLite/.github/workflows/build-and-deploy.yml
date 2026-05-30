@@ -42,7 +42,10 @@ env:
   SQL_MIGRATION_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.SQL_NAME }}.sqlite"
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux 
+      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
     permissions:
       contents: write
       packages: write

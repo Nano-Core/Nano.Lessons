@@ -41,7 +41,10 @@ env:
   AVAILABILITY_CHECK_FREQUENCY: 300
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux 
+      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
     permissions:
       contents: write
       packages: write
