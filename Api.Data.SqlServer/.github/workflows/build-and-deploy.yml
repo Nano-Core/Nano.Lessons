@@ -187,6 +187,9 @@ jobs:
                     ALTER ROLE db_datawriter ADD MEMBER [$env:SQL_USER];"
           };
 
+          echo "SQL_HOST=$env:SQL_HOST" >> $env:GITHUB_ENV;
+          echo "SQL_PORT=$env:SQL_PORT" >> $env:GITHUB_ENV;
+
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
