@@ -32,6 +32,6 @@ we are invoking the endpoint with an unauthenticated user.
 Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
 
-> 📖 Learn more about **[Nano Data Audit](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#audit)**.
+> 📖 Learn more about **[Nano Data Audit](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#audit)**.

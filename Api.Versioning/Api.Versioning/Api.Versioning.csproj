@@ -31,7 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	    <ProjectReference Include="..\Api.Versioning.Models\Api.Versioning.Models.csproj" />
+	  <ProjectReference Include="..\Api.Versioning.Models\Api.Versioning.Models.csproj" />
 	</ItemGroup>
 
 </Project>

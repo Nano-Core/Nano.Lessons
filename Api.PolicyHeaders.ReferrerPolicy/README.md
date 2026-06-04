@@ -27,7 +27,7 @@ in the resulting request.
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/referrer-policy` | Returns a `200 OK` response including the `Referrer-Policy` response header set to `same-origin`.  |
 
-> 📖 Learn more about **[Nano Referrer Policy Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#referrer-policy)**.
+> 📖 Learn more about **[Nano Referrer Policy Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#referrer-policy)**.
 
 ## Configuration
 ```json

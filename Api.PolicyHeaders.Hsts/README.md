@@ -27,7 +27,7 @@ To observe HSTS enforcement in action, load the `hsts-violation.html` file and s
 | ----------------------------------------- | --------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/hsts` | Returns a `200 OK` response including the `Strict-Transform-Security` response header.  |
 
-> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#strict-transport-security-hsts)**.
+> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#strict-transport-security-hsts)**.
 
 ## Configuration
 ```json

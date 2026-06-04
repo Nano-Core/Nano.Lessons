@@ -30,7 +30,7 @@ entity relationships can be inspected directly in the codebase.
 
 Also an `OnInserting` and `OnUpdating` trigger has been mapped for `Customer`, to show how the entity events will get the updated value.  
 
-> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#triggers)**.
+> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#triggers)**.
 
 Both `Person` and `Customer` are annotated with the `PublishAttribute`, and define property names that determine which fields should trigger publish events on added, modified, 
 and deleted actions. Several controllers have also been added to support these entities, enabling various create, update, and delete operations to trigger `Customer` entity events. When 
@@ -40,4 +40,4 @@ for the `Customer`.
 It is also important to note that `Customer` inherits publishable property definitions from `Person`. To ensure all property names defined across the entire inheritance hierarchy are 
 included, Nano aggregates the `PublishAttribute` metadata and hydrates entities both forward (for direct changes) and in reverse (via foreign key relationships) to capture deferred changes.
 
-> 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#entity-events)**.
+> 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#entity-events)**.

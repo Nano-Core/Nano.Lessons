@@ -27,4 +27,4 @@ The endpoints mirror those of the entity controller in the inner service, allowi
 real-world scenario, this structure would typically differ. The outer application would define its own request and response contracts tailored to its domain. However, for 
 simplicity and clarity in this example, the responses from the inner service are passed directly through the outer API.
 
-> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#api-clients)**.
+> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#api-clients)**.

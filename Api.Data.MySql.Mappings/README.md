@@ -27,4 +27,4 @@ used for case-insensitive searches, with the LINQ query calling `.ToUpper()` on 
 
 Last, a unique index has also been added to `Example.NameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
 
-> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql/README.md#nanodatamysql)**.

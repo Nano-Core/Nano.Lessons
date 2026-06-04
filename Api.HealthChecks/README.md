@@ -25,12 +25,11 @@ This example illustrates the use of Nano API health-checks.
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the startup health-check JSON report.  
 
-A webhook is configured for health-check that will trigger if the application becomes unhealthy.  
+The following endpoints are available for testing.  
 
 | Endpoint                                          | Description                                            |
 | ------------------------------------------------- | ------------------------------------------------------ |
 | `http://localhost:8080/api/examples/health-check` | Returns a `200 OK` response with health-check status.  |
-| `http://localhost:8080/api/examples/webhook`      | Returns a `200 OK` response.                           |
 
 > 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Apihealth-checks)**.
 

@@ -28,7 +28,7 @@ provider in Nano.
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
 
 The following endpoint from the auth controller is available for testing:
 
@@ -49,7 +49,7 @@ The following new endpoints related to the custom authentication provider from t
 | `http://localhost:8080/api/users/{id}/external-logins/add/custom`     | Adds a `Custom` external login to a user account.          |
 | `http://localhost:8080/api/users/{id}/external-logins/remove/custom`  | Removes an `Custom` login from a user account.             |
 
-> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#authentication)**.
+> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#authentication)**.
 
 ## Configuration
 Configured the application with the necessary authentication setup, in addition to the identity configuration.  

@@ -29,7 +29,7 @@ Try out the different API key identity and authentication methods.
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
 
 The following endpoint from the auth controller is available for testing:
 
@@ -42,7 +42,7 @@ The following endpoint from the auth controller is available for testing:
 
 Additionally, the identity controller is also avaialble, and the actions can be used for testing authorization.  
 
-> 📖 Learn more about **[Nano API Key Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#authentication)**.
+> 📖 Learn more about **[Nano API Key Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#authentication)**.
 
 ## Configuration
 Configured the application with the necessary authentication setup, in addition to the existing identity and jwt configuration.  
@@ -84,11 +84,3 @@ env:
 ```
 
 ...and created during the Kubernetes deploy step.  
-
-```yaml
-sudo kubectl create secret generic auth-api-key-secret --from-literal=apikey-secret=$env:AUTH_API_KEY_SECRET --save-config --dry-run=client -o yaml | sudo kubectl apply -f -;
-if ($LastExitCode -ne 0)
-{ 
-    throw "error";
-};
-```

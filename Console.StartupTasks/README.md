@@ -21,4 +21,4 @@ ensuring that the console application only runs after initialization is finished
 
 Run the application and observe how both example workers wait for the startup tasks to complete before executing their logic.  
 
-> 📖 Learn more about **[Nano Startup Tasks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App#startup-tasks)**.
+> 📖 Learn more about **[Nano Startup Tasks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#startup-tasks)**.

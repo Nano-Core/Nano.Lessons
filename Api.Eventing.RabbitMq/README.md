@@ -35,7 +35,7 @@ You can also monitor the messages via the RabbitMQ management interface: **[http
 An eventing health check is configured to target the RabbitMQ.  
 Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**
 
 The following endpoint is available for testing:
 
@@ -44,7 +44,7 @@ The following endpoint is available for testing:
 | `http://localhost:8080/api/examples/eventing`              | Returns a simple `200 OK` response. Publishes a message that wiil be consumed by the `EventHandler`                      |
 | `http://localhost:8080/api/examples/eventing-routing-key`  | Returns a simple `200 OK` response. Publishes a message using routing key that wiil be consumed by the `EventHandler`    |
 
-> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq)**.
+> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq/README.md#nanoeventingrabbitmq)**.
 
 ## Registration
 The following eventing provider has been registered using `ConfigureServices(...)` in `program.cs`.  
@@ -60,7 +60,7 @@ The following eventing provider has been registered using `ConfigureServices(...
 ```
 
 ## Configuration
-Configured the application with the necessary eventing setup.  
+Configured the application `appsettings.json` with the necessary eventing setup.  
 
 ```json
 "Eventing": {
@@ -77,6 +77,17 @@ Configured the application with the necessary eventing setup.
   },
   "HealthCheck": {
     "UnhealthyStatus": "Unhealthy"
+  }
+}
+```
+
+...and the `appsettings.Development.json` eventing configuration.  
+
+```json
+"Eventing": {
+  "Credentials": {
+    "Id": "rabbitmq_user",
+    "Secret": "password"
   }
 }
 ```
@@ -124,11 +135,17 @@ spec:
     spec:
       containers:
         env:
+        - name: Eventing__Credentials__Id
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-auth
+              key: username
+           envFrom:
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
-              name: rabbitmq
-              key: rabbitmq-password
+              name: rabbitmq-auth
+              key: password
 ```
 
 > ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 

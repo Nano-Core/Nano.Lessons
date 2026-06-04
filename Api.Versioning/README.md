@@ -32,4 +32,4 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/v1.0/examples/versioning`  | Returns a `200 OK` response with the message `v1.0`.  |
 | `http://localhost:8080/api/v2.0/examples/versioning`  | Returns a `200 OK` response with the message `v2.0`.  |
 
-> 📖 Learn more about **[Nano Versioning](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#versioning)**.
+> 📖 Learn more about **[Nano Versioning](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#versioning)**.

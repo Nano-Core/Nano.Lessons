@@ -32,4 +32,4 @@ migrationBuilder
            USING GEOGRAPHY_GRID");
 ```
 
-> 📖 Learn more about **[Nano.Data.SqlServer](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.SqlServer)**.
+> 📖 Learn more about **[Nano.Data.SqlServer](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.SqlServer/README.md#nanodatamysql)**.

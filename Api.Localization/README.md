@@ -36,7 +36,7 @@ The controller return a response in the following format:
 | ------------------------------------------------- | ---------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/localization` | Returns a `200 OK` response with names of the culture langauge.  |
 
-> 📖 Learn more about **[Nano Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#localization)**.
+> 📖 Learn more about **[Nano Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#localization)**.
 
 ## Configuration
 

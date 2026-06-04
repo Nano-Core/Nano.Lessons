@@ -25,26 +25,26 @@ This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lesso
 the Nano `BaseEntityControllerr<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
 
 This example demonstrates how various parts of Nano data work together. All data configuration and registration have been completed, and classes have been implemented 
-for the data parts, including [Data Models](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-models), [Data Mappings](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-mappings), 
-and the [Data Context](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#data-context).  
+for the data parts, including **[Data Models](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#data-models)**, **[Data Mappings](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#data-mappings)**, 
+and the **[Data Context](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#data-context)**.  
 
-Additionally, the example shows how Nano [Data Repository](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#repositories) works along with the corresponding 
-entity controllers. For more information on controllers and how they are connected with entity models, see [Nano Entity Controllers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#controllers).
+Additionally, the example shows how Nano **[Data Repository](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#repositories)** works along with the corresponding 
+entity controllers. For more information on controllers and how they are connected with entity models, see **[Nano Entity Controllers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#controllers)**.
 
 A data health check is configured to target the database.  
 Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**.
 
 Also, API documentation has been configured, in order to easier see which endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
 
 Additionally, controllers have been implemented to demonstrate controllers for creatable, updatable, creatable-and-updatable, and deletable entities. When viewing 
 the API documentation, observe how the available endpoints differ depending on the capabilities supported by each controller.  
 
-> 📖 Learn more about **[Nano.Data.SqlServer](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.SqlServer)**.
+> 📖 Learn more about **[Nano.Data.SqlServer](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.SqlServer/README.md#nanodatamysql)**.
 
 ## Registration
 The following data provider has been registered using `ConfigureServices(...)` in `program.cs`.  
@@ -134,7 +134,7 @@ spec:
         - name: Data__ConnectionString
           valueFrom:
             secretKeyRef:
-              name: %SERVICE_NAME%-data-secret
+              name: %SERVICE_NAME%-sql-auth-secret
               key: data-connectionstring
 ```
 
@@ -143,72 +143,73 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  DATA_HOST: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_HOST || secrets.STAGING_SQLSERVER_HOST }}
-  DATA_NAME: nanoDb
-  DATA_USER: api-data-sqlserver-user
-  DATA_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_NANO_DB_PASSWORD || secrets.STAGING_SQLSERVER_NANO_DB_PASSWORD }}
-  DATA_ADMIN_USER: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_ADMIN_USER || secrets.STAGING_SQLSERVER_ADMIN_USER }}
-  DATA_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQLSERVER_ADMIN_PASSWORD || secrets.STAGING_SQLSERVER_ADMIN_PASSWORD }}
-  DATA_CONNECTIONSTRING: Server=${{ env.DATA_HOST }},${{ vars.DATA_SQLSERVER_PORT }};Database=${{ env.DATA_NAME }};User Id=${{ env.DATA_USER }};Password=${{ env.DATA_PASSWORD }};
-  DATA_MIGRATION_CONNECTIONSTRING: Server=${{ env.DATA_HOST }},${{ vars.DATA_SQLSERVER_PORT }};Database=${{ env.DATA_NAME }};User Id=${{ env.DATA_ADMIN_USER }};Password=${{ env.DATA_ADMIN_PASSWORD }};
+  SQL_NAME: nanoDb
+  SQL_USER: api-data-sqlserver-user
+  SQL_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_NANO_DB_PASSWORD || secrets.STAGING_SQL_NANO_DB_PASSWORD }}
+  SQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_ADMIN_PASSWORD || secrets.STAGING_SQL_ADMIN_PASSWORD }}
 ```
 
 Additionally, this step has been added to ensure database migrations are applied, and the application database user has been created before the application is deployed.  
 
 ```yaml
-- name: Database Migration
+- name: Database Migration & User
   shell: pwsh
   run: |
+    $env:SQL_HOST = az sql server list -g $env:AZURE_GROUP_DATABASE --query "[0].fullyQualifiedDomainName" -o tsv;
+    $env:SQL_PORT = "1433"
+    $env:SQL_ADMIN_USER = az sql server list -g $env:AZURE_GROUP_DATABASE --query "[0].administratorLogin" -o tsv;
+    $env:SQL_MIGRATION_CONNECTIONSTRING = "Server=$env:SQL_HOST,$env:SQL_PORT;Database=$env:SQL_NAME;User Id=$env:SQL_ADMIN_USER;Password=$env:SQL_ADMIN_PASSWORD;Encrypt=True;TrustServerCertificate=True;";
+
     dotnet ef database update `
       --no-build `
       --startup-project $env:APP_NAME `
-      --connection "$env:DATA_MIGRATION_CONNECTIONSTRING" `;
+      --connection "$env:SQL_MIGRATION_CONNECTIONSTRING";
 
     if ($LastExitCode -ne 0)
     { 
         throw "error";
     };
-         
-    sudo apt-get update
-    sudo apt-get install -y mssql-tools unixodbc-dev
+          
+    apt-get update
+    apt-get install -y mssql-tools unixodbc-dev
 
     $loginExists = sqlcmd `
-        -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
-        -U $env:DATA_ADMIN_USER `
-        -P $env:DATA_ADMIN_PASSWORD `
-        -d master `
-        -h -1 `
-        -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name = '$env:DATA_USER';"
+      -S "$env:SQL_HOST,$env:SQL_PORT" `
+      -U $env:SQL_ADMIN_USER `
+      -P $env:SQL_ADMIN_PASSWORD `
+      -d master `
+      -h -1 `
+      -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.server_principals WHERE name = '$env:SQL_USER';"
 
     if ($loginExists -eq 0)
     {
         sqlcmd `
-            -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
-            -U $env:DATA_ADMIN_USER `
-            -P $env:DATA_ADMIN_PASSWORD `
-            -d master `
-            -Q "CREATE LOGIN [$env:DATA_USER] WITH PASSWORD = '$env:DATA_PASSWORD';"
-    }
+          -S "$env:SQL_HOST,$env:SQL_PORT" `
+          -U $env:SQL_ADMIN_USER `
+          -P $env:SQL_ADMIN_PASSWORD `
+          -d master `
+          -Q "CREATE LOGIN [$env:SQL_USER] WITH PASSWORD = '$env:SQL_PASSWORD';"
+    };
 
     $userExists = sqlcmd `
-        -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
-        -U $env:DATA_ADMIN_USER `
-        -P $env:DATA_ADMIN_PASSWORD `
-        -d $env:DATA_NAME `
-        -h -1 `
-        -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name = '$env:DATA_USER';"
+      -S "$env:SQL_HOST,$env:SQL_PORT" `
+      -U $env:SQL_ADMIN_USER `
+      -P $env:SQL_ADMIN_PASSWORD `
+      -d $env:SQL_NAME `
+      -h -1 `
+      -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.database_principals WHERE name = '$env:SQL_USER';"
 
-   if ($userExists -eq 0)
-   {
-       sqlcmd `
-           -S "$env:DATA_HOST,$env:DATA_SQLSERVER_PORT" `
-           -U $env:DATA_ADMIN_USER `
-           -P $env:DATA_ADMIN_PASSWORD `
-           -d $env:DATA_NAME `
-           -Q "CREATE USER [$env:DATA_USER] FOR LOGIN [$env:DATA_USER];
-               ALTER ROLE db_datareader ADD MEMBER [$env:DATA_USER];
-               ALTER ROLE db_datawriter ADD MEMBER [$env:DATA_USER];"
-   }
+    if ($userExists -eq 0)
+    {
+        sqlcmd `
+          -S "$env:SQL_HOST,$env:SQL_PORT" `
+          -U $env:SQL_ADMIN_USER `
+          -P $env:SQL_ADMIN_PASSWORD `
+          -d $env:SQL_NAME `
+          -Q "CREATE USER [$env:SQL_USER] FOR LOGIN [$env:SQL_USER];
+              ALTER ROLE db_datareader ADD MEMBER [$env:SQL_USER];
+              ALTER ROLE db_datawriter ADD MEMBER [$env:SQL_USER];"
+    };
 ```
 
 Last, the application connectionstring must be added in a secret in Kuberntes. The `Kubernetes Deploy` step has been updated with the following.  

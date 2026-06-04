@@ -30,7 +30,7 @@ The following endpoint is available for testing.
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/no-save`   | Returns a simple `200 OK` response, while trying to add a new `Example`, changes are never saved.  |
 
-> 📖 Learn more about **[Nano Data Repository Autosave](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#autosave)**.
+> 📖 Learn more about **[Nano Data Repository Autosave](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#autosave)**.
 
 ## Configuration
 Configured the application with the necessary data setup.  

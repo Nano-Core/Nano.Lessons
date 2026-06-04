@@ -26,4 +26,4 @@ The data mapping also includes two triggers for `OnDeleting` and `OnDeleted` to 
 
 Open the database and notice that the created `Example` entity has a non-zero `IsDeleted` value, indicating it has been soft-deleted.  
 
-> 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#soft-delete)**.
+> 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#soft-delete)**.

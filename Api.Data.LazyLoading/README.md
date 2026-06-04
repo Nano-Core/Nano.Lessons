@@ -23,7 +23,7 @@ demonstrate repository autosave. Entity controllers have been simplified to show
 Once the object graph is created, notice that only `IncludedRelations` appears in the response. Although `Relations` is lazy-loaded in the code, it is not included 
 because it lacks the `Include` annotation.  
 
-> 📖 Learn more about **[Nano Data Lazy Loading](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data#lazy-loading)**.
+> 📖 Learn more about **[Nano Data Lazy Loading](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#lazy-loading)**.
 
 ## Configuration
 ```json

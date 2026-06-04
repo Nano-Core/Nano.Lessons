@@ -33,7 +33,7 @@ credentials are omitted from the configuration, the application will still run, 
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check JSON response.  
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#health-checks)**.  
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**.  
 
 The following endpoint is available for testing.
 
@@ -41,7 +41,7 @@ The following endpoint is available for testing.
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`        | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure/README#nanostorageazure)**.
 
 ## Registration
 The following storage provider has been registered using `ConfigureServices(...)` in `program.cs`.  
@@ -61,11 +61,8 @@ Add the storage configuration.
 ```json
 "Storage": {
   "ShareName": "nano-storage-azure",
-  "Credentials": {
-    "Id": "id",
-    "Secret": "secret"
-  },
   "HealthCheck": {
+    "AccountName": null,
     "UnhealthyStatus": "Degraded"
   }
 }
@@ -76,9 +73,6 @@ Additionally, application health-checks have been enabled with the configuration
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50
   }
 }
 ```
@@ -93,48 +87,37 @@ docker
 ```
 
 ## Kubernetes
-Added the volumes, volume mounts and secrets to the `deployment.yaml`.  
+Added two new kubernetes templaets, the `storage-pv.yaml` and `storage-pvc.yaml`. Updated the `deployment.yaml` mounting the volume.  
 
-```json
+```yaml
 spec:
   template:
     spec:
       containers:
-        env:
-        - name: Storage__Credentials__Id
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountname
-        - name: Storage__Credentials__Secret
-          valueFrom:
-            secretKeyRef:
-              name: storage-account-secret
-              key: azurestorageaccountkey
         volumeMounts:
-        - name: tmp
-          mountPath: /tmp
         - name: %SERVICE_NAME%-volume
           mountPath: /mnt/%STORAGE_SHARE_NAME%
+        - name: tmp
+          mountPath: /tmp
       volumes:
+      - name: %SERVICE_NAME%-volume
+        persistentVolumeClaim:
+          claimName: %SERVICE_NAME%-azurefile-pvc
       - name: tmp
         emptyDir: {}
-      - name: %SERVICE_NAME%-volume
-        azureFile:
-          secretName: storage-account-secret
-          shareName: %STORAGE_SHARE_NAME%
-          readOnly: false
 ```
+
+Additionally, the `configmap.yaml` file stores the `$env:STORAGE_ACCOUNT_NAME` value, which is used by the TCP-based health check to validate connectivity to the Azure File Share endpoint.  
 
 ## GitHub Actions
 Add the following environment variables to the `buid-and-deply.yml`.  
 
 ```yaml
 env: 
-  STORAGE_SHARE_NAME: nano-storage-azure
-  STORAGE_CREDENTIALS_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_ID  || secrets.STAGING_STORAGE_CREDENTIALS_ID }}
-  STORAGE_CREDENTIALS_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_STORAGE_CREDENTIALS_SECRET  || secrets.STAGING_STORAGE_CREDENTIALS_SECRET }}
+  AZURE_GROUP_BACKUP: ${{ vars.AZURE_BACKUP_RESOURCE_GROUP }}
+  AZURE_GROUP_STORAGE: ${{ vars.AZURE_STORAGE_RESOURCE_GROUP }}
   STORAGE_SIZE: 1000
+  STORAGE_SHARE_NAME: nano-storage-azure
 ```
 
 And add this step below as well, ensuring that the fileshare gets created before the application is deployed.  
@@ -143,13 +126,40 @@ And add this step below as well, ensuring that the fileshare gets created before
 - name: Create Fileshare
   shell: pwsh
   run: |
-    $env:EXISTING_FILE_SHARE = sudo az storage share list --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --query "[?contains(name, '$env:STORAGE_SHARE_NAME')].[name]" -o tsv;
-    if ([string]::IsNullOrEmpty($env:EXISTING_FILE_SHARE))
+    $env:STORAGE_ACCOUNT_NAME = sudo az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
+
+    $env:FILE_SHARE_EXISTS = sudo az storage share-rm exists `
+        -g $env:AZURE_GROUP_STORAGE `
+        -n $env:STORAGE_SHARE_NAME `
+        --storage-account $env:STORAGE_ACCOUNT_NAME `
+        --query exists;
+
+    if ($env:FILE_SHARE_EXISTS -eq "false")
     { 
-        sudo az storage share create -n $env:STORAGE_SHARE_NAME --account-name $env:STORAGE_CREDENTIALS_ID --account-key $env:STORAGE_CREDENTIALS_SECRET --quota $env:STORAGE_SIZE;
+        sudo az storage share-rm create `
+            -g $env:AZURE_GROUP_STORAGE `
+            -n $env:STORAGE_SHARE_NAME `
+            --storage-account $env:STORAGE_ACCOUNT_NAME `
+            --access-tier TransactionOptimized `
+            --quota $env:STORAGE_SIZE;
+              
         if ($LastExitCode -ne 0) 
         { 
             throw "error";
-        };  
+        };
+
+        $env:BACKUP_VAULT_NAME = sudo az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
+
+        sudo az backup protection enable-for-azurefileshare `
+            -g $env:AZURE_GROUP_BACKUP `
+            -v $env:BACKUP_VAULT_NAME `
+            -p $env:STORAGE_ACCOUNT_NAME-backup-policy `
+            --storage-account $env:STORAGE_ACCOUNT_NAME `
+            --azure-file-share $env:STORAGE_SHARE_NAME;
+              
+        if ($LastExitCode -ne 0) 
+        { 
+            throw "error";
+        };
     }
 ```

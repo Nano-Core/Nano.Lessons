@@ -28,4 +28,4 @@ The following endpoint is available for testing:
 | -------------------------------------------------- | -------------------------------------- |
 | `http://localhost:8080/api/examples/static-files`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Static Files](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#static-files)**.
+> 📖 Learn more about **[Nano Static Files](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#static-files)**.

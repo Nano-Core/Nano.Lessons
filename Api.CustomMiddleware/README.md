@@ -28,7 +28,7 @@ The following endpoint is available for testing:
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/custom-middleware`  | Returns a simple `200 OK` response, with the custom header.  |
 
-> 📖 Learn more about **[Nano Custom Middleware](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#custom-middleware)**.
+> 📖 Learn more about **[Nano Custom Middleware](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#custom-middleware)**.
 
 ## Registration
 The application register custom middleware that adds a header `CustomMiddleware` to all response with the value `awesome`, as shown below.  

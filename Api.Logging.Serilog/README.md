@@ -24,14 +24,14 @@ that inherits from the top-level Nano `BaseController`.
 This application demonstrates logging with Serilog for a API application. Also note the `LogLevelOverrides` configuration, 
 where logs under the `Microsoft` namespace are set to `Warning`, which suppresses several informational messages during application startup.  
 
-The following endpoint is available for testing:
+The following endpoint is available for testing.  
 
 | Endpoint                                                | Description                                                                                                        |
 | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/logging`            | Returns a simple `200 OK` response. Won't log the `.LogDebug(...)` due to configuration `LogLevel=Information`.    |
 | `http://localhost:8080/api/examples/logging-exception`  | Returns a simple `500 Internal Server Error` response. The exception will be logged.                               |
 
-> 📖 Learn more about **[Nano.Logging.Serilog](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.Serilog)**.
+> 📖 Learn more about **[Nano.Logging.Serilog](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.Serilog/README.md#nanologgingserilog)**.
 
 ## Registration
 The following logging has been registered using `ConfigureServices(...)` in `program.cs`.  

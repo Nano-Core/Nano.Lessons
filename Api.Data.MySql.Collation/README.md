@@ -25,7 +25,7 @@ a case-insensitive collation returns results regardless of letter casing.
 
 ⚠️ Note: Changing this setting affects only new migrations and will not modify existing tables or columns.
 
-> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql/README.md#nanodatamysql)**.
 
 ## Configuration
 The collation is set in `appsettings`.  

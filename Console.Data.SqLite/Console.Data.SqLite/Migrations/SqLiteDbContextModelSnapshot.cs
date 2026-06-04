@@ -15,7 +15,7 @@ namespace Console.Data.SqLite.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.7");
 
             modelBuilder.Entity("Console.Data.SqLite.Data.Models.Example", b =>
                 {
@@ -200,14 +200,24 @@ namespace Console.Data.SqLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("EntityKey")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EntitySetName")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("EntityState")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
                     b.Property<string>("EntityTypeName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
@@ -218,22 +228,17 @@ namespace Console.Data.SqLite.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("State")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("StateName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("EntityKey");
+
+                    b.HasIndex("EntityState");
+
                     b.HasIndex("EntityTypeName");
 
                     b.HasIndex("RequestId");
-
-                    b.HasIndex("State");
 
                     b.ToTable("__EFAudit", (string)null);
                 });
@@ -308,6 +313,54 @@ namespace Console.Data.SqLite.Migrations
                     b.HasIndex("RevokedAt");
 
                     b.ToTable("__EFIdentityApiKey", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiKeyId", "ClaimType")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyClaim_ApiKeyId_ClaimType");
+
+                    b.ToTable("__EFIdentityApiKeyClaim", (string)null);
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ApiKeyId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("ApiKeyId", "RoleId")
+                        .IsUnique()
+                        .HasDatabaseName("UX___EFIdentityApiKeyRole_ApiKeyId_RoleId");
+
+                    b.ToTable("__EFIdentityApiKeyRole", (string)null);
                 });
 
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
@@ -440,10 +493,6 @@ namespace Console.Data.SqLite.Migrations
 
                     b.HasIndex("ExpireAt");
 
-                    b.HasIndex("IdentityUserId")
-                        .IsUnique()
-                        .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId");
-
                     b.HasIndex("IdentityUserId", "AppId")
                         .IsUnique()
                         .HasDatabaseName("UX___EFIdentityUserRefreshToken_IdentityUserId_AppId");
@@ -524,6 +573,36 @@ namespace Console.Data.SqLite.Migrations
                     b.Navigation("IdentityUser");
                 });
 
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+                });
+
+            modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityApiKeyRole<System.Guid>", b =>
+                {
+                    b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityApiKey<System.Guid>", "ApiKey")
+                        .WithMany()
+                        .HasForeignKey("ApiKeyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApiKey");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserChangeData<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
@@ -538,8 +617,8 @@ namespace Console.Data.SqLite.Migrations
             modelBuilder.Entity("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", b =>
                 {
                     b.HasOne("Nano.Data.Abstractions.Models.Identity.IdentityUserEx<System.Guid>", "IdentityUser")
-                        .WithOne()
-                        .HasForeignKey("Nano.Data.Abstractions.Models.Identity.IdentityUserRefreshToken<System.Guid>", "IdentityUserId")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -29,4 +29,4 @@ migrationBuilder
 
 Also, an `ExampleViewsController` (deriving from `BaseEntityViewController`) has been added, exposing query actions for the view.
 
-> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql/README.md#nanodatamysql)**.

@@ -28,4 +28,4 @@ The following endpoint is available for testing.
 | ----------------------------------------------------- | -------------------------------------- |
 | `http://localhost:8080/api/examples/request-tracing`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Request Tracing](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#request-tracing)**.
+> 📖 Learn more about **[Nano Request Tracing](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#request-tracing)**.

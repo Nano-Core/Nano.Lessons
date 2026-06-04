@@ -2,8 +2,4 @@ ARG DOTNET_ASPNET_VERSION="10.0"
 
 FROM mcr.microsoft.com/dotnet/aspnet:$DOTNET_ASPNET_VERSION AS base
 
-RUN apt-get update \
-    && apt-get install -y libsqlite3-mod-spatialite \
-    && apt-get install -y libspatialite-dev
-
 ENTRYPOINT ["dotnet", "Console.Data.SqLite.dll"]

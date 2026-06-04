@@ -42,7 +42,7 @@ The following endpoint is available for testing:
 
 Alternatively, toggle the `ExposeErrors` to `false`, and observe that messages from `500 Internal Server Errors` no longer will be exposed.  
 
-> 📖 Learn more about **[Nano Error Handling](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api#error-handling)**.
+> 📖 Learn more about **[Nano Error Handling](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#error-handling)**.
 
 ## Configuration
 ```json

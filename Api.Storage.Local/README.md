@@ -36,7 +36,7 @@ The following endpoint is available for testing:
 | --------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`  | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local)**.
+> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local/README#nanostoragelocal)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  
@@ -67,9 +67,6 @@ Additionally, application health-checks have been enabled with the configuration
 ```json
 "App": {
   "HealthCheck": {
-    "EvaluationInterval": 10,
-    "FailureNotificationInterval": 60,
-    "MaximumHistoryEntriesPerEndpoint": 50
   }
 }
 ```
@@ -88,7 +85,7 @@ Added two additional kubernetes templates, `storage-storageclass.yaml` and `stor
 
 Also, updated `deployment.yaml` adding the volumes and volume mounts.  
 
-```json
+```yaml
 spec:
   template:
     spec:
