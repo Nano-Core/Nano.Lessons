@@ -1,0 +1,17 @@
+services:
+  api.logging.nlog:
+    image: api.logging.nlog
+    hostname: api-logging-nlog
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Logging.NLog
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

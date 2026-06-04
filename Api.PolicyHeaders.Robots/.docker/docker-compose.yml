@@ -1,0 +1,17 @@
+services:
+  api.policyheaders.robots:
+    image: api.policyheaders.robots
+    hostname: api-policyheaders-robots
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.PolicyHeaders.Robots
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

@@ -1,0 +1,16 @@
+services:
+  console.data.sqlite:
+    image: console.data.sqlite
+    restart: on-failure
+    build:
+      context: ../Console.Data.SqLite
+      dockerfile: "Dockerfile.Local"
+    volumes:
+      - ./bin/data:/mnt/data
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

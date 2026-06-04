@@ -1,0 +1,17 @@
+services:
+  web.blank:
+    image: web.blank
+    hostname: web-blank
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Web.Blank
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

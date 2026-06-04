@@ -1,0 +1,17 @@
+services:
+  api.hosting.http:
+    image: api.hosting.http
+    hostname: api-hosting-http
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Hosting.Http
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

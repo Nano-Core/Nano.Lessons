@@ -1,0 +1,27 @@
+services:
+  console.data.postgresql:
+    image: console.data.postgresql
+    restart: on-failure
+    build:
+      context: ../Console.Data.PostgreSQL
+      dockerfile: "Dockerfile.Local"
+    depends_on:
+      - database
+    networks:
+      - network
+
+  database:
+    image: postgis/postgis:latest
+    ports:
+      - 5432:5432
+    networks:
+      - network
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: myPassword_123
+      POSTGRES_DB: nanoDb
+
+networks:
+  network:
+    name: network
+    external: true

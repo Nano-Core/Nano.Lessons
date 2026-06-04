@@ -1,0 +1,17 @@
+services:
+  api.logging.serilog:
+    image: api.logging.serilog
+    hostname: api-logging-serilog
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Logging.Serilog
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge

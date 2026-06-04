@@ -1,0 +1,14 @@
+services:
+  console.customservice:
+    image: console.customservice
+    restart: on-failure
+    build:
+      context: ../Console.CustomService
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true

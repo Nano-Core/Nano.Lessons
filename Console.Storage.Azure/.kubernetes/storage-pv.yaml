@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: %SERVICE_NAME%-azurefile-pv
+spec:
+  capacity:
+    storage: %STORAGE_SIZE%
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: azurefile-static
+  csi:
+    driver: file.csi.azure.com
+    volumeHandle: %STORAGE_SHARE_NAME%
+    volumeAttributes:
+      shareName: %STORAGE_SHARE_NAME%
+      storageAccount: %STORAGE_ACCOUNT_NAME%

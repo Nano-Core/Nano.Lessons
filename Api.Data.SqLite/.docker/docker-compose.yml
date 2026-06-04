@@ -1,0 +1,18 @@
+services:
+  api.data.sqlite:
+    image: api.data.sqlite
+    hostname: api-data-sqlite
+    build:
+      context: ../Api.Data.SqLite
+      dockerfile: Dockerfile.Local
+    restart: on-failure
+    ports:
+      - 8080:8080
+    volumes:
+      - ./bin/data:/mnt/data
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge

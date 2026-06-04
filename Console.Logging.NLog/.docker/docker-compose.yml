@@ -1,0 +1,14 @@
+services:
+  console.logging.nlog:
+    image: console.logging.nlog
+    restart: on-failure
+    build:
+      context: ../Console.Logging.NLog
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    external: true
