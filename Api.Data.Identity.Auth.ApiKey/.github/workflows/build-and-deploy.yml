@@ -26,7 +26,7 @@ env:
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
-  KUBERNETES_NAMESPACE: apps
+  KUBERNETES_NAMESPACE: ${{ vars.KUBERNETES_NAMESPACE }}
   KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}
   KUBERNETES_REPLICA_COUNT_MAX: ${{ github.ref == 'refs/heads/master' && 8 || 5 }}
   KUBERNETES_REPLICA_HISTORY_COUNT: 0
@@ -92,13 +92,11 @@ jobs:
       - name: Publish Image
         shell: pwsh
         run: |
-          $registryHost = $env:CONTAINER_REGISTRY_HOST.ToLower()
-          $imageLatestTag = $registryHost + "/" + $env:IMAGE_NAME + ":latest";
-          $imageVersionTag = $registryHost + "/" + $env:IMAGE_NAME + ":" + $env:VERSION
+          $env:FULL_IMAGE_NAME = $env:CONTAINER_REGISTRY_HOST + "/" + "${{ github.repository_owner }}".ToLower() + "/" + $env:IMAGE_NAME;
           
           docker build `
-              -t $imageLatestTag `
-              -t $imageVersionTag `
+              -t "$($env:FULL_IMAGE_NAME):latest" `
+              -t "$($env:FULL_IMAGE_NAME):$($env:VERSION)" `
               --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
               --build-arg DOTNET_ASPNET_VERSION=$env:DOTNET_ASPNET_VERSION `
               --build-arg CONTAINER_REGISTRY_SOURCE_LABEL=$env:CONTAINER_REGISTRY_SOURCE_LABEL `
@@ -113,8 +111,10 @@ jobs:
           };
 
           echo $env:CONTAINER_REGISTRY_PASSWORD | docker login $env:CONTAINER_REGISTRY_HOST -u $env:CONTAINER_REGISTRY_USERNAME --password-stdin;
-          docker push $imageLatestTag;
-          docker push $imageVersionTag;
+
+          docker push "$($env:FULL_IMAGE_NAME):latest";
+          docker push "$($env:FULL_IMAGE_NAME):$($env:VERSION)";
+
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
@@ -177,6 +177,7 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
+          $env:FULL_IMAGE_NAME = $env:CONTAINER_REGISTRY_HOST + "/" + "${{ github.repository_owner }}".ToLower() + "/" + $env:IMAGE_NAME;
           $env:SQL_CONNECTIONSTRING = "Server=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Uid=$env:SQL_USER;Pwd=$env:SQL_PASSWORD;SslMode=Preferred";
 
           Get-Content .kubernetes/auth-sql-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-sql-secret.tmp.yaml;
@@ -237,6 +238,8 @@ jobs:
           body: |
             Version: ${{ env.VERSION }}
             Commit: ${{ github.sha }}
+            Build run: ${{ github.run_number }}
+            Image: ${{ env.CONTAINER_REGISTRY_HOST }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           artifacts: "nupkgs/*"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false

@@ -28,6 +28,7 @@ jobs:
           name: "Release ${{ env.VERSION }}"
           body: |
             Version: ${{ env.VERSION }}
+            Build run: ${{ github.run_number }}
             Commit: ${{ github.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false

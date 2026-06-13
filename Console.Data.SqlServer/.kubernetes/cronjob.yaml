@@ -24,7 +24,7 @@ spec:
             kubernetes.io/os: linux
           containers:
           - name: %SERVICE_NAME%
-            image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
+            image: %FULL_IMAGE_NAME%:%VERSION%
             imagePullPolicy: Always 
             env:
             - name: Data__ConnectionString
