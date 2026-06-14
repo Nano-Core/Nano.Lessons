@@ -38,30 +38,17 @@ env:
   SQL_USER: api-data-sqlserver-user
   SQL_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_NANO_DB_PASSWORD || secrets.STAGING_SQL_NANO_DB_PASSWORD }}
   SQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_ADMIN_PASSWORD || secrets.STAGING_SQL_ADMIN_PASSWORD }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.repository }}
+  cancel-in-progress: true
 jobs:
-  build-and-deploy:
-    runs-on:
-      - self-hosted
-      - linux 
-      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
+  build:
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       packages: write
-      id-token: write
-    concurrency:
-      group: ${{ github.repository }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v6
-
-      - name: Azure Login
-        shell: pwsh
-        run: |
-          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
-          az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
-
-          $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
-          az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Build
         shell: pwsh
@@ -78,9 +65,10 @@ jobs:
         shell: pwsh
         run: |
           dotnet test .\.tests\Tests.$env:APP_NAME\Tests.$env:APP_NAME.csproj;
+
           if ($LastExitCode -ne 0)
           { 
-              throw "error";
+            throw "error";
           };
 
       - name: Publish Image
@@ -112,7 +100,24 @@ jobs:
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
-          };  
+          };    
+  deploy:
+    runs-on:
+      - self-hosted
+      - linux 
+      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
+    needs: build
+    permissions:
+      contents: write
+    steps:
+      - name: Azure Login
+        shell: pwsh
+        run: |
+          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
+          az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
+
+          $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
+          az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Database Migration & User
         shell: pwsh
@@ -131,9 +136,6 @@ jobs:
           { 
               throw "error";
           };
-          
-          apt-get update
-          apt-get install -y mssql-tools unixodbc-dev
 
           $loginExists = sqlcmd `
             -S "$env:SQL_HOST,$env:SQL_PORT" `
