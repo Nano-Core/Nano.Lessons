@@ -14,6 +14,7 @@ env:
   DOTNET_SDK_VERSION: 10.0
   DOTNET_ASPNET_VERSION: 10.0
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
+  AZURE_GROUP_DELIVERY: ${{ vars.AZURE_RESOURCE_GROUP_DELIVERY }}
   AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -21,10 +22,6 @@ env:
   NUGET_HOST: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   NUGET_USERNAME: ${{ github.actor }}
   NUGET_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  CONTAINER_REGISTRY_HOST: ghcr.io
-  CONTAINER_REGISTRY_USERNAME: ${{ github.actor }}
-  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/Nano-Core/Nano.Template.Console
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: ${{ vars.KUBERNETES_NAMESPACE }}
   KUBERNETES_REPLICA_HISTORY_COUNT: 4
@@ -42,13 +39,22 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}
   cancel-in-progress: true
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on:
+      - self-hosted
+      - linux 
+      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
     permissions:
-      contents: read
-      packages: write
+      contents: write
     steps:
-      - uses: actions/checkout@v6
+      - name: Azure Login
+        shell: pwsh
+        run: |
+          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
+          az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
+
+          $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
+          az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
       - name: Build
         shell: pwsh
@@ -71,54 +77,28 @@ jobs:
             throw "error";
           };
 
-      - name: Publish Image
+      - name: Build and Push Image
         shell: pwsh
         run: |
-          $env:FULL_IMAGE_NAME = $env:CONTAINER_REGISTRY_HOST + "/" + "${{ github.repository_owner }}".ToLower() + "/" + $env:IMAGE_NAME;
-          
-          docker build `
-              -t "$($env:FULL_IMAGE_NAME):latest" `
-              -t "$($env:FULL_IMAGE_NAME):$($env:VERSION)" `
+          $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
+
+          az acr build `
+              --registry $env:CONTAINER_REGISTRY_HOST `
+              -t "$($env:IMAGE_NAME):latest" `
+              -t "$($env:IMAGE_NAME):$($env:VERSION)" `
               --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
               --build-arg DOTNET_ASPNET_VERSION=$env:DOTNET_ASPNET_VERSION `
-              --build-arg CONTAINER_REGISTRY_SOURCE_LABEL=$env:CONTAINER_REGISTRY_SOURCE_LABEL `
+              --build-arg CONTAINER_REGISTRY_SOURCE_LABEL=https://github.com/$env:GITHUB_REPOSITORY `
               --build-arg NUGET_HOST=$env:NUGET_HOST `
               --build-arg NUGET_USERNAME=$env:NUGET_USERNAME `
               --build-arg NUGET_PASSWORD=$env:NUGET_PASSWORD `
-              ./;
+              ./
 
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
-          };
+          };  
 
-          echo $env:CONTAINER_REGISTRY_PASSWORD | docker login $env:CONTAINER_REGISTRY_HOST -u $env:CONTAINER_REGISTRY_USERNAME --password-stdin;
-
-          docker push "$($env:FULL_IMAGE_NAME):latest";
-          docker push "$($env:FULL_IMAGE_NAME):$($env:VERSION)";
-
-          if ($LastExitCode -ne 0) 
-          { 
-              throw "error";
-          };    
-  deploy:
-    runs-on:
-      - self-hosted
-      - linux 
-      - ${{ github.ref == 'refs/heads/master' && 'Production' || 'Staging' }}
-    needs: build
-    permissions:
-      contents: write
-    steps:
-      - name: Azure Login
-        shell: pwsh
-        run: |
-          az login --service-principal -u $env:AZURE_CLIENT_ID -p $env:AZURE_CLIENT_SECRET --tenant $env:AZURE_TENANT_ID -o none;
-          az account set -s $env:AZURE_SUBSCRIPTION_ID -o none;
-
-          $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
-          az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
-  
       - name: Database Migration & User
         shell: pwsh
         run: |
@@ -165,7 +145,7 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          $env:FULL_IMAGE_NAME = $env:CONTAINER_REGISTRY_HOST + "/" + "${{ github.repository_owner }}".ToLower() + "/" + $env:IMAGE_NAME;
+          $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
           $env:SQL_CONNECTIONSTRING = "Server=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Uid=$env:SQL_USER;Pwd=$env:SQL_PASSWORD;SslMode=Preferred";
 
           Get-Content .kubernetes/sql-auth-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/sql-auth-secret.tmp.yaml;

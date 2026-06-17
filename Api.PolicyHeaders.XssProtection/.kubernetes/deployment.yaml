@@ -33,7 +33,7 @@ spec:
         kubernetes.io/os: linux
       containers:
       - name: %SERVICE_NAME%
-        image: %FULL_IMAGE_NAME%:%VERSION%
+        image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
         ports:
         - containerPort: 8080
         imagePullPolicy: Always 
@@ -73,6 +73,4 @@ spec:
           periodSeconds: 5
           initialDelaySeconds: 20
           timeoutSeconds: 2
-      imagePullSecrets:
-        - name: ghcr-pull-secret
 

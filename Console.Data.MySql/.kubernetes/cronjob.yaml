@@ -24,7 +24,7 @@ spec:
             kubernetes.io/os: linux
           containers:
           - name: %SERVICE_NAME%
-            image: %FULL_IMAGE_NAME%:%VERSION%
+            image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
             imagePullPolicy: Always 
             env:
             - name: Data__ConnectionString
@@ -53,5 +53,3 @@ spec:
                 drop:
                 - ALL
           restartPolicy: OnFailure
-          imagePullSecrets:
-          - name: ghcr-pull-secret

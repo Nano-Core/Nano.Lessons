@@ -24,7 +24,7 @@ spec:
             kubernetes.io/os: linux
           containers:
           - name: %SERVICE_NAME%
-            image: %FULL_IMAGE_NAME%:%VERSION%
+            image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
             imagePullPolicy: Always 
             envFrom:
             - configMapRef:
@@ -54,5 +54,3 @@ spec:
             persistentVolumeClaim:
               claimName: %SERVICE_NAME%-pvc
           restartPolicy: OnFailure
-          imagePullSecrets:
-          - name: ghcr-pull-secret

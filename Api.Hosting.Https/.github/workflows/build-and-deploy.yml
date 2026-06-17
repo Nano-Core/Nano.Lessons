@@ -16,6 +16,7 @@ env:
   DOTNET_ASPNET_VERSION: 10.0
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_GROUP_DNS: ${{ vars.AZURE_RESOURCE_GROUP_DNS }}
+  AZURE_GROUP_DELIVERY: ${{ vars.AZURE_RESOURCE_GROUP_DELIVERY }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -23,10 +24,6 @@ env:
   NUGET_HOST: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   NUGET_USERNAME: ${{ github.actor }}
   NUGET_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  CONTAINER_REGISTRY_HOST: ghcr.io
-  CONTAINER_REGISTRY_USERNAME: ${{ github.actor }}
-  CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-  CONTAINER_REGISTRY_SOURCE_LABEL: https://github.com/${{ github.repository }}
   KUBERNETES_NODEPOOL_COMPUTE: cpu
   KUBERNETES_NAMESPACE: ${{ vars.KUBERNETES_NAMESPACE }}
   KUBERNETES_REPLICA_COUNT: ${{ github.ref == 'refs/heads/master' && 3 || 2 }}
