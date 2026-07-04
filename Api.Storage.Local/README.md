@@ -75,7 +75,8 @@ Additionally, application health-checks have been enabled with the configuration
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  console.storage.local:
     volumes:
       - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```

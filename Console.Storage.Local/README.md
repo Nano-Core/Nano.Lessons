@@ -51,7 +51,8 @@ Configured the application with the necessary storage setup.
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  console.storage.local:
     volumes:
       - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```

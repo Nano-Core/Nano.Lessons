@@ -81,7 +81,8 @@ Additionally, application health-checks have been enabled with the configuration
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  svc.accounts:
     volumes:
       - ./bin/nano-storage-azure:/mnt/nano-storage-azure
 ```

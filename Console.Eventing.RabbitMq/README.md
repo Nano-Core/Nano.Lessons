@@ -104,7 +104,7 @@ services:
 ## Kubernetes
 Added the `rabbitmq` secret for password to the `cronjob.yaml`.  
 
-```json
+```yaml
 spec:
   template:
     spec:

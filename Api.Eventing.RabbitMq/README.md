@@ -72,8 +72,8 @@ Configured the application `appsettings.json` with the necessary eventing setup.
   "Heartbeat": 60,
   "PrefetchCount": 50,
   "Credentials": {
-    "Id": "rabbitmq_user",
-    "Secret": "password"
+      "Id": null,
+      "Secret": null
   },
   "HealthCheck": {
     "UnhealthyStatus": "Unhealthy"
@@ -129,7 +129,7 @@ services:
 ## Kubernetes
 Added the `rabbitmq` secret for password to the `deployment.yaml`.  
 
-```json
+```yaml
 spec:
   template:
     spec:

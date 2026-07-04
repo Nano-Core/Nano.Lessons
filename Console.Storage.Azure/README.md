@@ -52,7 +52,8 @@ Configured the application with the necessary storage setup.
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  svc.accounts:
     volumes:
       - ./bin/nano-storage-azure:/mnt/nano-storage-azure
 ```

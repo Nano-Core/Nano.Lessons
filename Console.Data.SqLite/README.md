@@ -65,7 +65,7 @@ Configured the application with the necessary data setup.
   "DefaultCollation": null,
   "ConnectionString": "Data Source=/data/nanoDb.sqlite",
   "Repository": {
-    "UseAutoSave": false,
+    "UseAutoSave": true,
     "QueryIncludeDepth": 4
   },
   "Identity": null,
