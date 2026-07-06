@@ -11,8 +11,8 @@ env:
   IMAGE_NAME: api.healthchecks
   SERVICE_NAME: api-healthchecks
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
-  DOTNET_SDK_VERSION: 10.0
-  DOTNET_ASPNET_VERSION: 10.0
+  DOTNET_SDK_VERSION: "10.0"
+  DOTNET_ASPNET_VERSION: "10.0"
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_GROUP_DELIVERY: ${{ vars.AZURE_RESOURCE_GROUP_DELIVERY }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -49,6 +49,8 @@ jobs:
       contents: write
       packages: write
     steps:
+      - uses: actions/checkout@v6
+
       - name: Azure Login
         shell: pwsh
         run: |
@@ -58,18 +60,19 @@ jobs:
           $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
           az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
-      - name: Build
+      - name: Build Solution
         shell: pwsh
         run: |
           dotnet nuget add source $env:NUGET_HOST -n private -u $env:NUGET_USERNAME -p $env:NUGET_PASSWORD --store-password-in-clear-text;
 
           dotnet build -c Release .\$env:APP_NAME.sln;
+
           if ($LastExitCode -ne 0)
           { 
               throw "error";
           };
 
-      - name: Test
+      - name: Test Solution
         shell: pwsh
         run: |
           dotnet test .\.tests\Tests.$env:APP_NAME\Tests.$env:APP_NAME.csproj;
@@ -91,7 +94,7 @@ jobs:
               throw "error";
           };  
 
-      - name: Build and Push Image
+      - name: Build & Push Image
         shell: pwsh
         run: |
           $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;

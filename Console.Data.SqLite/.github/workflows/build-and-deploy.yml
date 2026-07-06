@@ -11,14 +11,16 @@ env:
   IMAGE_NAME: console.data.sqlite
   SERVICE_NAME: console-data-sqlite
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
-  DOTNET_SDK_VERSION: 10.0
-  DOTNET_ASPNET_VERSION: 10.0
+  DOTNET_SDK_VERSION: "10.0"
+  DOTNET_ASPNET_VERSION: "10.0"
+  DOTNET_EF_TOOLS_VERSION: "10.0"
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_GROUP_DELIVERY: ${{ vars.AZURE_RESOURCE_GROUP_DELIVERY }}
-  AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
+  AZURE_GROUP_DATABASE : ${{ vars.AZURE_RESOURCE_GROUP_DATABASE }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  AZURE_SUBSCRIPTION_ID: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AZURE_SUBSCRIPTION_ID || secrets.STAGING_AZURE_SUBSCRIPTION_ID }}
   NUGET_HOST: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   NUGET_USERNAME: ${{ github.actor }}
   NUGET_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -30,9 +32,7 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
-  SQL_NAME: nanoDb
   SQL_SIZE: 10Gi
-  SQL_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.SQL_NAME }}.sqlite"
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}
@@ -46,6 +46,8 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v6
+
       - name: Azure Login
         shell: pwsh
         run: |
@@ -55,18 +57,19 @@ jobs:
           $env:KUBERNETES_CLUSTER = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].name -o tsv;
           az aks get-credentials -g $env:AZURE_GROUP_KUBERNETES -n $env:KUBERNETES_CLUSTER --overwrite -o none;
 
-      - name: Build
+      - name: Build Solution
         shell: pwsh
         run: |
           dotnet nuget add source $env:NUGET_HOST -n private -u $env:NUGET_USERNAME -p $env:NUGET_PASSWORD --store-password-in-clear-text;
 
           dotnet build -c Release .\$env:APP_NAME.sln;
+
           if ($LastExitCode -ne 0)
           { 
               throw "error";
           };
 
-      - name: Test
+      - name: Test Solution
         shell: pwsh
         run: |
           dotnet test .\.tests\Tests.$env:APP_NAME\Tests.$env:APP_NAME.csproj;
@@ -76,7 +79,7 @@ jobs:
             throw "error";
           };
 
-      - name: Build and Push Image
+      - name: Build & Push Image
         shell: pwsh
         run: |
           $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
@@ -97,19 +100,6 @@ jobs:
           { 
               throw "error";
           };  
-
-      - name: Database Migration
-        shell: pwsh
-        run: |
-          dotnet ef database update `
-            --no-build `
-            --startup-project $env:APP_NAME `
-            --connection "$env:SQL_MIGRATION_CONNECTIONSTRING";
-
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
 
       - name: Kubernetes Deploy
         shell: pwsh

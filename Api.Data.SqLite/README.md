@@ -92,13 +92,7 @@ Configured the application with the necessary data setup.
 }
 ```
 
-...and `appsettings.Development.json`
-
-```json
-"Data": {
-  "StartupAction": "Migrate"
-}
-```
+> ⚠️ **Notice:** `StartupAction` is set to `migrate` in all environments. This may cause the pod to restart during the initial deployment.
 
 ## Docker Compose
 Added SqLite as a service dependency in `docker-compose.yml`.  

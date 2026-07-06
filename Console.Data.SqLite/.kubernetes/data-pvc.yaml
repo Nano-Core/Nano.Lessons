@@ -8,4 +8,4 @@ spec:
   storageClassName: %SERVICE_NAME%-data-storage-class
   resources:
     requests:
-      storage: %DATA_SIZE%
+      storage: %SQL_SIZE%
