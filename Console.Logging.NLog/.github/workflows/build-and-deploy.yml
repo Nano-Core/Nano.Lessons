@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Console.Logging.NLog
   IMAGE_NAME: console.logging.nlog

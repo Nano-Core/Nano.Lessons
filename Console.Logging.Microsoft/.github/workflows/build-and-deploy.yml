@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Console.Logging.Microsoft
   IMAGE_NAME: console.logging.microsoft

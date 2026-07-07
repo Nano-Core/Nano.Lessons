@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Api.Hosting.Http
   IMAGE_NAME: api.hosting.http

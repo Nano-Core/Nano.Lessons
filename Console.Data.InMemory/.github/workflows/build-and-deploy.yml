@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Console.Data.InMemory
   IMAGE_NAME: console.data.inmemory

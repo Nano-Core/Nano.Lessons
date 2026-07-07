@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Api.Storage.Azure
   IMAGE_NAME: api.storage.azure

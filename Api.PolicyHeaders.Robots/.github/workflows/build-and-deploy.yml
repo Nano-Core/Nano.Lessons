@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Api.PolicyHeaders.Robots
   IMAGE_NAME: api.policyheaders.robots

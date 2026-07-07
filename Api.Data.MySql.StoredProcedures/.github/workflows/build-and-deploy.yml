@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main 
+  workflow_dispatch:
 env:
   APP_NAME: Api.Data.MySql.StoredProcedures
   IMAGE_NAME: api.data.mysql.storedprocedures
