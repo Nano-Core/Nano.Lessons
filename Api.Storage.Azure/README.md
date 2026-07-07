@@ -93,7 +93,11 @@ Added two new kubernetes templaets, the `storage-pv.yaml`, `storage-pvc.yaml`, a
 ```yaml
 spec:
   template:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
     spec:
+      serviceAccountName: %SERVICE_NAME%-service-account
       containers:
         volumeMounts:
         - name: %SERVICE_NAME%-volume
@@ -185,7 +189,7 @@ And add this step below as well, ensuring that the fileshare gets created before
     $env:KUBERNETES_ISSUER_URL = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].['oidcIssuerProfile.issuerUrl'] -o tsv;
     $env:STORAGE_ACCOUNT_ID = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].id -o tsv;
 
-    if (-not $env:PRINCIPAL_ID)
+    if (-not $env:IDENTITY_PRINCIPAL_ID)
     {
         az identity create `
             -g $env:AZURE_GROUP_KUBERNETES `
@@ -196,14 +200,14 @@ And add this step below as well, ensuring that the fileshare gets created before
             throw "error";
         };
 
-        $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_RESOURCE_GROUP -n $env:IDENTITY_NAME --query principalId -o tsv;
+        $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
     }
 
     az role assignment create `
         --assignee-object-id $env:IDENTITY_PRINCIPAL_ID `
         --assignee-principal-type ServicePrincipal `
-        --role "Storage File Data SMB Share Contributor" `
-        --scope $env:STORAGE_ACCOUNT_ID;
+        --role "Storage File Data SMB MI Admin" `
+        --scope $env:STORAGE_ACCOUNT_ID
 
     if ($LastExitCode -ne 0)
     {
@@ -215,11 +219,14 @@ And add this step below as well, ensuring that the fileshare gets created before
         --resource-group $env:AZURE_GROUP_KUBERNETES `
         --identity-name $env:IDENTITY_NAME `
         --issuer $env:KUBERNETES_ISSUER_URL `
-        --subject system:serviceaccount:$env:KUBERNETES_NAMESPACE:$env:SERVICE_NAME-service-account `
+        --subject "system:serviceaccount:${env:KUBERNETES_NAMESPACE}:${env:SERVICE_NAME}-service-account" `
         --audience api://AzureADTokenExchange;
 
     if ($LastExitCode -ne 0)
     {
         throw "error";
     };
+
+    echo "IDENTITY_NAME=$env:IDENTITY_NAME" >> $env:GITHUB_ENV;
+
 ```

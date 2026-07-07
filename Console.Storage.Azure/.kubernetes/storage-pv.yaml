@@ -11,10 +11,10 @@ spec:
   storageClassName: azurefile-static
   csi:
     driver: file.csi.azure.com
-    volumeHandle: %STORAGE_SHARE_NAME%
+    volumeHandle: %AZURE_GROUP_STORAGE%#%STORAGE_ACCOUNT_NAME%#%STORAGE_SHARE_NAME%
     volumeAttributes:
       shareName: %STORAGE_SHARE_NAME%
       storageAccount: %STORAGE_ACCOUNT_NAME%
       resourceGroup: %AZURE_GROUP_STORAGE%
-      azureStorageAuthType: msi
-      azureStorageIdentityClientID: %STORAGE_IDENTITY_CLIENT_ID%
+      clientID: %IDENTITY_CLIENT_ID%
+      mountWithWorkloadIdentityToken: "true"

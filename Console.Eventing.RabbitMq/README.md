@@ -115,7 +115,6 @@ spec:
             secretKeyRef:
               name: rabbitmq-auth
               key: username
-           envFrom:
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
