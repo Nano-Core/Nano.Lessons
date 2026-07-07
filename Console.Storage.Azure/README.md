@@ -84,8 +84,8 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  AZURE_GROUP_BACKUP: ${{ vars.AZURE_BACKUP_RESOURCE_GROUP }}
-  AZURE_GROUP_STORAGE: ${{ vars.AZURE_STORAGE_RESOURCE_GROUP }}
+  AZURE_GROUP_BACKUP: ${{ vars.AZURE_RESOURCE_GROUP_BACKUP }}
+  AZURE_GROUP_STORAGE: ${{ vars.AZURE_RESOURCE_GROUP_STORAGE }}
   STORAGE_SIZE: 1000
   STORAGE_SHARE_NAME: nano-storage-azure
 ```
@@ -94,11 +94,11 @@ Additionally, this step has been added to ensure the file share is created befor
 
 ```yaml
 - name: Create Fileshare
-  shell: pwsh
-  run: |
-    $env:STORAGE_ACCOUNT_NAME = sudo az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
+shell: pwsh
+run: |
+    $env:STORAGE_ACCOUNT_NAME = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
-    $env:FILE_SHARE_EXISTS = sudo az storage share-rm exists `
+    $env:FILE_SHARE_EXISTS = az storage share-rm exists `
         -g $env:AZURE_GROUP_STORAGE `
         -n $env:STORAGE_SHARE_NAME `
         --storage-account $env:STORAGE_ACCOUNT_NAME `
@@ -106,30 +106,39 @@ Additionally, this step has been added to ensure the file share is created befor
 
     if ($env:FILE_SHARE_EXISTS -eq "false")
     { 
-        sudo az storage share-rm create `
+        az storage share-rm create `
             -g $env:AZURE_GROUP_STORAGE `
             -n $env:STORAGE_SHARE_NAME `
             --storage-account $env:STORAGE_ACCOUNT_NAME `
             --access-tier TransactionOptimized `
             --quota $env:STORAGE_SIZE;
-              
-        if ($LastExitCode -ne 0) 
-        { 
-            throw "error";
-        };
-
-        $env:BACKUP_VAULT_NAME = sudo az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
-
-        sudo az backup protection enable-for-azurefileshare `
-            -g $env:AZURE_GROUP_BACKUP `
-            -v $env:BACKUP_VAULT_NAME `
-            -p $env:STORAGE_ACCOUNT_NAME-backup-policy `
-            --storage-account $env:STORAGE_ACCOUNT_NAME `
-            --azure-file-share $env:STORAGE_SHARE_NAME;
-              
-        if ($LastExitCode -ne 0) 
-        { 
-            throw "error";
-        };
     }
+    else
+    {
+        az storage share-rm update `
+            -g $env:AZURE_GROUP_STORAGE `
+            -n $env:STORAGE_SHARE_NAME `
+            --storage-account $env:STORAGE_ACCOUNT_NAME `
+            --access-tier TransactionOptimized `
+            --quota $env:STORAGE_SIZE;
+    }
+
+    if ($LastExitCode -ne 0) 
+    { 
+        throw "error";
+    };
+
+    $env:BACKUP_VAULT_NAME = az backup vault list -g $env:AZURE_GROUP_BACKUP --query [0].name -o tsv;
+
+    az backup protection enable-for-azurefileshare `
+        -g $env:AZURE_GROUP_BACKUP `
+        -v $env:BACKUP_VAULT_NAME `
+        -p $env:STORAGE_ACCOUNT_NAME-fileshare-backup-policy `
+        --storage-account $env:STORAGE_ACCOUNT_NAME `
+        --azure-file-share $env:STORAGE_SHARE_NAME;
+
+    if ($LastExitCode -ne 0) 
+    { 
+        throw "error";
+    };
 ```
