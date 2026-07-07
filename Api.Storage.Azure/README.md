@@ -125,8 +125,8 @@ And add this step below as well, ensuring that the fileshare gets created before
 
 ```yaml
 - name: Create Fileshare
-shell: pwsh
-run: |
+  shell: pwsh
+  run: |
     $env:STORAGE_ACCOUNT_NAME = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
     $env:FILE_SHARE_EXISTS = az storage share-rm exists `
@@ -170,6 +170,56 @@ run: |
 
     if ($LastExitCode -ne 0) 
     { 
+        throw "error";
+    };
+```
+
+...and includes a step to create a managed identity and federated credentials for authenticating with the storage account.  
+
+```
+- name: Managed Identity & Federated Credentials
+  shell: pwsh
+  run: |
+    $env:IDENTITY_NAME = $env:SERVICE_NAME + "-identity";
+    $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
+    $env:KUBERNETES_ISSUER_URL = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].['oidcIssuerProfile.issuerUrl'] -o tsv;
+    $env:STORAGE_ACCOUNT_ID = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].id -o tsv;
+
+    if (-not $env:PRINCIPAL_ID)
+    {
+        az identity create `
+            -g $env:AZURE_GROUP_KUBERNETES `
+            -n $env:IDENTITY_NAME;
+
+        if ($LastExitCode -ne 0)
+        {
+            throw "error";
+        };
+
+        $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_RESOURCE_GROUP -n $env:IDENTITY_NAME --query principalId -o tsv;
+    }
+
+    az role assignment create `
+        --assignee-object-id $env:IDENTITY_PRINCIPAL_ID `
+        --assignee-principal-type ServicePrincipal `
+        --role "Storage File Data SMB Share Contributor" `
+        --scope $env:STORAGE_ACCOUNT_ID;
+
+    if ($LastExitCode -ne 0)
+    {
+        throw "error";
+    };
+
+    az identity federated-credential create `
+        --name $env:SERVICE_NAME-credentials `
+        --resource-group $env:AZURE_GROUP_KUBERNETES `
+        --identity-name $env:IDENTITY_NAME `
+        --issuer $env:KUBERNETES_ISSUER_URL `
+        --subject system:serviceaccount:$env:KUBERNETES_NAMESPACE:$env:SERVICE_NAME-service-account `
+        --audience api://AzureADTokenExchange;
+
+    if ($LastExitCode -ne 0)
+    {
         throw "error";
     };
 ```
