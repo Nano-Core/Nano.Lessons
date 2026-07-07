@@ -88,7 +88,7 @@ services:
 ```
 
 ## Kubernetes
-Added two new kubernetes templaets, the `storage-pv.yaml` and `storage-pvc.yaml`. Updated the `deployment.yaml` mounting the volume.  
+Added two new kubernetes templaets, the `storage-pv.yaml`, `storage-pvc.yaml`, and the `service-account.yaml`. Updated the `deployment.yaml` mounting the volume.  
 
 ```yaml
 spec:

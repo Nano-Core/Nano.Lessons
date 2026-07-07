@@ -156,6 +156,14 @@ jobs:
         shell: pwsh
         run: |
           $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
+          $env:STORAGE_IDENTITY_CLIENT_ID = az identity list -g $env:AZURE_GROUP_STORAGE --query [0].clientId -o tsv;
+
+          Get-Content .kubernetes/service-account.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service-account.tmp.yaml;
+          kubectl apply -f .kubernetes/service-account.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          { 
+              throw "error";
+          };
 
           Get-Content .kubernetes/storage-pv.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pv.tmp.yaml;
           kubectl apply -f .kubernetes/storage-pv.tmp.yaml;

@@ -59,24 +59,30 @@ services:
 ```
 
 ## Kubernetes
-Added two new kubernetes templaets, the `storage-pv.yaml` and `storage-pvc.yaml`. Updated the `cronjob.yaml` mounting the volume.  
+Added two new kubernetes templaets, the `storage-pv.yaml`, `storage-pvc.yaml`, and the `service-account.yaml`. Updated the `cronjob.yaml` mounting the volume.  
 
 ```yaml
 spec:
-  template:
+  jobTemplate:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
     spec:
-      containers:
-        volumeMounts:
-        - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
-        - name: tmp
-          mountPath: /tmp
-      volumes:
-      - name: %SERVICE_NAME%-volume
-        persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-azurefile-pvc
-      - name: tmp
-        emptyDir: {}
+      template:
+        spec:
+          serviceAccountName: %SERVICE_NAME%-service-account
+          containers:
+            volumeMounts:
+            - name: %SERVICE_NAME%-volume
+              mountPath: /mnt/%STORAGE_SHARE_NAME%
+            - name: tmp
+              mountPath: /tmp
+          volumes:
+          - name: %SERVICE_NAME%-volume
+            persistentVolumeClaim:
+              claimName: %SERVICE_NAME%-azurefile-pvc
+          - name: tmp
+            emptyDir: {}
 ```
 
 ## GitHub Actions
