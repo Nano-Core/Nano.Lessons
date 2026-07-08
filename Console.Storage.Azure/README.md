@@ -100,8 +100,8 @@ Additionally, this step has been added to ensure the file share is created befor
 
 ```yaml
 - name: Create Fileshare
-shell: pwsh
-run: |
+  shell: pwsh
+  run: |
     $env:STORAGE_ACCOUNT_NAME = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].name -o tsv;
 
     $env:FILE_SHARE_EXISTS = az storage share-rm exists `

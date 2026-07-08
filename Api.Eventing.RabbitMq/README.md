@@ -135,15 +135,25 @@ spec:
     spec:
       containers:
         env:
+        - name: Eventing__Credentials__Host
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-default-user
+              key: host
+        - name: Eventing__Credentials__Port
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-default-user
+              key: port
         - name: Eventing__Credentials__Id
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-auth
+              name: rabbitmq-default-user
               key: username
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-auth
+              name: rabbitmq-default-user
               key: password
 ```
 
