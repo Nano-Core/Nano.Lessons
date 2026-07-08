@@ -59,66 +59,66 @@ env:
 ...and then add the `Add Availability Check` step to the action pipeline.  
 
 ```yaml
-      - name: Add Availability Check
-        id: add-availability-check
-        shell: pwsh
-        run: |
-          sudo az extension add -n application-insights;
+- name: Add Availability Check
+  shell: pwsh
+  run: |
+    az extension add -n application-insights;
 
-          $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
-          $env:APPLICATION_INSIGHT_ID = sudo az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
+    $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
+    $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
 
-          if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
-          {
-              $env:WORKSPACE_ID = sudo az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
+    if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
+    {
+        $env:WORKSPACE_ID = az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
 
-              if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
-              {
-                  $env:APPLICATION_INSIGHT_ID = sudo az monitor app-insights component create `
-                      -a $env:SERVICE_NAME_INSIGTHS `
-                      -l $env:AZURE_LOCATION `
-                      -g $env:AZURE_GROUP `
-                      --workspace $env:WORKSPACE_ID `
-                      --query "[id]" -o tsv;
+        if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
+        {
+            $env:APPLICATION_INSIGHT_ID = az monitor app-insights component create `
+                -a $env:SERVICE_NAME_INSIGTHS `
+                -l $env:AZURE_LOCATION `
+                -g $env:AZURE_GROUP `
+                --workspace $env:WORKSPACE_ID `
+                --query "[id]" -o tsv;
 
-                  if ($LastExitCode -ne 0)
-                  { 
-                      throw "error";
-                  };
-              }
-          };
+            if ($LastExitCode -ne 0)
+            { 
+                throw "error";
+            };
+        }
+    };
 
-          $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
-          $env:AVAILABILITY_ID = sudo az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
+    $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
+    $env:AVAILABILITY_ID = az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
 
-          if ([string]::IsNullOrEmpty($env:AVAILABILITY_ID))
-          {
-              $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
-              sudo az monitor app-insights web-test create `
-                  -n $env:SERVICE_NAME_AVAILABILITY `
-                  --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
-                  -g $env:AZURE_GROUP `
-                  -l $env:AZURE_LOCATION `
-                  --kind multistep `
-                  --web-test-kind standard `
-                  --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
-                  --enabled true `
-                  --retry-enabled true `
-                  --ssl-check true `
-                  --ssl-lifetime-check 30 `
-                  --http-verb GET `
-                  --request-url $env:AVAILABILITY_URI `
-                  --expected-status-code 200 `
-                  --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
-                  --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
-                  --locations Id='us-ca-sjc-azr' `
-                  --locations Id='us-va-ash-azr' `
-                  --locations Id='emea-gb-db3-azr' `
-                  --locations Id='emea-nl-ams-azr' `
-                  --locations Id='apac-hk-hkn-azr';
-          };
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
+    if ([string]::IsNullOrEmpty($env:AVAILABILITY_ID))
+    {
+        $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
+        az monitor app-insights web-test create `
+            -n $env:SERVICE_NAME_AVAILABILITY `
+            --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
+            -g $env:AZURE_GROUP `
+            -l $env:AZURE_LOCATION `
+            --kind multistep `
+            --web-test-kind standard `
+            --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
+            --enabled true `
+            --retry-enabled true `
+            --ssl-check true `
+            --ssl-lifetime-check 30 `
+            --http-verb GET `
+            --request-url $env:AVAILABILITY_URI `
+            --expected-status-code 200 `
+            --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
+            --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
+            --locations Id='us-ca-sjc-azr' `
+            --locations Id='us-va-ash-azr' `
+            --locations Id='emea-gb-db3-azr' `
+            --locations Id='emea-nl-ams-azr' `
+            --locations Id='apac-hk-hkn-azr';
+    };
+
+    if ($LastExitCode -ne 0)
+    { 
+        throw "error";
+    };
 ``` 

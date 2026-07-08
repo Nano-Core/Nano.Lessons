@@ -112,34 +112,7 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  SQL_NAME: nanoDb
   SQL_SIZE: 10Gi
-  SQL_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.nanoDb }}.sqlite"
-```
-
-Additionally, this step has been added to ensure database migrations are applied.  
-
-```yaml
-- name: Database Migration
-  shell: pwsh
-  run: |
-    dotnet ef database update `
-      --no-build `
-      --startup-project $env:APP_NAME `
-      --connection "$env:SQL_MIGRATION_CONNECTIONSTRING" `;
-
-    if ($LastExitCode -ne 0)
-    { 
-        throw "error";
-    };
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  
-
-```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
-
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
-```

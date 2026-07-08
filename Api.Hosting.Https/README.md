@@ -84,11 +84,3 @@ A `httproute.yaml` resource has been added to the `.kubernetes` folder.
 
 ## GitHub Actions
 Deployment commands have been updated to apply the new Kubernetes `HTTPRoute` template.  
-
-```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
-
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
-```
