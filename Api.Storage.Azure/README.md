@@ -62,8 +62,7 @@ Add the storage configuration.
 "Storage": {
   "ShareName": "nano-storage-azure",
   "HealthCheck": {
-    "AccountName": null,
-    "UnhealthyStatus": "Degraded"
+    "UnhealthyStatus": "Unhealthy"
   }
 }
 ```
@@ -111,8 +110,6 @@ spec:
       - name: tmp
         emptyDir: {}
 ```
-
-Additionally, the `configmap.yaml` file stores the `$env:STORAGE_ACCOUNT_NAME` value, which is used by the TCP-based health check to validate connectivity to the Azure File Share endpoint.  
 
 ## GitHub Actions
 Add the following environment variables to the `buid-and-deply.yml`.  
@@ -228,5 +225,4 @@ And add this step below as well, ensuring that the fileshare gets created before
     };
 
     echo "IDENTITY_NAME=$env:IDENTITY_NAME" >> $env:GITHUB_ENV;
-
 ```

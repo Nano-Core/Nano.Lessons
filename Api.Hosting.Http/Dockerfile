@@ -32,6 +32,7 @@ COPY --from=publish /app .
 
 RUN mkdir -p /app/wwwroot
 
+ENV ASPNETCORE_HTTP_PORTS=
 ENV COMPlus_EnableDiagnostics=0
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 

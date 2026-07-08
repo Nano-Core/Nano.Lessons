@@ -5,5 +5,4 @@ metadata:
   namespace: %KUBERNETES_NAMESPACE%
 data:
   App__Version: %VERSION%
-  Storage__HealthCheck__AccountName: %STORAGE_ACCOUNT_NAME%
   ASPNETCORE_ENVIRONMENT: %ASPNETCORE_ENVIRONMENT%

@@ -57,7 +57,7 @@ Configured the application with the necessary storage setup.
 "Storage": {
   "ShareName": "nano-storage-local",
   "HealthCheck": {
-    "UnhealthyStatus": "Degraded"
+    "UnhealthyStatus": "Unhealthy"
   }
 }
 ```
