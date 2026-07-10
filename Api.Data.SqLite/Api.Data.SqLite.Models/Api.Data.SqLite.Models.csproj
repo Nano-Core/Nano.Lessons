@@ -22,17 +22,11 @@
 		<Owners>Michael Vivet</Owners>
 		<Product>$(ProjectName)</Product>
 		<Summary>Example project demonstrating a focused aspect of the Nano Library.</Summary>
-		<Description>
-			A practical example highlighting a specific area or scenario of Nano for learning
-			and experimentation. Shows how features or patterns can be applied without
-			representing a full application or complete reference.
-		</Description>
-		<PackageReleaseNotes>
-			- Added .NET 10 support
-		</PackageReleaseNotes>
+		<Description>A practical example highlighting a specific area or scenario of Nano for learning and experimentation. Shows how features or patterns can be applied without representing a full application or complete reference.</Description>
+		<PackageReleaseNotes></PackageReleaseNotes>
 		<RepositoryType>git</RepositoryType>
-		<RepositoryBranch>master</RepositoryBranch>
-		<RepositoryUrl>https://github.com/Nano-Core/Nano.Examples.git</RepositoryUrl>
+		<RepositoryBranch>main</RepositoryBranch>
+		<RepositoryUrl>https://github.com/Nano-Core/Nano.Lessons.git</RepositoryUrl>
 		<RepositoryCommit>$(GitCommitHash)</RepositoryCommit>
 		<EmbedAllSources>true</EmbedAllSources>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -41,7 +35,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageVersion>$(Version)</PackageVersion>
 		<PackageTags>nano;example;sample;framework;library;learning;showcase</PackageTags>
-		<PackageProjectUrl>https://github.com/Nano-Core/Nano.Library/$(ProjectName)</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Nano-Core/Nano.Lessons/$(ProjectName)</PackageProjectUrl>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
