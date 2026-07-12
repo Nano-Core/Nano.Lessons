@@ -134,42 +134,42 @@ jobs:
           $env:GATEWAY_NAME = kubectl get gateway -n $env:KUBERNETES_NAMESPACE -o jsonpath='{.items[0].metadata.name}'
 
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
-          kubectl apply -f service.tmp.yaml;
+          kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
 
           Get-Content .kubernetes/configmap.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/configmap.tmp.yaml;
-          kubectl apply -f configmap.tmp.yaml;
+          kubectl apply -f .kubernetes/configmap.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
 
           Get-Content .kubernetes/deployment.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/deployment.tmp.yaml;
-          kubectl apply -f deployment.tmp.yaml;
+          kubectl apply -f .kubernetes/deployment.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
 
           Get-Content .kubernetes/autoscaler.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/autoscaler.tmp.yaml;
-          kubectl apply -f autoscaler.tmp.yaml;
+          kubectl apply -f .kubernetes/autoscaler.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
 
-          Get-Content .kubernetes/grafana-httproute-80.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-80.tmp.yaml;
-          kubectl apply -f .kubernetes/grafana-httproute-80.tmp.yaml;
+          Get-Content .kubernetes/httproute-80.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/httproute-80.tmp.yaml;
+          kubectl apply -f .kubernetes/httproute-80.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
 
-          Get-Content .kubernetes/grafana-httproute-443.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-443.tmp.yaml;
-          kubectl apply -f .kubernetes/grafana-httproute-443.tmp.yaml;
+          Get-Content .kubernetes/httproute-443.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/httproute-443.tmp.yaml;
+          kubectl apply -f .kubernetes/httproute-443.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
