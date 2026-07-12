@@ -9,6 +9,14 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: azurefile-static
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0777
+    - uid=0
+    - gid=0
+  claimRef:
+    name: %SERVICE_NAME%-azurefile-pvc
+    namespace: %KUBERNETES_NAMESPACE%
   csi:
     driver: file.csi.azure.com
     volumeHandle: %AZURE_GROUP_STORAGE%#%STORAGE_ACCOUNT_NAME%#%STORAGE_SHARE_NAME%
