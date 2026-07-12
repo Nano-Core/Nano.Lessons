@@ -16,6 +16,7 @@ env:
   DOTNET_ASPNET_VERSION: "10.0"
   AZURE_GROUP_KUBERNETES: ${{ vars.AZURE_RESOURCE_GROUP_KUBERNETES }}
   AZURE_GROUP_DELIVERY: ${{ vars.AZURE_RESOURCE_GROUP_DELIVERY }}
+  AZURE_GROUP_LOGS: ${{ vars.AZURE_RESOURCE_GROUP_LOGS }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -154,65 +155,64 @@ jobs:
       - name: Add Availability Check
         shell: pwsh
         run: |
-          az extension add -n application-insights;
-
-          $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
-          $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
-
-          if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
+          $env:WORKSPACE_ID = az monitor log-analytics workspace list -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
+          
+          if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
           {
-              $env:WORKSPACE_ID = az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
+              $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
+              $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show -g $env:AZURE_GROUP_LOGS -a $env:SERVICE_NAME_INSIGTHS --query id -o tsv 2>$null;
 
-              if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
+              if ($LastExitCode -ne 0)
               {
                   $env:APPLICATION_INSIGHT_ID = az monitor app-insights component create `
                       -a $env:SERVICE_NAME_INSIGTHS `
                       -l $env:AZURE_LOCATION `
-                      -g $env:AZURE_GROUP `
+                      -g $env:AZURE_GROUP_LOGS `
                       --workspace $env:WORKSPACE_ID `
-                      --query "[id]" -o tsv;
+                      --query id -o tsv;
 
                   if ($LastExitCode -ne 0)
                   { 
                       throw "error";
                   };
-              }
-          };
+              };
 
-          $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
-          $env:AVAILABILITY_ID = az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
+              $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
+              $env:AVAILABILITY_ID = az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:SERVICE_NAME_AVAILABILITY --query id -o tsv 2>$null;
 
-          if ([string]::IsNullOrEmpty($env:AVAILABILITY_ID))
-          {
-              $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
-              az monitor app-insights web-test create `
-                  -n $env:SERVICE_NAME_AVAILABILITY `
-                  --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
-                  -g $env:AZURE_GROUP `
-                  -l $env:AZURE_LOCATION `
-                  --kind multistep `
-                  --web-test-kind standard `
-                  --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
-                  --enabled true `
-                  --retry-enabled true `
-                  --ssl-check true `
-                  --ssl-lifetime-check 30 `
-                  --http-verb GET `
-                  --request-url $env:AVAILABILITY_URI `
-                  --expected-status-code 200 `
-                  --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
-                  --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
-                  --locations Id='us-ca-sjc-azr' `
-                  --locations Id='us-va-ash-azr' `
-                  --locations Id='emea-gb-db3-azr' `
-                  --locations Id='emea-nl-ams-azr' `
-                  --locations Id='apac-hk-hkn-azr';
-          };
+              if ($LastExitCode -ne 0)
+              {
+                  $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
+                  $env:AZURE_LOCATION = az monitor log-analytics workspace list -g $env:AZURE_GROUP_LOGS --query [0].location -o tsv;
 
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
+                  az monitor app-insights web-test create `
+                      -n $env:SERVICE_NAME_AVAILABILITY `
+                      --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
+                      -g $env:AZURE_GROUP_LOGS `
+                      -l $env:AZURE_LOCATION `
+                      --web-test-kind standard `
+                      --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
+                      --enabled true `
+                      --retry-enabled true `
+                      --ssl-check true `
+                      --ssl-lifetime-check 30 `
+                      --http-verb GET `
+                      --request-url $env:AVAILABILITY_URI `
+                      --expected-status-code 200 `
+                      --content-validation content-match='"status":"unhealthy"' ignore-case=true pass-if-text-found=false `
+                      --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
+                      --locations Id='us-ca-sjc-azr' `
+                      --locations Id='us-va-ash-azr' `
+                      --locations Id='emea-gb-db3-azr' `
+                      --locations Id='emea-nl-ams-azr' `
+                      --locations Id='apac-hk-hkn-azr';
+              };
+
+              if ($LastExitCode -ne 0)
+              { 
+                  throw "error";
+              };
+          }
 
       - name: GitHub Release
         if: github.ref == 'refs/heads/main'
