@@ -102,6 +102,7 @@ jobs:
 
           az acr build `
               --registry $env:CONTAINER_REGISTRY_HOST `
+              --agent-pool buildpool `
               -t "$($env:IMAGE_NAME):latest" `
               -t "$($env:IMAGE_NAME):$($env:VERSION)" `
               --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
@@ -117,11 +118,11 @@ jobs:
               throw "error";
           };  
 
+          echo "CONTAINER_REGISTRY_HOST=$env:CONTAINER_REGISTRY_HOST" >> $env:GITHUB_ENV;
+
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
-
           Get-Content .kubernetes/auth-jwt-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-jwt-secret.tmp.yaml;
           kubectl apply -f .kubernetes/auth-jwt-secret.tmp.yaml;
           if ($LastExitCode -ne 0)

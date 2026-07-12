@@ -106,6 +106,7 @@ jobs:
 
           az acr build `
               --registry $env:CONTAINER_REGISTRY_HOST `
+              --agent-pool buildpool `
               -t "$($env:IMAGE_NAME):latest" `
               -t "$($env:IMAGE_NAME):$($env:VERSION)" `
               --build-arg DOTNET_SDK_VERSION=$env:DOTNET_SDK_VERSION `
@@ -120,6 +121,8 @@ jobs:
           { 
               throw "error";
           };  
+
+          echo "CONTAINER_REGISTRY_HOST=$env:CONTAINER_REGISTRY_HOST" >> $env:GITHUB_ENV;
 
       - name: Database Migration & User
         shell: pwsh
@@ -189,7 +192,6 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          $env:CONTAINER_REGISTRY_HOST = az acr list -g $env:AZURE_GROUP_DELIVERY --query [0].loginServer -o tsv;
           $env:SQL_CONNECTIONSTRING = "Server=$env:SQL_HOST,$env:SQL_PORT;Database=$env:SQL_NAME;User Id=$env:SQL_USER;Password=$env:SQL_PASSWORD;Encrypt=True;TrustServerCertificate=True;";
 
           Get-Content .kubernetes/auth-sql-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-sql-secret.tmp.yaml;
