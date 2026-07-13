@@ -16,7 +16,7 @@ services:
     hostname: api-apiclients-rootlogin-service
     restart: on-failure
     ports:
-      - 8181:8181
+      - 8181:8080
     build:
       context: ../Api.ApiClients.RootLogIn.Service
       dockerfile: "Dockerfile.Local"
