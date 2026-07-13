@@ -156,68 +156,88 @@ jobs:
       - name: Add Availability Check
         shell: pwsh
         run: |
-          $env:WORKSPACE_ID = az monitor log-analytics workspace list -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
           $env:AZURE_LOCATION = az monitor log-analytics workspace list -g $env:AZURE_GROUP_LOGS --query [0].location -o tsv;
-          
-          if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
+          $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
+          $env:HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
+
+          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
+
+          foreach ($zoneName in $zoneNames)
           {
-              $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
-              $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show -g $env:AZURE_GROUP_LOGS -a $env:SERVICE_NAME_INSIGTHS --query id -o tsv 2>$null;
+              $env:WEB_TEST_NAME = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower() + '-' + $env:SUB_DOMAIN_NAME  + '-' + ($zoneName.TrimEnd('.') -replace '\.', '-')
+
+              az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_NAME --query id -o tsv 2>$null
 
               if ($LastExitCode -ne 0)
               {
-                  $env:APPLICATION_INSIGHT_ID = az monitor app-insights component create `
-                      -a $env:SERVICE_NAME_INSIGTHS `
-                      -l $env:AZURE_LOCATION `
+                  az monitor app-insights web-test create `
+                      -n $env:WEB_TEST_NAME `
+                      --defined-web-test-name $env:WEB_TEST_NAME `
                       -g $env:AZURE_GROUP_LOGS `
-                      --workspace $env:WORKSPACE_ID `
-                      --query id -o tsv;
+                      -l $env:AZURE_LOCATION `
+                      --kind ping `
+                      --web-test-kind standard `
+                      --frequency 300 `
+                      --enabled true `
+                      --retry-enabled true `
+                      --ssl-check true `
+                      --ssl-lifetime-check 30 `
+                      --http-verb GET `
+                      --request-url https://$env:SUB_DOMAIN_NAME.$zoneName/healthz `
+                      --expected-status-code 200 `
+                      --content-validation content-match='"status":"unhealthy"' ignore-case=true pass-if-text-found=false `
+                      --tags $env:HIDDEN_LINK `
+                      --locations Id='us-ca-sjc-azr' `
+                      --locations Id='us-va-ash-azr' `
+                      --locations Id='emea-gb-db3-azr' `
+                      --locations Id='emea-nl-ams-azr' `
+                      --locations Id='apac-hk-hkn-azr';
 
                   if ($LastExitCode -ne 0)
-                  { 
+                  {
                       throw "error";
                   }
               }
 
-              $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
+              $env:WEB_TEST_ALERT_NAME = $env:WEB_TEST_NAME + "-alert";
 
-              foreach ($zoneName in $zoneNames)
+              az resource show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_ALERT_NAME --query id -o tsv 2>$null;
+
+              if ($LastExitCode -ne 0)
               {
-                  $env:HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
-                  $env:WEB_TEST_NAME = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower() + '-' + ($zoneName.TrimEnd('.') -replace '\.', '-')
+                  $env:WEB_TEST_ID = az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_NAME --query id -o tsv;
+                  $env:ACTION_GROUP_ID = az monitor action-group list -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
 
-                  echo $env:AZURE_LOCATION;
+                  $alertRuleProperties = @{
+                      severity            = 1
+                      enabled              = $true
+                      scopes               = @($env:WEB_TEST_ID, $env:APPLICATION_INSIGHT_ID)
+                      evaluationFrequency  = "PT1M"
+                      windowSize           = "PT5M"
+                      criteria             = @{
+                          "odata.type"        = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+                          webTestId           = $env:WEB_TEST_ID
+                          componentId         = $env:APPLICATION_INSIGHT_ID
+                          failedLocationCount = 2
+                      }
+                      actions = @(
+                          @{ actionGroupId = $env:ACTION_GROUP_ID }
+                      )
+                  }
 
-                  az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_NAME --query id -o tsv 2>$null
+                  $json = $alertRuleProperties | ConvertTo-Json -Depth 10
+                  [System.IO.File]::WriteAllText("$PWD/alert.json", $json, [System.Text.UTF8Encoding]::new($false))
+
+                  az resource create `
+                      -g $env:AZURE_GROUP_LOGS `
+                      -n $env:WEB_TEST_ALERT_NAME `
+                      -l global `
+                      --resource-type "Microsoft.Insights/metricAlerts" `
+                      -p '@alert.json';
 
                   if ($LastExitCode -ne 0)
                   {
-                      az monitor app-insights web-test create `
-                          -n $env:WEB_TEST_NAME `
-                          --defined-web-test-name $env:WEB_TEST_NAME `
-                          -g $env:AZURE_GROUP_LOGS `
-                          -l $env:AZURE_LOCATION `
-                          --web-test-kind standard `
-                          --frequency 300 `
-                          --enabled true `
-                          --retry-enabled true `
-                          --ssl-check true `
-                          --ssl-lifetime-check 30 `
-                          --http-verb GET `
-                          --request-url https://$env:SUB_DOMAIN_NAME.$zoneName/healthz `
-                          --expected-status-code 200 `
-                          --content-validation content-match='"status":"unhealthy"' ignore-case=true pass-if-text-found=false `
-                          --tags $env:HIDDEN_LINK `
-                          --locations Id='us-ca-sjc-azr' `
-                          --locations Id='us-va-ash-azr' `
-                          --locations Id='emea-gb-db3-azr' `
-                          --locations Id='emea-nl-ams-azr' `
-                          --locations Id='apac-hk-hkn-azr';
-
-                      if ($LastExitCode -ne 0)
-                      {
-                          throw "error";
-                      }
+                      throw "error";
                   }
               }
           }
