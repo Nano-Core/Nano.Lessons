@@ -18,7 +18,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 This example illustrates the use of Nano API health-checks.  
@@ -46,79 +46,104 @@ There is no configuration for HealtCheck, the section has just been added to ena
 ## GitHub Actions
 Optionally, you can configure an availability check in Azure using Application Insights to continuously monitor your application's health and responsiveness.  
 
-> ⚠️ This requires the application to be exposed publicly from Kubernetes via an `ingress` configuration.
+> ⚠️ This requires the application to be exposed publicly from Kubernetes via an `httproute` configuration.
 
-Add the following environment variables.  
+First, add the following environment variables.
 
 ```yaml
 env:
-  AVAILABILITY_URI: ${{ github.ref == 'refs/heads/master' && format('https://{0}/healthz', secrets.PRODUCTION_HOST) || format('https://{0}/healthz', secrets.STAGING_HOST) }}
-  AVAILABILITY_CHECK_FREQUENCY: 300
+  AZURE_GROUP_LOGS: ${{ vars.AZURE_RESOURCE_GROUP_LOGS }}
 ```
 
-...and then add the `Add Availability Check` step to the action pipeline.  
+And then the Availability Check step to the end of the pipeline.  
 
 ```yaml
 - name: Add Availability Check
   shell: pwsh
   run: |
-    az extension add -n application-insights;
+    $env:AZURE_LOCATION = az monitor log-analytics workspace list -g $env:AZURE_GROUP_LOGS --query [0].location -o tsv;
+    $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
+    $env:HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
 
-    $env:SERVICE_NAME_INSIGTHS = $env:SERVICE_NAME + "-insights";
-    $env:APPLICATION_INSIGHT_ID = az monitor app-insights component show --query "[?contains(name, '$env:SERVICE_NAME_INSIGTHS')].[id]" -o tsv;
+    $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
 
-    if ([string]::IsNullOrEmpty($env:APPLICATION_INSIGHT_ID))
+    foreach ($zoneName in $zoneNames)
     {
-        $env:WORKSPACE_ID = az monitor log-analytics workspace list --query "[?contains(name, 'log-analytics')].[id]" -o tsv;
+        $env:WEB_TEST_NAME = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower() + '-' + $env:SUB_DOMAIN_NAME  + '-' + ($zoneName.TrimEnd('.') -replace '\.', '-')
 
-        if (-not [string]::IsNullOrEmpty($env:WORKSPACE_ID))
+        az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_NAME --query id -o tsv 2>$null
+
+        if ($LastExitCode -ne 0)
         {
-            $env:APPLICATION_INSIGHT_ID = az monitor app-insights component create `
-                -a $env:SERVICE_NAME_INSIGTHS `
+            az monitor app-insights web-test create `
+                -n $env:WEB_TEST_NAME `
+                --defined-web-test-name $env:WEB_TEST_NAME `
+                -g $env:AZURE_GROUP_LOGS `
                 -l $env:AZURE_LOCATION `
-                -g $env:AZURE_GROUP `
-                --workspace $env:WORKSPACE_ID `
-                --query "[id]" -o tsv;
+                --kind ping `
+                --web-test-kind standard `
+                --frequency 300 `
+                --enabled true `
+                --retry-enabled true `
+                --ssl-check true `
+                --ssl-lifetime-check 30 `
+                --http-verb GET `
+                --request-url https://$env:SUB_DOMAIN_NAME.$zoneName/healthz `
+                --expected-status-code 200 `
+                --content-validation content-match='"status":"unhealthy"' ignore-case=true pass-if-text-found=false `
+                --tags $env:HIDDEN_LINK `
+                --locations Id='us-ca-sjc-azr' `
+                --locations Id='us-va-ash-azr' `
+                --locations Id='emea-gb-db3-azr' `
+                --locations Id='emea-nl-ams-azr' `
+                --locations Id='apac-hk-hkn-azr';
 
             if ($LastExitCode -ne 0)
-            { 
+            {
                 throw "error";
-            };
+            }
         }
-    };
 
-    $env:SERVICE_NAME_AVAILABILITY = $env:SERVICE_NAME + '-availability-' + $env:ASPNETCORE_ENVIRONMENT.ToLower();
-    $env:AVAILABILITY_ID = az monitor app-insights web-test list -g $env:AZURE_GROUP --query "[?contains(name, '$env:SERVICE_NAME_AVAILABILITY')].[id]" -o tsv;
+        $env:WEB_TEST_ALERT_NAME = $env:WEB_TEST_NAME + "-alert";
 
-    if ([string]::IsNullOrEmpty($env:AVAILABILITY_ID))
-    {
-        $env:APPLICATION_INSIGHT_HIDDEN_LINK = 'hidden-link:' + $env:APPLICATION_INSIGHT_ID + '=Resource';
-        az monitor app-insights web-test create `
-            -n $env:SERVICE_NAME_AVAILABILITY `
-            --defined-web-test-name $env:SERVICE_NAME_AVAILABILITY `
-            -g $env:AZURE_GROUP `
-            -l $env:AZURE_LOCATION `
-            --kind multistep `
-            --web-test-kind standard `
-            --frequency $env:AVAILABILITY_CHECK_FREQUENCY `
-            --enabled true `
-            --retry-enabled true `
-            --ssl-check true `
-            --ssl-lifetime-check 30 `
-            --http-verb GET `
-            --request-url $env:AVAILABILITY_URI `
-            --expected-status-code 200 `
-            --content-validation content-match='\"status\":\"unhealthy\"' ignore-case=true pass-if-text-found=false `
-            --tags $env:APPLICATION_INSIGHT_HIDDEN_LINK `
-            --locations Id='us-ca-sjc-azr' `
-            --locations Id='us-va-ash-azr' `
-            --locations Id='emea-gb-db3-azr' `
-            --locations Id='emea-nl-ams-azr' `
-            --locations Id='apac-hk-hkn-azr';
-    };
+        az resource show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_ALERT_NAME --query id -o tsv 2>$null;
 
-    if ($LastExitCode -ne 0)
-    { 
-        throw "error";
-    };
+        if ($LastExitCode -ne 0)
+        {
+            $env:WEB_TEST_ID = az monitor app-insights web-test show -g $env:AZURE_GROUP_LOGS -n $env:WEB_TEST_NAME --query id -o tsv;
+            $env:ACTION_GROUP_ID = az monitor action-group list -g $env:AZURE_GROUP_LOGS --query [0].id -o tsv;
+
+            $alertRuleProperties = @{
+                severity            = 1
+                enabled              = $true
+                scopes               = @($env:WEB_TEST_ID, $env:APPLICATION_INSIGHT_ID)
+                evaluationFrequency  = "PT1M"
+                windowSize           = "PT5M"
+                criteria             = @{
+                    "odata.type"        = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+                    webTestId           = $env:WEB_TEST_ID
+                    componentId         = $env:APPLICATION_INSIGHT_ID
+                    failedLocationCount = 2
+                }
+                actions = @(
+                    @{ actionGroupId = $env:ACTION_GROUP_ID }
+                )
+            }
+
+            $json = $alertRuleProperties | ConvertTo-Json -Depth 10
+            [System.IO.File]::WriteAllText("$PWD/alert.json", $json, [System.Text.UTF8Encoding]::new($false))
+
+            az resource create `
+                -g $env:AZURE_GROUP_LOGS `
+                -n $env:WEB_TEST_ALERT_NAME `
+                -l global `
+                --resource-type "Microsoft.Insights/metricAlerts" `
+                -p '@alert.json';
+
+            if ($LastExitCode -ne 0)
+            {
+                throw "error";
+            }
+        }
+    }
 ``` 
