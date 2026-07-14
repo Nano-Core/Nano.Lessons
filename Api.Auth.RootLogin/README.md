@@ -82,6 +82,30 @@ Configured the application with the necessary authentication setup.
 }
 ```
 
+...and for `Staging` and `Production` environments.
+
+```json
+"App": {
+  "Authentication": {
+    "Jwt": {
+        "Issuer": "nano.staging",
+        "Audience": "nano.staging"
+    }
+  }
+}
+```
+
+```json
+"App": {
+  "Authentication": {
+    "Jwt": {
+        "Issuer": "nano.production",
+        "Audience": "nano.production"
+    }
+  }
+}
+```
+
 ## Kubernetes
 For `Staging` and `Production` environments, a secret must be created to securely store the public and private keys, and optionally the credentials for `RootLogin` if it shoud be 
 enabled. Below demonstrates how to map the secret containing the JWT keys.  

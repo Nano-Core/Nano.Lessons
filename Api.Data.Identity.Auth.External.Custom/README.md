@@ -14,7 +14,6 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Configuration](#configuration)
 
 ## Summary
 This application builds on **[Api.Data.Identity.Auth.Jwt](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.Identity.Auth.Jwt)**.  
@@ -51,36 +50,3 @@ The following new endpoints related to the custom authentication provider from t
 
 > 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#authentication)**.
 
-## Configuration
-Configured the application with the necessary authentication setup, in addition to the identity configuration.  
-
-```json
-"App": {
-  "Authentication": {
-    "Jwt": {
-      "Issuer": null,
-      "Audience": null,
-      "PublicKey": null,
-      "PrivateKey": null,
-      "Expiration": "01:00:00",
-      "RefreshExpiration": "72:00:00"
-    }
-  }
-}
-```
-
-...and for `appesettings.Developmnet.json`.
-
-```json
-"App": {
-  "Authentication": {
-    "Jwt": {
-      "Issuer": "Development.nano",
-      "Audience": "Development.nano",
-      "PublicKey": "MIIBCgKCAQEAv7iVNUS5w...",
-      "PrivateKey": "MIIEowIBAAKCAQEAv7iV...",
-      "Expiration": "24:00:00"
-    }
-  }
-}
-```

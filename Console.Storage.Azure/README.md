@@ -59,7 +59,63 @@ services:
 ```
 
 ## Kubernetes
-Added two new kubernetes templaets, the `storage-pv.yaml`, `storage-pvc.yaml`, and the `service-account.yaml`. Updated the `cronjob.yaml` mounting the volume.  
+Added three new kubernetes templaets, the `storage-pv.yaml`, `storage-pvc.yaml`, and the `service-account.yaml`.   
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: %SERVICE_NAME%-azurefile-pv-%VOLUME_NAME_SUFFIX%
+spec:
+  capacity:
+    storage: %STORAGE_SIZE%
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: azurefile-static
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0777
+    - uid=0
+    - gid=0
+  claimRef:
+    name: %SERVICE_NAME%-azurefile-pvc-%VOLUME_NAME_SUFFIX%
+    namespace: %KUBERNETES_NAMESPACE%
+  csi:
+    driver: file.csi.azure.com
+    volumeHandle: %AZURE_GROUP_STORAGE%#%STORAGE_ACCOUNT_NAME%#%STORAGE_SHARE_NAME%-%VOLUME_NAME_SUFFIX%
+    volumeAttributes:
+      shareName: %STORAGE_SHARE_NAME%
+      storageAccount: %STORAGE_ACCOUNT_NAME%
+      resourceGroup: %AZURE_GROUP_STORAGE%
+      clientID: %IDENTITY_CLIENT_ID%
+      mountWithWorkloadIdentityToken: "true"
+```
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: %SERVICE_NAME%-azurefile-pvc-%VOLUME_NAME_SUFFIX%
+  namespace: %KUBERNETES_NAMESPACE%
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azurefile-static
+  resources:
+    requests:
+      storage: %STORAGE_SIZE%
+  volumeName: %SERVICE_NAME%-azurefile-pv-%VOLUME_NAME_SUFFIX%
+```
+
+Also, the `configmap.yaml` should have the share-name included.
+
+```
+data:
+  Storage__ShareName: %STORAGE_SHARE_NAME%
+```
+
+Updated the `cronjob.yaml` mounting the volume.
 
 ```yaml
 spec:
@@ -202,5 +258,13 @@ Additionally, this step has been added to ensure the file share is created befor
     };
 
     echo "IDENTITY_NAME=$env:IDENTITY_NAME" >> $env:GITHUB_ENV;
-
 ```
+
+Last, during the Kubernetes deployment step, before any resources are applied, environmental variables required for the new `stoerage-pv.yaml` and `stoerage-pvc.yaml` must be set.
+
+```powershell
+$env:IDENTITY_CLIENT_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query clientId -o tsv;
+$env:VOLUME_NAME_SUFFIX = $env:IDENTITY_CLIENT_ID.Substring(0, 5);
+```
+
+The deployment commands have been updated to apply the new Kubernetes storage templates.  

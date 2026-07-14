@@ -130,7 +130,7 @@ jobs:
           $env:SQL_HOST = az postgres flexible-server list -g $env:AZURE_GROUP_DATABASE --query "[0].fullyQualifiedDomainName" -o tsv;
           $env:SQL_PORT = "5432";
           $env:SQL_ADMIN_USER = az postgres flexible-server list -g $env:AZURE_GROUP_DATABASE --query "[0].username" -o tsv;
-          $env:SQL_MIGRATION_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_ADMIN_USER;Password=$env:SQL_ADMIN_PASSWORD;SSL Mode=Prefer;Trust Server Certificate=true";
+          $env:SQL_MIGRATION_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_ADMIN_USER;Password=$env:SQL_ADMIN_PASSWORD;SSL Mode=Require;Trust Server Certificate=true";
 
           $env:DATA__CONNECTIONSTRING = $env:SQL_MIGRATION_CONNECTIONSTRING;
 
@@ -182,7 +182,7 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          $env:SQL_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_USER;Password=$env:SQL_PASSWORD;SSL Mode=Prefer;Trust Server Certificate=true";
+          $env:SQL_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_USER;Password=$env:SQL_PASSWORD;SSL Mode=Require;Trust Server Certificate=true";
 
           Get-Content .kubernetes/auth-sql-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-sql-secret.tmp.yaml;
           kubectl apply -f .kubernetes/auth-sql-secret.tmp.yaml;

@@ -48,16 +48,16 @@ Additionally, the identity controller is also avaialble, and the actions can be 
 Configured the application with the necessary authentication setup, in addition to the existing identity and jwt configuration.  
 
 ```json
-"App": {
-  "Data": {
-    "Identity": {
-      "ApiKey": {
-        "Secret": "secret"
-      }
+"Data": {
+  "Identity": {
+    "ApiKey": {
+    "Secret": "secret"
     }
   }
 }
 ```
+
+Additionally, JWT authentication has been configured to enable the application to generate JWT tokens based on an API key.  
 
 ## Kubernetes
 For `Staging` and `Production` environments, a secret must be created to securely store the apikey secret. Below demonstrates how to map the secret containing the API key secret.  

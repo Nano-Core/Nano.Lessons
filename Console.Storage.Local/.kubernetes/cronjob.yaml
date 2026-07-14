@@ -51,10 +51,9 @@ spec:
               mountPath: /mnt/%STORAGE_SHARE_NAME%
             - name: tmp
               mountPath: /tmp
-          restartPolicy: OnFailure
           volumes:
-          - name: %STORAGE_SHARE_NAME%
-            emptyDir: {}
+          - name: %SERVICE_NAME%-volume
+            persistentVolumeClaim:
+              claimName: %SERVICE_NAME%-pvc
           - name: tmp
             emptyDir: {}
-

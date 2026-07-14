@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".kubernetes", ".kubernetes"
 		.kubernetes\autoscaler.yaml = .kubernetes\autoscaler.yaml
 		.kubernetes\configmap.yaml = .kubernetes\configmap.yaml
 		.kubernetes\deployment.yaml = .kubernetes\deployment.yaml
+		.kubernetes\service-account.yaml = .kubernetes\service-account.yaml
 		.kubernetes\service.yaml = .kubernetes\service.yaml
 		.kubernetes\storage-pv.yaml = .kubernetes\storage-pv.yaml
 		.kubernetes\storage-pvc.yaml = .kubernetes\storage-pvc.yaml

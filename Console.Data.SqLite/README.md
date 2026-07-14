@@ -87,7 +87,7 @@ services:
 ```
 
 ## Kubernetes
-Added two additional kubernetes templates, `storageclass.yaml` and `pvc.yaml`, for dynamically manage and creating the disk for the SqLite database.
+Added two additional kubernetes templates, `data-storageclass.yaml` and `data-pvc.yaml`, for dynamically manage and creating the disk for the SqLite database.
 
 Also, updated `cronjob.yaml` adding the volumes and volume mounts.  
 
