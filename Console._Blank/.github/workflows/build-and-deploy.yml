@@ -42,6 +42,7 @@ jobs:
       - linux 
       - ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
     permissions:
+      packages: read
       contents: write
     steps:
       - uses: actions/checkout@v6
