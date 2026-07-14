@@ -87,7 +87,7 @@ spec:
       volumes:
       - name: %SERVICE_NAME%-volume
         persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-azurefile-pvc
+          claimName: %SERVICE_NAME%-azurefile-pvc-%VOLUME_NAME_SUFFIX%
       - name: tmp
         emptyDir: {}
 

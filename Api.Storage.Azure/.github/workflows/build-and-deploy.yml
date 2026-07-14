@@ -220,6 +220,7 @@ jobs:
         shell: pwsh
         run: |
           $env:IDENTITY_CLIENT_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query clientId -o tsv;
+          $env:VOLUME_NAME_SUFFIX = $env:IDENTITY_CLIENT_ID.Substring(0, 5);
 
           Get-Content .kubernetes/service-account.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service-account.tmp.yaml;
           kubectl apply -f .kubernetes/service-account.tmp.yaml;

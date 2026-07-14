@@ -80,10 +80,13 @@ spec:
           volumes:
           - name: %SERVICE_NAME%-volume
             persistentVolumeClaim:
-              claimName: %SERVICE_NAME%-azurefile-pvc
+              claimName: %SERVICE_NAME%-azurefile-pvc-%VOLUME_NAME_SUFFIX%
           - name: tmp
             emptyDir: {}
 ```
+
+Notice the name suffix for `claimName`. The PersistentVolume (PV) and PersistentVolumeClaim (PVC) are created with a suffix to allow the managed identity used for authenticating with the 
+Azure File Share to be changed without trying to replace existing immutable resources.
 
 ## GitHub Actions
 Add the following environment variables to the `buid-and-deply.yml`.  
