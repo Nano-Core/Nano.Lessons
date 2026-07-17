@@ -72,8 +72,8 @@ Configured the application `appsettings.json` with the necessary eventing setup.
   "Heartbeat": 60,
   "PrefetchCount": 50,
   "Credentials": {
-    "Id": "rabbitmq_user",
-    "Secret": "password"
+      "Id": null,
+      "Secret": null
   },
   "HealthCheck": {
     "UnhealthyStatus": "Unhealthy"
@@ -129,23 +129,32 @@ services:
 ## Kubernetes
 Added the `rabbitmq` secret for password to the `deployment.yaml`.  
 
-```json
+```yaml
 spec:
   template:
     spec:
       containers:
         env:
+        - name: Eventing__Credentials__Host
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-default-user
+              key: host
+        - name: Eventing__Credentials__Port
+          valueFrom:
+            secretKeyRef:
+              name: rabbitmq-default-user
+              key: port
         - name: Eventing__Credentials__Id
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-auth
+              name: rabbitmq-default-user
               key: username
-           envFrom:
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
-              name: rabbitmq-auth
+              name: rabbitmq-default-user
               key: password
 ```
 
-> ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 
+> ⚠️ The `rabbitmq` secret is created alongside the **[Nano.Azure.Kubernetes.RabbitMQ](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 

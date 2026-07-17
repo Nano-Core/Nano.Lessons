@@ -104,23 +104,34 @@ services:
 ## Kubernetes
 Added the `rabbitmq` secret for password to the `cronjob.yaml`.  
 
-```json
+```yaml
 spec:
-  template:
+  jobTemplate:
     spec:
-      containers:
-        env:
-        - name: Eventing__Credentials__Id
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-auth
-              key: username
-           envFrom:
-        - name: Eventing__Credentials__Secret
-          valueFrom:
-            secretKeyRef:
-              name: rabbitmq-auth
-              key: password
+      template:
+        spec:
+          containers:
+            env:
+              - name: Eventing__Credentials__Host
+                valueFrom:
+                  secretKeyRef:
+                    name: rabbitmq-default-user
+                    key: host
+              - name: Eventing__Credentials__Port
+                valueFrom:
+                  secretKeyRef:
+                    name: rabbitmq-default-user
+                    key: port
+              - name: Eventing__Credentials__Id
+                valueFrom:
+                  secretKeyRef:
+                    name: rabbitmq-default-user
+                    key: username
+              - name: Eventing__Credentials__Secret
+                valueFrom:
+                  secretKeyRef:
+                    name: rabbitmq-default-user
+                    key: password
 ```
 
 > ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 

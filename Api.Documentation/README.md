@@ -56,4 +56,3 @@ for the same example endpoint. When set to `true`, Swagger only displays the non
   }
 }
 ```
-

@@ -48,7 +48,6 @@ spec:
             secretKeyRef:
               name: rabbitmq-auth
               key: username
-           envFrom:
         - name: Eventing__Credentials__Secret
           valueFrom:
             secretKeyRef:
@@ -90,6 +89,3 @@ spec:
           periodSeconds: 5
           initialDelaySeconds: 20
           timeoutSeconds: 2
-      imagePullSecrets:
-        - name: ghcr-pull-secret
-

@@ -105,7 +105,7 @@ services:
 ```
 
 ## Kubernetes
-Added the `%SERVICE_NAME%-secret` for the connectionstring to the `cronjob.yaml`.  
+Added the `auth-sql-secret.yaml` for the connectionstring to the `cronjob.yaml`.  
 
 ```json
 spec:
@@ -125,6 +125,8 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
+  DOTNET_EF_TOOLS_VERSION: "10.0"
+  AZURE_GROUP_DATABASE : ${{ vars.AZURE_RESOURCE_GROUP_DATABASE }}
   SQL_NAME: nanoDb
   SQL_USER: api-data-postgres-user
   SQL_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_NANO_DB_PASSWORD || secrets.STAGING_SQL_NANO_DB_PASSWORD }}
@@ -142,18 +144,19 @@ Additionally, this step has been added to ensure database migrations are applied
     $env:SQL_ADMIN_USER = az postgres flexible-server list -g $env:AZURE_GROUP_DATABASE --query "[0].username" -o tsv;
     $env:SQL_MIGRATION_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_ADMIN_USER;Password=$env:SQL_ADMIN_PASSWORD;SSL Mode=Prefer;Trust Server Certificate=true";
 
-    dotnet ef database update `
-      --no-build `
-      --startup-project $env:APP_NAME `
-      --connection "$env:SQL_MIGRATION_CONNECTIONSTRING" `;
+    $env:DATA__CONNECTIONSTRING = $env:SQL_MIGRATION_CONNECTIONSTRING;
+
+    & "/opt/ef-tools/$env:DOTNET_EF_TOOLS_VERSION/dotnet-ef" database update `
+    --no-build `
+    --configuration Release `
+    --startup-project $env:APP_NAME `
+    -- `
+    --environment $env:ASPNETCORE_ENVIRONMENT;
 
     if ($LastExitCode -ne 0)
     { 
         throw "error";
     };
-         
-    apt-get update
-    apt-get install -y postgresql-client
 
     $userExists = psql "$env:SQL_MIGRATION_CONNECTIONSTRING" `
         -tAc "SELECT 1 FROM pg_roles WHERE rolname='$env:SQL_USER';"
@@ -181,6 +184,15 @@ Additionally, this step has been added to ensure database migrations are applied
         psql "$env:SQL_MIGRATION_CONNECTIONSTRING" `
             -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO $env:SQL_USER;"
     }
+
+    echo "SQL_HOST=$env:SQL_HOST" >> $env:GITHUB_ENV;
+    echo "SQL_PORT=$env:SQL_PORT" >> $env:GITHUB_ENV;
 ```
 
-Last, an additional template has been added to the deployment for storing the application connectionstring in a Kuberntes secret.  
+Last, before applying the new Kubernetes templates, these environmental variables must be set.
+
+```powershell
+$env:SQL_CONNECTIONSTRING = "Host=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Username=$env:SQL_USER;Password=$env:SQL_PASSWORD;SSL Mode=Require;Trust Server Certificate=true";
+```
+
+Finally, apply the templates.

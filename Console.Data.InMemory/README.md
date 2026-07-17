@@ -61,7 +61,7 @@ Configured the application with the necessary data setup.
   "DefaultCollation": null,
   "ConnectionString": "nanoDb",
   "Repository": {
-    "UseAutoSave": false,
+    "UseAutoSave": true,
     "QueryIncludeDepth": 4
   },
   "Identity": null,

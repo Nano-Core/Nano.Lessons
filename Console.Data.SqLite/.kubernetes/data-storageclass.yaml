@@ -2,7 +2,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: %SERVICE_NAME%-data-storage-class
-provisioner: kubernetes.io/azure-disk
+provisioner: disk.csi.azure.com
 parameters:
   storageaccounttype: Standard_LRS
   kind: Managed

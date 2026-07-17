@@ -36,8 +36,8 @@ services:
     networks:
       - network
     environment:
-      MYSQL_ROOT_PASSWORD: myPassword_123
       MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: myPassword_123
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 

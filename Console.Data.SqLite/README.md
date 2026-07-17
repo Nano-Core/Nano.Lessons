@@ -65,7 +65,7 @@ Configured the application with the necessary data setup.
   "DefaultCollation": null,
   "ConnectionString": "Data Source=/data/nanoDb.sqlite",
   "Repository": {
-    "UseAutoSave": false,
+    "UseAutoSave": true,
     "QueryIncludeDepth": 4
   },
   "Identity": null,
@@ -74,13 +74,7 @@ Configured the application with the necessary data setup.
 }
 ```
 
-...and `appsettings.Development.json`
-
-```json
-"Data": {
-  "StartupAction": "Migrate",
-}
-```
+> ⚠️ **Notice:** `StartupAction` is set to `migrate` in all environments. This may cause the pod to restart during the initial deployment.
 
 ## Docker Compose
 Added SqLite as a service dependency in `docker-compose.yml`.  
@@ -93,7 +87,7 @@ services:
 ```
 
 ## Kubernetes
-Added two additional kubernetes templates, `storageclass.yaml` and `pvc.yaml`, for dynamically manage and creating the disk for the SqLite database.
+Added two additional kubernetes templates, `data-storageclass.yaml` and `data-pvc.yaml`, for dynamically manage and creating the disk for the SqLite database.
 
 Also, updated `cronjob.yaml` adding the volumes and volume mounts.  
 
@@ -118,34 +112,7 @@ Add the following environment variables to the `buid-and-deply.yml`.
 
 ```yaml
 env:
-  SQL_NAME: nanoDb
   SQL_SIZE: 10Gi
-  SQL_CONNECTIONSTRING: "Data Source=/mnt/data/{{ env.nanoDb }}.sqlite"
-```
-
-Additionally, this step has been added to ensure database migrations are applied.  
-
-```yaml
-- name: Database Migration
-  shell: pwsh
-  run: |
-    dotnet ef database update `
-      --no-build `
-      --startup-project $env:APP_NAME `
-      --connection "$env:SQL_MIGRATION_CONNECTIONSTRING" `;
-
-    if ($LastExitCode -ne 0)
-    { 
-        throw "error";
-    };
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  
-
-```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
-
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
-```

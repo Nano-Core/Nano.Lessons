@@ -84,6 +84,3 @@ spec:
           claimName: %SERVICE_NAME%-pvc
       - name: tmp
         emptyDir: {}
-      imagePullSecrets:
-        - name: ghcr-pull-secret
-

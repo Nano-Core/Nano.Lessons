@@ -80,6 +80,3 @@ spec:
       - name: %SERVICE_NAME%-volume
         persistentVolumeClaim:
           claimName: %SERVICE_NAME%-pvc
-      imagePullSecrets:
-        - name: ghcr-pull-secret
-

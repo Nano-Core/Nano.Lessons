@@ -52,7 +52,7 @@ Configured the application with a connection to the `NanoApiClient`.
     "NanoApiClient": {
       "Host": "localhost",
       "Root": "api",
-      "Port": 8181,
+      "Port": 8080,
       "UseSsl": false,
       "Timeout": "00:00:30",
       "HealthCheck": {

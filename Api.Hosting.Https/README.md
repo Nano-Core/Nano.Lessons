@@ -43,6 +43,24 @@ HTTPS and the development certificate are only configured in `appsettings.Develo
 in Kubernetes. Certificates are managed externally, and the service only needs to expose an HTTP port in `service.yaml` for mapping traffic through the ingress, 
 which serves HTTPS and forwards it to HTTP.
 
+The `appsettings.json` has this configuration.
+
+```json
+"App": {
+  "Hosting": {
+    "Root": "api",
+    "Http": {
+      "Ports": [
+        8080
+      ],
+      "UseHttpsRedirection": false
+    }
+  }
+}
+```
+
+and the `appsettings.Development.json` this.
+
 ```json
 "App": {
   "Hosting": {
@@ -76,19 +94,72 @@ services:
 ```
 
 ## Kubernetes
-A `httproute.yaml` resource has been added to the `.kubernetes` folder.  
+A `httproute-80.yaml` and `httproute-443.yaml` resource has been added.
 
-| File / Directory     | Type    | Description                                  |
-| -------------------- | ------- | -------------------------------------------- |
-|  `httproute.yaml`    | `yaml`  | The http route spec for Kubernetes Gateway.  |
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: %SERVICE_NAME%-route-80
+  namespace: %KUBERNETES_NAMESPACE%
+spec:
+  parentRefs:
+    - name: %GATEWAY_NAME%
+      sectionName: http
+  hostnames:
+%ROUTE_HOST_NAMES%
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+
+```
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: %SERVICE_NAME%-route-443
+  namespace: %KUBERNETES_NAMESPACE%
+spec:
+  parentRefs:
+    - name: %GATEWAY_NAME%
+  hostnames:
+%ROUTE_HOST_NAMES%
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: %SERVICE_NAME%
+          port: 8080
+```
 
 ## GitHub Actions
-Deployment commands have been updated to apply the new Kubernetes `HTTPRoute` template.  
+Add the following environment variables to the `buid-and-deply.yml`.  
+
+```yaml
+env:
+  SUB_DOMAIN_NAME: papi
+  AZURE_GROUP_DNS: ${{ vars.AZURE_RESOURCE_GROUP_DNS }}
+```
+
+Additionally, during the Kubernetes deployment step, before any resources are applied, all DNS zones are iterated, and the hostname configured in the `httpRoutes` resource is updated to 
+include the application's subdomain.
 
 ```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
+$zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
 
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
+$env:ROUTE_HOST_NAMES = (
+    $zoneNames | ForEach-Object {
+        "  - $env:SUB_DOMAIN_NAME.$_"
+    }
+) -join "`n"
+
+$env:GATEWAY_NAME = kubectl get gateway -n $env:KUBERNETES_NAMESPACE -o jsonpath='{.items[0].metadata.name}'
 ```
+
+The deployment commands have been updated to apply the new Kubernetes `HTTPRoute` templates.  

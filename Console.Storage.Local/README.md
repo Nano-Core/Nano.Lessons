@@ -51,7 +51,8 @@ Configured the application with the necessary storage setup.
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  console.storage.local:
     volumes:
       - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```
@@ -63,20 +64,22 @@ Also, updated `cronjob.yaml` adding the volumes and volume mounts.
 
 ```yaml
 spec:
-  template:
+  jobTemplate:
     spec:
-      containers:
-        volumeMounts:
-        - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
-        - name: tmp
-          mountPath: /tmp
-      volumes:
-      - name: %SERVICE_NAME%-volume
-        persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-pvc
-      - name: tmp
-        emptyDir: {}
+      template:
+        spec:
+          containers:
+            volumeMounts:
+            - name: %SERVICE_NAME%-volume
+              mountPath: /mnt/%STORAGE_SHARE_NAME%
+            - name: tmp
+              mountPath: /tmp
+          volumes:
+          - name: %SERVICE_NAME%-volume
+            persistentVolumeClaim:
+              claimName: %SERVICE_NAME%-pvc
+          - name: tmp
+            emptyDir: {}
 ```
 
 ## GitHub Actions
@@ -89,11 +92,3 @@ env:
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  
-
-```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
-
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
-```

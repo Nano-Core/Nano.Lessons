@@ -57,7 +57,7 @@ Configured the application with the necessary storage setup.
 "Storage": {
   "ShareName": "nano-storage-local",
   "HealthCheck": {
-    "UnhealthyStatus": "Degraded"
+    "UnhealthyStatus": "Unhealthy"
   }
 }
 ```
@@ -75,7 +75,8 @@ Additionally, application health-checks have been enabled with the configuration
 Mapped the fileshare in `docker-compose.yml`.  
 
 ```yaml 
-docker
+services:
+  console.storage.local:
     volumes:
       - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```
@@ -113,11 +114,3 @@ env:
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  
-
-```powershell
-Get-Content .kubernetes/{resource-name}.yaml `
-    | foreach { [Environment]::ExpandEnvironmentVariables($_) } `
-    | Set-Content .kubernetes/{resource-name}.tmp.yaml;
-
-sudo kubectl apply -f .kubernetes/{resource-name}.tmp.yaml;
-```

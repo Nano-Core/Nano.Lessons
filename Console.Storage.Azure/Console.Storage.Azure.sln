@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".kubernetes", ".kubernetes"
 	ProjectSection(SolutionItems) = preProject
 		.kubernetes\configmap.yaml = .kubernetes\configmap.yaml
 		.kubernetes\cronjob.yaml = .kubernetes\cronjob.yaml
+		.kubernetes\service-account.yaml = .kubernetes\service-account.yaml
 		.kubernetes\storage-pv.yaml = .kubernetes\storage-pv.yaml
 		.kubernetes\storage-pvc.yaml = .kubernetes\storage-pvc.yaml
 	EndProjectSection

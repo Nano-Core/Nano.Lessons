@@ -89,6 +89,3 @@ spec:
           periodSeconds: 5
           initialDelaySeconds: 20
           timeoutSeconds: 2
-      imagePullSecrets:
-        - name: ghcr-pull-secret
-
