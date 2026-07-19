@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`. The rest of the setup remains largely unchanged.
 
 This example simply shows configuring a Nano application for HTTP exposure.  
@@ -27,4 +27,4 @@ The following endpoint is available for testing:
 | ------------------------------------------ | -------------------------------------- |
 | `http://localhost:8080/api/examples/http`  | Returns a simple `200 OK` response.    |
 
-> 📖 Learn more about **[Nano Hosting Http](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#http)**.
+> 📖 Learn more about **[Nano Hosting Http](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#http)**.

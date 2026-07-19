@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.ApiClients)**. All the custom methods have been removed and replaced 
+This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.ApiClients)**. All the custom methods have been removed and replaced 
 with corresponding methods for each entity controller operation in the inner service.
 
 The inner application has a data provider enabled to demonstrate the generic API client integration with Nano entity models. A `NanoApiClient` implementation, derived from 
@@ -27,4 +27,4 @@ The endpoints mirror those of the entity controller in the inner service, allowi
 real-world scenario, this structure would typically differ. The outer application would define its own request and response contracts tailored to its domain. However, for 
 simplicity and clarity in this example, the responses from the inner service are passed directly through the outer API.
 
-> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#api-clients)**.
+> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App/README.md#api-clients)**.

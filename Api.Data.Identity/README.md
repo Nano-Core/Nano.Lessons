@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase identity; full controllers are unnecessary.   
 
 The `User` entity model, `UserMapping` data mapping, `UserQueryCriteria` query criteria and the `UsersControlller` has been added to the solutiin. The controller is deriving
@@ -28,12 +28,12 @@ The application is configured to audit all identity models.
 Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.  
 
 Not all identity actions are enabled in this example. It demonstrates identity functionality without any authentication enabled. Other lessons cover the different supported 
 authentication methods and the corresponding identity actions to manage them.  
 
-> 📖 Learn more about **[Nano Data Identity](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#identity)**.
+> 📖 Learn more about **[Nano Data Identity](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#identity)**.
 
 ## Configuration
 The data identity has been configured for the application. The `UseAudit` ahs been set to `All` in order to audit log all identity changes. Normally, you would probably be more 

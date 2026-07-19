@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate audit logging. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary. Also an `AuditControlller` derived from 
 `BaseAuditControlller` has been added.  
 
@@ -32,6 +32,6 @@ we are invoking the endpoint with an unauthenticated user.
 Also, API documentation has been configured, in order to easier see which audit endpoints are available. It can be accessed 
 here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.  
 
-> 📖 Learn more about **[Nano Data Audit](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#audit)**.
+> 📖 Learn more about **[Nano Data Audit](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#audit)**.

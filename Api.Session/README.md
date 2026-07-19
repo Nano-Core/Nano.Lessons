@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 This example demonstrates using session with a Nano application.  
@@ -30,7 +30,7 @@ The following endpoints is available for testing.
 | `http://localhost:8080/api/examples/get-session`   | Gets the session variable if set and returns a `200 OK`.  |
 | `http://localhost:8080/api/examples/clear-session` | Clear the session and returns a `200 OK`.                 |
 
-> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#session)**.
+> 📖 Learn more about **[Nano Session](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#session)**.
 
 ## Configuration
 ```json

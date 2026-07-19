@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate soft delete. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
 The `Example` entity implements `IEntitySoftDeletable`, so when an entity is deleted, it is not removed from the database but is marked as deleted 
@@ -26,4 +26,4 @@ The data mapping also includes two triggers for `OnDeleting` and `OnDeleted` to 
 
 Open the database and notice that the created `Example` entity has a non-zero `IsDeleted` value, indicating it has been soft-deleted.  
 
-> 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#soft-delete)**.
+> 📖 Learn more about **[Nano Data Soft Delete](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#soft-delete)**.

@@ -14,11 +14,11 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates a waiting worker that delays its execution until all registered startup tasks have completed, 
 ensuring that the console application only runs after initialization is finished.  
 
 Run the application and observe how both example workers wait for the startup tasks to complete before executing their logic.  
 
-> 📖 Learn more about **[Nano Startup Tasks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#startup-tasks)**.
+> 📖 Learn more about **[Nano Startup Tasks](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App/README.md#start-up-tasks)**.

@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository include annotations. Entity controllers have been simplified to showcase include annotation; full controllers are unnecessary.  
 
 The endpoints can be invoked with the `includeDepth` query parameter to override the default configured depth. This makes it easy to experiment with different values 
@@ -25,7 +25,7 @@ and observe how the returned object graph changes as Nano resolves deeper levels
 
 All the navigations in the object graph is annotated with `IncludeAttribute`, except for `Customer.Profile`. Because of this, it is not exposed during 
 response serialization, even that the instance is already loaded in the data context. Only properties explicitly marked for inclusion are serialized in the response. You 
-can read more about this behavior in the [Response Serialization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#response-serialization) section.  
+can read more about this behavior in the [Response Serialization](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#response-serialization) section.  
 
 Observe how includes and nested includes appear in the response after the entities have been created and subsequently retrieved 
 using `IRepository.GetAsync<TEntity>(...)`. This demonstrates how Nano automatically resolves and serializes the configured include graph according to the effective depth.  
@@ -41,7 +41,7 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/examples/create-and-include` | Returns a simple `200 OK` response. Creates a `Customer` entity and nested included navigation properties, and returns it. ⚠️ If request `includeDepth` is lower than configuration, serialization still exposes the depth using the confoguration.   |
 | `http://localhost:8080/api/examples/not-include`        | Returns a simple `200 OK` response with `CustomerResponse`, that is not `IEntity`, and all properties are serialzied and exposed.                                                                                                                     |
 
-> 📖 Learn more about **[Nano Include Annotation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#include-annotation)**.
+> 📖 Learn more about **[Nano Include Annotation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#include-annotation)**.
 
 ## Configuration
 Configured the application with the necessary data setup.  

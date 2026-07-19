@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -18,7 +18,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
-This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Hosting.Https)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 This example illustrates the use of Nano API health-checks.  
@@ -31,7 +31,7 @@ The following endpoints are available for testing.
 | ------------------------------------------------- | ------------------------------------------------------ |
 | `http://localhost:8080/api/examples/health-check` | Returns a `200 OK` response with health-check status.  |
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Apihealth-checks)**.
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api#health-checks)**.
 
 ## Configuration
 There is no configuration for HealtCheck, the section has just been added to enable the feature.  

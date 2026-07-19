@@ -14,10 +14,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates exception handling for a console application.  
 
 Run the application and observe the `Exception` being thrown in the worker `OnStartAsync()`.  
 
-> 📖 Learn more about **[Nano Exception Handling](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console/README.md#exception-handling)**.
+> 📖 Learn more about **[Nano Exception Handling](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Console/README.md#exception-handling)**.

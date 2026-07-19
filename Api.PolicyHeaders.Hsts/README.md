@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Hosting.Https)** and adds a simple test controller 
+This application builds on **[Api.Hosting.Https](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Hosting.Https)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 The service is configured to run over HTTPS, since HSTS requires a secure connection to be tested effectively.  
@@ -27,7 +27,7 @@ To observe HSTS enforcement in action, load the `hsts-violation.html` file and s
 | ----------------------------------------- | --------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/hsts` | Returns a `200 OK` response including the `Strict-Transform-Security` response header.  |
 
-> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#strict-transport-security-hsts)**.
+> 📖 Learn more about **[Nano Strict Transport Security (HSTS)](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#strict-transport-security-hsts)**.
 
 ## Configuration
 ```json

@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,8 +16,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate entity events. Additionally, eventing has been enabled mirroring the setup from **[Api.Eventing.RabbityMq](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Eventing.RabbityMq)**,
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
+demonstrate entity events. Additionally, eventing has been enabled mirroring the setup from **[Api.Eventing.RabbityMq](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Eventing.RabbitMq)**,
 but any eventing provider can be used. New entity controllers have been added for use with showcasing entity events.  
 
 An additional application has been added to the solution. In a typical architecture, this application would be placed in a separate solution. However, for the purpose of demonstrating 
@@ -30,7 +30,7 @@ entity relationships can be inspected directly in the codebase.
 
 Also an `OnInserting` and `OnUpdating` trigger has been mapped for `Customer`, to show how the entity events will get the updated value.  
 
-> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#triggers)**.
+> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#triggers)**.
 
 Both `Person` and `Customer` are annotated with the `PublishAttribute`, and define property names that determine which fields should trigger publish events on added, modified, 
 and deleted actions. Several controllers have also been added to support these entities, enabling various create, update, and delete operations to trigger `Customer` entity events. When 
@@ -40,4 +40,4 @@ for the `Customer`.
 It is also important to note that `Customer` inherits publishable property definitions from `Person`. To ensure all property names defined across the entire inheritance hierarchy are 
 included, Nano aggregates the `PublishAttribute` metadata and hydrates entities both forward (for direct changes) and in reverse (via foreign key relationships) to capture deferred changes.
 
-> 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#entity-events)**.
+> 📖 Learn more about **[Nano Data Entity Events](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#entity-events)**.

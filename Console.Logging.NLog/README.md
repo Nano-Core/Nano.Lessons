@@ -16,14 +16,14 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates logging with NLog for a console application.  
 
 Run the application and observe how `ExampleWorker` logs a warning to the console. Also note the `LogLevelOverrides` configuration, 
 where logs under the `Microsoft` namespace are set to `Warning`, which suppresses several informational messages during application startup.  
 
-> 📖 Learn more about **[Nano.Logging.NLog](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Logging.NLog/README.md#nanologgingnlog)**.
+> 📖 Learn more about **[Nano.Logging.NLog](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Logging.NLog/README.md#nanologgingnlog)**.
 
 ## Registration
 The following logging has been registered using `ConfigureServices(...)` in `program.cs`.

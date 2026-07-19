@@ -19,12 +19,12 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates creating a file and saving it to a locally mapped file-share.  
 Files are saved in `.docker/bin/`.  
 
-> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Local/README#nanostoragelocal)**.
+> 📖 Learn more about **[Nano.Storage.Local](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Storage.Local/README.md#nanostoragelocal)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  

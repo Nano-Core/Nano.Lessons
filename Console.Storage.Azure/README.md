@@ -19,13 +19,13 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates creating a file and saving it to a mapped file share.  
 When running locally, files are **NOT** written to the Azure File Share. Instead, Docker mounts a local directory to simulate the file share.  
 Files are saved in `.docker/bin/`.  
 
-> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure/README#nanostorageazure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Storage.Azure/README.md#nanostorageazure)**.
 
 ## Registration
 The following storage has been registered using `ConfigureServices(...)` in `program.cs`.  

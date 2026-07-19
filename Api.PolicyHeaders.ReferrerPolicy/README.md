@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 To observe referrer policy behavior in action, load the `referrer-policy-violation.html` file and inspect how the browser handles (or blocks) the referrer 
@@ -27,7 +27,7 @@ in the resulting request.
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/referrer-policy` | Returns a `200 OK` response including the `Referrer-Policy` response header set to `same-origin`.  |
 
-> 📖 Learn more about **[Nano Referrer Policy Header](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#referrer-policy)**.
+> 📖 Learn more about **[Nano Referrer Policy Header](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#referrer-policy)**.
 
 ## Configuration
 ```json

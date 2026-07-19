@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Auth.RootLogin](https://github.com/Nano-Core/Nano.Lessons/tree/master/Auth.RootLogin)**.  
+This application builds on **[Api.Auth.RootLogin](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Auth.RootLogin)**.  
 
 A custom authorization policy has been configured for the application. The `ServiceCollectionExtensions.AddCustomAuthorizationPolicy(...)` method adds the `CustomPolicy`,
 and the `/forbidden` endpoint enforces the policy using a custom `[Authorize(Policy = "CustomPolicy")]` annotation. The policy itself requires the JWT token to contain
@@ -28,7 +28,7 @@ are automatically excluded. In this example, only the root login action is expos
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.  
 
 The following endpoint from the auth controller is available for testing.  
 
@@ -43,4 +43,4 @@ Additionally, the following endpoint is available for testing authorization.
 | `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful.                                                                |
 | `http://localhost:8080/api/examples/forbidden`     | Returns a simple `200 OK` response, when JWT authorization is successful with `CustomClaim`, otherwise returns `403 FORBIDDEN` response. |
 
-> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#authentication)**.
+> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)**.

@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.ApiClients)**. All custom methods have been removed and replaced 
+This application builds on **[Api.ApiClients](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.ApiClients)**. All custom methods have been removed and replaced 
 with a new method that triggers the configured root login.
 
 The service is configured with Root Login and JWT authentication enabled, along with a concrete implementation of `BaseAuthController`. When invoking methods through the 
@@ -28,4 +28,4 @@ The following endpoint is available for testing.
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/auto-authenticate-root`  | Returns a `200 OK` response. Uses the API client’s automatic root login to obtain and return an access token.   |
 
-> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App/README.md#api-clients)**.
+> 📖 Learn more about **[Nano Api Clients](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App/README.md#api-clients)**.

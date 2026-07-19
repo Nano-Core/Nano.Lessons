@@ -14,13 +14,13 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.  
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.  
 
 This application demonstrates configuring `Localization` in a Nano console application.  
 
 Run the application and observe how the configured localization is used when printing out `DateTimeOffset.Now`.  
 
-> 📖 Learn more about **[Nano Console Localization](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Console/README.md#localization)**.
+> 📖 Learn more about **[Nano Console Localization](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Console/README.md#localization)**.
 
 ## Configuration
 ```json
