@@ -18,7 +18,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Kubernetes](#kubernetes)
 
 ## Summary
-This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Console._Blank)**.
+This application builds on **[Console.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Console._Blank)**.
 
 Although event handling is not typically associated with console applications, there are valid scenarios where event-driven architecture makes sense 
 in a console worker. For example, a worker might retrieve data from a database or an API client and publish events for distributed processing across services.  
@@ -31,7 +31,7 @@ This message is written by the `EventHandler` when the event is successfully rec
 You can access the RabbitMQ management interface here: **[http://localhost:15672](http://localhost:15672)**. From there, you can monitor the messages 
 being published and consumed in real time.
 
-> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq/README.md#nanoeventingrabbitmq)**.
+> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Eventing.RabbitMq/README.md#nanoeventingrabbitmq)**.
 
 ## Registration
 The following eventing provider has been registered using `ConfigureServices(...)` in `Program.cs`.
@@ -134,4 +134,4 @@ spec:
                     key: password
 ```
 
-> ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 
+> ⚠️ The `rabbitmq` secret is created alongside the **[Nano Azure Kubernetes Eventing](https://github.com/Nano-Core/Nano.Azure.Kubernetes/blob/master/Nano.Azure.Kubernetes.RabbitMQ)** 

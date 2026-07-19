@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -18,7 +18,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Docker-compose](#docker-compose)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 This example demonstrates using virus scan for all uploaded files in a Nano application.  
@@ -26,7 +26,7 @@ This example demonstrates using virus scan for all uploaded files in a Nano appl
 An virus scan health check is configured.  
 Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.  
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#health-checks)**
 
 Invoke the endpoint. To test virus detection, you can use the EICAR test files 
 available here: [https://www.eicar.org/download-anti-malware-testfile](https://www.eicar.org/download-anti-malware-testfile).  
@@ -37,7 +37,7 @@ The following endpoint is available for testing.
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/virus-scan` | Returns a `200 OK` response if there is no virus in the file, and otherwise a `500 ERROR` with the found virus name in the error message.  |
 
-> 📖 Learn more about **[Nano Virus Scan](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#virus-scan)**.
+> 📖 Learn more about **[Nano Virus Scan](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#virus-scan)**.
 
 ## Configuration
 ```json

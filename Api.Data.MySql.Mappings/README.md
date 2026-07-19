@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**. Entity controllers have been 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**. Entity controllers have been 
 simplified to showcase setting mysql views; full controllers are unnecessary.  
 
 Three new entity models have been added, each demonstrating different types of advanced mappings. The first, `ExampleJson`, shows how to store a complex object in a 
@@ -27,4 +27,4 @@ used for case-insensitive searches, with the LINQ query calling `.ToUpper()` on 
 
 Last, a unique index has also been added to `Example.NameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
 
-> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data.MySql/README.md#nanodatamysql)**.
+> 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data.MySql/README.md#nanodatamysql)**.

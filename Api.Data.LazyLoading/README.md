@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,13 +17,13 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
 Once the object graph is created, notice that only `IncludedRelations` appears in the response. Although `Relations` is lazy-loaded in the code, it is not included 
 because it lacks the `Include` annotation.  
 
-> 📖 Learn more about **[Nano Data Lazy Loading](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#lazy-loading)**.
+> 📖 Learn more about **[Nano Data Lazy Loading](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#lazy-loading)**.
 
 ## Configuration
 ```json

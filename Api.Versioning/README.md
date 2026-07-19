@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,7 +16,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 The controller is annotated with `[ApiVersion("1.0")]` and `[ApiVersion("2.0")]`, and contains two actions, each mapped to a specific version 
@@ -32,4 +32,4 @@ The following endpoint is available for testing.
 | `http://localhost:8080/api/v1.0/examples/versioning`  | Returns a `200 OK` response with the message `v1.0`.  |
 | `http://localhost:8080/api/v2.0/examples/versioning`  | Returns a `200 OK` response with the message `v2.0`.  |
 
-> 📖 Learn more about **[Nano Versioning](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#versioning)**.
+> 📖 Learn more about **[Nano Versioning](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#versioning)**.

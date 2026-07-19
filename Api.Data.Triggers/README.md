@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -16,11 +16,11 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Summary](#summary)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase triggers; full controllers are unnecessary.   
 
 Triggers for `OnInserting`, `OnInserted`, `OnUpdating`, `OnUpdated`, `OnDeleting`, and `OnDeleted` have been configured in mappings for the `Example` entity model. Whenever 
 the `Example` entity is **added** or **updated**, the `Example.UpdatedAt` property is automatically set to `UtcNow`. Additionally, for each trigger execution, an 
 `ExampleTrigger` entity is created and stored. This serves as a record demonstrating that the trigger was invoked.  
 
-> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#triggers)**.
+> 📖 Learn more about **[Nano Data Triggers](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#triggers)**.

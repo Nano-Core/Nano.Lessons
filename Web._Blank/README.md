@@ -25,4 +25,4 @@ An `App.razor` has been added to show simple use of `IComponent` when registerin
 It is recommended to review this application first to understand how a Nano Web application is generally structured and to become familiar with the purpose of the core building blocks 
 used in the boilerplate.
 
-> 📖 Learn more about **[Nano Solution Composition](https://github.com/Nano-Core/Nano.Library#solution-composition)**.
+> 📖 Learn more about **[Nano Web Applications](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Web/README.md#nanoappweb)**.

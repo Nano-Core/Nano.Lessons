@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Documenation](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Documenation)**.    
+This application builds on **[Api.Documenation](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Documenation)**.    
 
 This example shows using API documentation with strict CSP security. Run the solution and open [https://localhost:4443/docs](https://localhost:4443/docs) in your browser to 
 view the API documentation.  
@@ -28,7 +28,7 @@ Also a CSP hash has been added and the policy configured to allow inline styles 
 | -------------------------------------------------- | -------------------- |
 | `http://localhost:8080/api/examples/documentation` | Returns a `200 OK`.  |
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.
 
 ## Configuration
 

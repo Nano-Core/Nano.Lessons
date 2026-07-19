@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -19,7 +19,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 The JWT authentication scheme has been configured, and a `BaseAuthExternalRepository<TFlow>` implementation named `ExternalProviderCustomRepository`, with `Custom` as provider-name,
@@ -31,7 +31,7 @@ provider in Nano.
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
-> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#documentation)**.  
+> 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.  
 
 The following endpoint from the auth controller is available for testing.  
 
@@ -46,7 +46,7 @@ Additionally, the following endpoint is available for testing authorization.
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful, and otherwise a `401 Unauthorized`.  |
 
-> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#authentication)**.
+> 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)**.
 
 ## Configuration
 Configured the application with the necessary authentication setup. 

@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -21,7 +21,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
 This application demonstrates uploading a file and saving it to a mapped file share.  
@@ -35,7 +35,7 @@ from the configuration, the application will still run, but the health-check wil
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check JSON response.  
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**.  
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#health-checks)**.  
 
 The following endpoint is available for testing.
 
@@ -43,7 +43,7 @@ The following endpoint is available for testing.
 | --------------------------------------------------- | ------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/storage`        | Returns a simple `200 OK` response. Saves the uploaded file to the fileshare.   |
 
-> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Storage.Azure/README#nanostorageazure)**.
+> 📖 Learn more about **[Nano.Storage.Azure](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Storage.Azure/README.md#nanostorageazure)**.
 
 ## Registration
 The following storage provider has been registered using `ConfigureServices(...)` in `program.cs`.  

@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Data.MySql)**, but any data provider can be used to 
+This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
 demonstrate repository autosave. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary.   
 
 In this application, autosave has been disabled. When the endpoint is invoked, Nano attempts to persist the entity to the database. However, the `IRepository` does 
@@ -30,7 +30,7 @@ The following endpoint is available for testing.
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/examples/no-save`   | Returns a simple `200 OK` response, while trying to add a new `Example`, changes are never saved.  |
 
-> 📖 Learn more about **[Nano Data Repository Autosave](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Data/README.md#autosave)**.
+> 📖 Learn more about **[Nano Data Repository Autosave](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#autosave)**.
 
 ## Configuration
 Configured the application with the necessary data setup.  

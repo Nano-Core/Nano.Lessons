@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -19,7 +19,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [GitHub Actions](#github-actions)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)**.
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)**.
 
 This example demonstrates how OpenTelemetry can be configured to expose metrics through `/metrics`. Try it out.
 
@@ -27,7 +27,7 @@ This example demonstrates how OpenTelemetry can be configured to expose metrics 
 | ------------------------------------ | ------------------------------------------------ |
 | `http://localhost:8080/api/metrics`  | Returns the current metrics for the application. |
 
-> 📖 Learn more about **[Nano OpenTelemetry Metrics](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#opentelemetry-metrics)**.
+> 📖 Learn more about **[Nano OpenTelemetry Metrics](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#opentelemetry-metrics)**.
 
 ## Configuration
 Added the empty `Metrics` section to enable OpenTelemetry with Prometheus for the application.

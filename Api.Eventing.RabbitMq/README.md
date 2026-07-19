@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
 
 ***
 
@@ -20,7 +20,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Kubernetes](#kubernetes)
 
 ## Summary
-This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api._Blank)** and adds a simple test controller 
+This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a simple test controller 
 that inherits from the top-level Nano `BaseController`.
 
 While it is uncommon for the same application to both publish and consume an event, this pattern is used here for demonstration purposes. 
@@ -35,7 +35,7 @@ You can also monitor the messages via the RabbitMQ management interface: **[http
 An eventing health check is configured to target the RabbitMQ.  
 Open **[http://localhost:8080/healthz](http://localhost:8080/healthz)** to view the health-check status in the JSON response.
 
-> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.App.Api/README.md#health-checks)**
+> 📖 Learn more about **[Nano Health Checks](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#health-checks)**
 
 The following endpoint is available for testing:
 
@@ -44,7 +44,7 @@ The following endpoint is available for testing:
 | `http://localhost:8080/api/examples/eventing`              | Returns a simple `200 OK` response. Publishes a message that wiil be consumed by the `EventHandler`                      |
 | `http://localhost:8080/api/examples/eventing-routing-key`  | Returns a simple `200 OK` response. Publishes a message using routing key that wiil be consumed by the `EventHandler`    |
 
-> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/tree/master/Nano.Eventing.RabbitMq/README.md#nanoeventingrabbitmq)**.
+> 📖 Learn more about **[Nano.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Eventing.RabbitMq/README.md#nanoeventingrabbitmq)**.
 
 ## Registration
 The following eventing provider has been registered using `ConfigureServices(...)` in `program.cs`.  
@@ -157,4 +157,4 @@ spec:
               key: password
 ```
 
-> ⚠️ The `rabbitmq` secret is created alongside the **[Nano.Azure.Kubernetes.RabbitMQ](https://github.com/Nano-Core/Nano.Azure.Kubernetes/tree/master/Nano.Azure.Kubernetes.RabbitMQ)** 
+> ⚠️ The `rabbitmq` secret is created alongside the **[Nano.Azure.Kubernetes.RabbitMQ](https://github.com/Nano-Core/Nano.Azure.Kubernetes/blob/master/Nano.Azure.Kubernetes.RabbitMQ)** 
