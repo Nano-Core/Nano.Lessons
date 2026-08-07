@@ -12,4 +12,4 @@ namespace Api.Data.MySql.Controllers;
 /// <param name="logger">The <see cref="ILogger{T}"/>.</param>
 /// <param name="repository">The <see cref="IRepository"/>.</param>
 public class ExampleUpdatablesController(ILogger<ExampleUpdatablesController> logger, IRepository repository)
-    : BaseEntityUpdatableController<ExampleUpdatable, ExampleQueryCriteria>(logger, repository);
+    : BaseEntityEditableController<ExampleUpdatable, ExampleQueryCriteria>(logger, repository);
