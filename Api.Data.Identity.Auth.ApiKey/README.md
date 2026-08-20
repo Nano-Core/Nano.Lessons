@@ -80,7 +80,7 @@ The secrets defined in GitHub must also be mapped for the `Staging` and `Product
 
 ```yaml
 env:
-  AUTH_API_KEY_SECRET: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_AUTH_API_KEY_SECRET || secrets.STAGING_AUTH_API_KEY_SECRET }}
+  AUTH_API_KEY_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_API_KEY_SECRET || secrets.STAGING_AUTH_API_KEY_SECRET }}
 ```
 
 ...and created during the Kubernetes deploy step.  
