@@ -64,6 +64,7 @@ Configured the application with the necessary data setup.
   "QuerySplittingBehavior": "SingleQuery",
   "DefaultCollation": null,
   "ConnectionString": null,
+  "AuthenticationType": "Credentials",
   "Repository": {
     "UseAutoSave": true,
     "QueryIncludeDepth": 4
@@ -124,6 +125,13 @@ spec:
                   key: data-connectionstring
 ```
 
+Also added the following variable to the `configmap.yaml`.
+
+```yaml
+data:
+  Data__AuthenticationType: %SQL_AUTH_TYPE%
+```
+
 ## GitHub Actions
 Add the following environment variables to the `buid-and-deply.yml`.  
 
@@ -131,13 +139,12 @@ Add the following environment variables to the `buid-and-deply.yml`.
 env:
   DOTNET_EF_TOOLS_VERSION: "10.0"
   AZURE_GROUP_DATABASE : ${{ vars.AZURE_RESOURCE_GROUP_DATABASE }}
+  SQL_AUTH_TYPE: Azure
   SQL_NAME: nanoDb
-  SQL_USER: api-data-mysql-user
-  SQL_PASSWORD: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_SQL_NANO_DB_PASSWORD || secrets.STAGING_SQL_NANO_DB_PASSWORD }}
-  SQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_SQL_ADMIN_PASSWORD || secrets.STAGING_SQL_ADMIN_PASSWORD }}
 ```
 
-Additionally, this step has been added to ensure database migrations are applied, and the application database user has been created before the application is deployed.  
+Additionally, these steps has been added to ensure database migrations are applied and the application database user is created, using the application's managed identity, before the 
+application is deployed.
 
 ```yaml
 - name: Database Migration & User

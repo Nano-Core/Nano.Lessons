@@ -183,7 +183,67 @@ env:
   STORAGE_SHARE_NAME: nano-storage-azure
 ```
 
-Additionally, this step has been added to ensure the file share is created before the application is deployed.  
+Additionally, include these steps to create a managed identity and federated credentials for authenticating with the storage account.  
+
+```
+- name: Managed Identity
+  shell: pwsh
+  run: |
+    $env:IDENTITY_NAME = $env:SERVICE_NAME + "-identity";
+    $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
+    $env:KUBERNETES_ISSUER_URL = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].['oidcIssuerProfile.issuerUrl'] -o tsv;
+
+    if (-not $env:IDENTITY_PRINCIPAL_ID)
+    {
+        az identity create `
+            -g $env:AZURE_GROUP_KUBERNETES `
+            -n $env:IDENTITY_NAME;
+
+        if ($LastExitCode -ne 0)
+        {
+            throw "error";
+        };
+
+        $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
+    }
+          
+    $env:IDENTITY_CLIENT_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query clientId -o tsv;
+
+    az identity federated-credential create `
+        --name $env:SERVICE_NAME-credentials `
+        --resource-group $env:AZURE_GROUP_KUBERNETES `
+        --identity-name $env:IDENTITY_NAME `
+        --issuer $env:KUBERNETES_ISSUER_URL `
+        --subject "system:serviceaccount:${env:KUBERNETES_NAMESPACE}:${env:SERVICE_NAME}-service-account" `
+        --audience api://AzureADTokenExchange;
+
+    if ($LastExitCode -ne 0)
+    {
+        throw "error";
+    };
+          
+    echo "IDENTITY_NAME=$env:IDENTITY_NAME" >> $env:GITHUB_ENV;
+    echo "IDENTITY_CLIENT_ID=$env:IDENTITY_CLIENT_ID" >> $env:GITHUB_ENV; 
+    echo "IDENTITY_PRINCIPAL_ID=$env:IDENTITY_PRINCIPAL_ID" >> $env:GITHUB_ENV; 
+
+- name: Storage Role Permissions
+  shell: pwsh
+  run: |
+    $env:STORAGE_ACCOUNT_ID = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].id -o tsv;
+
+    az role assignment create `
+        --assignee-object-id $env:IDENTITY_PRINCIPAL_ID `
+        --assignee-principal-type ServicePrincipal `
+        --role "Storage File Data SMB MI Admin" `
+        --scope $env:STORAGE_ACCOUNT_ID
+
+    if ($LastExitCode -ne 0)
+    {
+        throw "error";
+    };
+```
+
+..and this step has been added to ensure the file share is created before the application is deployed.  
 
 ```yaml
 - name: Create Fileshare
@@ -236,62 +296,9 @@ Additionally, this step has been added to ensure the file share is created befor
     };
 ```
 
-...and includes a step to create a managed identity and federated credentials for authenticating with the storage account.  
-
-```
-- name: Managed Identity & Federated Credentials
-  shell: pwsh
-  run: |
-    $env:IDENTITY_NAME = $env:SERVICE_NAME + "-identity";
-    $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
-    $env:KUBERNETES_ISSUER_URL = az aks list -g $env:AZURE_GROUP_KUBERNETES --query [0].['oidcIssuerProfile.issuerUrl'] -o tsv;
-    $env:STORAGE_ACCOUNT_ID = az storage account list -g $env:AZURE_GROUP_STORAGE --query [0].id -o tsv;
-
-    if (-not $env:IDENTITY_PRINCIPAL_ID)
-    {
-        az identity create `
-            -g $env:AZURE_GROUP_KUBERNETES `
-            -n $env:IDENTITY_NAME;
-
-        if ($LastExitCode -ne 0)
-        {
-            throw "error";
-        };
-
-        $env:IDENTITY_PRINCIPAL_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query principalId -o tsv;
-    }
-
-    az role assignment create `
-        --assignee-object-id $env:IDENTITY_PRINCIPAL_ID `
-        --assignee-principal-type ServicePrincipal `
-        --role "Storage File Data SMB MI Admin" `
-        --scope $env:STORAGE_ACCOUNT_ID
-
-    if ($LastExitCode -ne 0)
-    {
-        throw "error";
-    };
-
-    az identity federated-credential create `
-        --name $env:SERVICE_NAME-credentials `
-        --resource-group $env:AZURE_GROUP_KUBERNETES `
-        --identity-name $env:IDENTITY_NAME `
-        --issuer $env:KUBERNETES_ISSUER_URL `
-        --subject "system:serviceaccount:${env:KUBERNETES_NAMESPACE}:${env:SERVICE_NAME}-service-account" `
-        --audience api://AzureADTokenExchange;
-
-    if ($LastExitCode -ne 0)
-    {
-        throw "error";
-    };
-
-    echo "IDENTITY_NAME=$env:IDENTITY_NAME" >> $env:GITHUB_ENV;
-```
-
 Last, during the Kubernetes deployment step, before any resources are applied, environmental variables required for the new `stoerage-pv.yaml` and `stoerage-pvc.yaml` must be set.
 
 ```powershell
-$env:IDENTITY_CLIENT_ID = az identity show -g $env:AZURE_GROUP_KUBERNETES -n $env:IDENTITY_NAME --query clientId -o tsv;
 $env:VOLUME_NAME_SUFFIX = $env:IDENTITY_CLIENT_ID.Substring(0, 5);
 ```
 
