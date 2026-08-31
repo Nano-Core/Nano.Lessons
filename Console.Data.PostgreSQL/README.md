@@ -206,8 +206,8 @@ application is deployed.
         throw "error";
     };
 
-    $env:PRINCIPAL_SQL_PATH = Join-Path $env:USERPROFILE "app-database-principal.sql";
-    $env:GRANTS_SQL_PATH = Join-Path $env:USERPROFILE "app-database-grants.sql";
+    $env:PRINCIPAL_SQL_PATH = "app-database-principal.sql";
+    $env:GRANTS_SQL_PATH = "app-database-grants.sql";
 
     $principalSql = @"
       DO `$`$
