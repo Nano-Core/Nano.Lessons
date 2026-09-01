@@ -135,7 +135,7 @@ Add the following environment variables to the `buid-and-deply.yml`.
 ```yaml
 env:
   DOTNET_EF_TOOLS_VERSION: "10.0"
-  AZURE_GROUP_DATABASE : ${{ vars.AZURE_RESOURCE_GROUP_DATABASE }}
+  AZURE_GROUP_DATABASE: ${{ vars.AZURE_RESOURCE_GROUP_DATABASE }}
   AZURE_GROUP_LOGS: ${{ vars.AZURE_RESOURCE_GROUP_LOGS }}
   SQL_EDITION: GeneralPurpose
   SQL_SERVICE_OBJECTIVE: GP_Gen5_2
