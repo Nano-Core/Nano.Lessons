@@ -7,7 +7,7 @@ NanoApiApplication
     .ConfigureApp()
     .ConfigureServices(x =>
     {
-        x.AddNanoData<PostgresSqlProvider, PostgreSqlDbContext>();
+        x.AddNanoData<PostgreSqlProvider, PostgreSqlDbContext>();
     })
     .Build()
     .Run();
