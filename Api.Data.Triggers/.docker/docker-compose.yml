@@ -1,6 +1,6 @@
 services:
-  api.data.repository.triggers:
-    image: api.data.repository.triggers
+  api.data.triggers:
+    image: api.data.triggers
     hostname: api-data-triggers
     restart: on-failure
     ports:

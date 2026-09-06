@@ -197,8 +197,8 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
-          Get-Content .kubernetes/sql-auth-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/sql-auth-secret.tmp.yaml;
-          kubectl apply -f .kubernetes/sql-auth-secret.tmp.yaml;
+          Get-Content .kubernetes/auth-sql-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-sql-secret.tmp.yaml;
+          kubectl apply -f .kubernetes/auth-sql-secret.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";

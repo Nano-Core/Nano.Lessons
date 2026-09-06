@@ -31,7 +31,7 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
-  STORAGE_SIZE: 1000
+  STORAGE_SIZE: 1000Gi
   STORAGE_SHARE_NAME: nano-storage-local
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
 concurrency:

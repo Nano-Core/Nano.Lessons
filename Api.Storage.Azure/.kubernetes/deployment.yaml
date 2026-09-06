@@ -79,11 +79,6 @@ spec:
           periodSeconds: 5
           initialDelaySeconds: 20
           timeoutSeconds: 2
-        volumeMounts:
-        - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
-        - name: tmp
-          mountPath: /tmp
       volumes:
       - name: %SERVICE_NAME%-volume
         persistentVolumeClaim:

@@ -10,7 +10,7 @@ on:
 env:
   APP_NAME: Api.Hosting.MultipartLimits
   IMAGE_NAME: api.hosting.multipartlimits
-  SERVICE_NAME: api-Hosting-multipartlimits
+  SERVICE_NAME: api-hosting-multipartlimits
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: "10.0"
   DOTNET_ASPNET_VERSION: "10.0"
