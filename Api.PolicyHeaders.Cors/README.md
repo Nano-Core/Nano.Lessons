@@ -44,7 +44,7 @@ Also try out the endpoint, and observe how CORS returns the allowed hosts, heade
     "POST",
     "OPTIONS"
   ],
-  "AllowCredentials": true,
+  "AllowCredentials": false,
   "Origin": {
     "EmbedderPolicy": "UnsafeNone",
     "OpenerPolicy": "SameOriginAllowPopups",

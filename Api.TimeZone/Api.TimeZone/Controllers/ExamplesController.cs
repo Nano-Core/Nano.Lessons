@@ -36,7 +36,7 @@ public class ExamplesController(ILogger<ExamplesController> logger) : BaseContro
         return this.Ok(new
         {
             RequestDateTimeLocal = clientRequestDateTime,
-            ServerRecievedUtc = dateTime.UtcDateTime,
+            ServerReceivedUtc = dateTime.UtcDateTime,
             ResponseDateTimeLocal = dateTime,
             DateTimeInfoNow = DateTimeInfo.Now,
             DateTimeInfoUtcNow = DateTimeInfo.UtcNow.UtcDateTime
@@ -62,7 +62,7 @@ public class ExamplesController(ILogger<ExamplesController> logger) : BaseContro
         return this.Ok(new
         {
             RequestDateTimeLocal = clientRequestDateTime,
-            ServerRecievedUtc = request.DateTime.UtcDateTime,
+            ServerReceivedUtc = request.DateTime.UtcDateTime,
             ResponseDateTimeLocal = request.DateTime,
             DateTimeInfoNow = DateTimeInfo.Now,
             DateTimeInfoUtcNow = DateTimeInfo.UtcNow.UtcDateTime

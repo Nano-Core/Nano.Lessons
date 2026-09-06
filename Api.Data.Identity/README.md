@@ -18,10 +18,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate repository autosave. Entity controllers have been simplified to showcase identity; full controllers are unnecessary.   
+demonstrate data identity. Entity controllers have been simplified to showcase identity; full controllers are unnecessary.   
 
-The `User` entity model, `UserMapping` data mapping, `UserQueryCriteria` query criteria and the `UsersControlller` has been added to the solutiin. The controller is deriving
-from the `BaseIdentityContrlller<TEntity, TCriteria>`, epxosing all configured identity actions. Everything needed to expose identity controller actions.  
+The `User` entity model, `UserMapping` data mapping, `UserQueryCriteria` query criteria and the `UsersController` has been added to the solution. The controller is deriving
+from the `BaseEntityUserController<TEntity, TCriteria>`, exposing all configured identity actions. Everything needed to expose identity controller actions.  
 
 The application is configured to audit all identity models.  
 
@@ -36,8 +36,8 @@ authentication methods and the corresponding identity actions to manage them.
 > 📖 Learn more about **[Nano Data Identity](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#identity)**.
 
 ## Configuration
-The data identity has been configured for the application. The `UseAudit` ahs been set to `All` in order to audit log all identity changes. Normally, you would probably be more 
-selective in that option and choose some identityt model to audit.  
+The data identity has been configured for the application. The `UseAudit` has been set to `All` in order to audit log all identity changes. Normally, you would probably be more 
+selective in that option and choose some identity model to audit.  
 
 ```json
 "Data": {
@@ -66,7 +66,7 @@ selective in that option and choose some identityt model to audit.
       "RequireDigit": true,
       "RequireNonAlphanumeric": true,
       "RequireLowercase": true,
-      "RequirUppercase": true,
+      "RequireUppercase": true,
       "RequiredLength": 12,
       "RequiredUniqueCharacters": 3
     }

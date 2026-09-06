@@ -25,9 +25,9 @@ This example demonstrates how OpenTelemetry can be configured to expose metrics 
 
 | Endpoint                             | Description                                      |
 | ------------------------------------ | ------------------------------------------------ |
-| `http://localhost:8080/api/metrics`  | Returns the current metrics for the application. |
+| `http://localhost:8080/metrics`      | Returns the current metrics for the application. |
 
-> 📖 Learn more about **[Nano OpenTelemetry Metrics](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#opentelemetry-metrics)**.
+> 📖 Learn more about **[Nano OpenTelemetry Metrics](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#metrics-opentelemetry)**.
 
 ## Configuration
 Added the empty `Metrics` section to enable OpenTelemetry with Prometheus for the application.
@@ -51,7 +51,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: %SERVICE_NAME%
+      app: %SERVICE_NAME%
   endpoints:
     - port: http
       path: /metrics

@@ -26,9 +26,9 @@ The following endpoint is available for testing.
 
 | Endpoint                                     | Description                                                                |
 | -------------------------------------------- | -------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/nosniff` | Returns a `200 OK` response including the `X-Robots-Tag` response header.  |
+| `http://localhost:8080/api/examples/robots` | Returns a `200 OK` response including the `X-Robots-Tag` response header.  |
 
-> 📖 Learn more about **[Nano Content Type Header](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#robots)**.
+> 📖 Learn more about **[Nano Robots Header](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#robots)**.
 
 ## Configuration
 ```json

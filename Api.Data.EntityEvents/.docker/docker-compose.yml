@@ -19,7 +19,7 @@ services:
     hostname: api-data-entityevents.subscriber
     restart: on-failure
     ports:
-      - 8181:8181
+      - 8181:8080
     build:
       context: ../Api.Data.EntityEvents.Subscriber
       dockerfile: "Dockerfile.Local"

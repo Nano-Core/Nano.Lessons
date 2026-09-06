@@ -28,7 +28,7 @@ The controller return a response in the following format:
 {
     "Name": "Danish",          // The name of the culture language
     "EnglishName": "Danish",   // The english name of the culture language
-    "NativeName": "Dansk",     // The native name of the culture language
+    "NativeName": "Dansk"      // The native name of the culture language
 }
 ```
 

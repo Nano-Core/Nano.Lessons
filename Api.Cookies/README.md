@@ -29,5 +29,5 @@ The following endpoint is available for testing:
 | `http://localhost:8080/api/examples/get-cookie`    | Gets a cookie if set and returns a `200 OK`.  |
 | `http://localhost:8080/api/examples/delete-cookie` | Deletes the cookie and returns a `200 OK`.    |
 
-> 📖 Learn more about **[Nano Cookies](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api#cookies)**.
+> 📖 Learn more about **[Nano Cookies](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#cookies)**.
 

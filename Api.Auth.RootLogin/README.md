@@ -14,7 +14,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Table of Contents
 * [Summary](#summary)
-* [Configuration](#summary)
+* [Configuration](#configuration)
 * [Kubernetes](#kubernetes)
 * [GitHub Actions](#github-actions)
 
@@ -40,7 +40,7 @@ Additionally, the following endpoint is available for testing authorization.
 
 | Endpoint                                           | Description                                                                                                    |
 | -------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful, and otherwise a `401 Unauthorized`.  |
+| `http://localhost:8080/api/examples/authenticated`  | Returns a simple `200 OK` response, when JWT authorization is successful, and otherwise a `401 Unauthorized`.  |
 
 > 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)**.
 

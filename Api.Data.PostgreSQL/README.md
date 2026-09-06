@@ -22,7 +22,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a test controller that inherits from 
-the Nano `BaseEntityControllerr<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
+the Nano `BaseEntityController<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
 
 This example demonstrates how various parts of Nano data work together. All data configuration and registration have been completed, and classes have been implemented 
 for the data parts, including **[Data Models](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#data-models)**, **[Data Mappings](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#data-mappings)**, 
@@ -44,7 +44,7 @@ here: **[http://localhost:8080/docs](http://localhost:8080/docs)**.
 Additionally, controllers have been implemented to demonstrate controllers for creatable, updatable, creatable-and-updatable, and deletable entities. When viewing 
 the API documentation, observe how the available endpoints differ depending on the capabilities supported by each controller.  
 
-> 📖 Learn more about **[Nano.Data.PostgreSQL](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data.PostgreSQL/README.md#nanodatapostgresqll)**.
+> 📖 Learn more about **[Nano.Data.PostgreSQL](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data.PostgreSQL/README.md#nanodatapostgresql)**.
 
 ## Registration
 The following data provider has been registered using `ConfigureServices(...)` in `program.cs`.  

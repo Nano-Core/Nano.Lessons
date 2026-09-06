@@ -4,4 +4,4 @@ using Nano.Data.PostgreSQL;
 namespace Api.Data.PostgreSQL.Data;
 
 /// <inheritdoc />
-public class PostgreSqlDbContextFactory : BaseDbContextFactory<PostgresSqlProvider, PostgreSqlDbContext>;
+public class PostgreSqlDbContextFactory : BaseDbContextFactory<PostgreSqlProvider, PostgreSqlDbContext>;

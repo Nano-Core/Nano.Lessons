@@ -43,7 +43,7 @@ spec:
             secretKeyRef:
               name: %SERVICE_NAME%-sql-auth-secret
               key: data-connectionstring
-        - name: Data__Identity__ApiKey
+        - name: Data__Identity__ApiKey__Secret
           valueFrom:
             secretKeyRef:
               name: auth-api-key-secret

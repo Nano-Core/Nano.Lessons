@@ -1,6 +1,6 @@
 services:
-  api.data.repository.softdelete:
-    image: api.data.repository.softdelete
+  api.data.softdelete:
+    image: api.data.softdelete
     hostname: api-data-softdelete
     restart: on-failure
     ports:

@@ -53,5 +53,5 @@ spec:
           volumes:
           - name: %SERVICE_NAME%-volume
             persistentVolumeClaim:
-              claimName: %SERVICE_NAME%-pvc
+              claimName: %SERVICE_NAME%-data-pvc
           restartPolicy: OnFailure

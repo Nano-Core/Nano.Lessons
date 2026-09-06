@@ -17,8 +17,8 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate audit logging. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary. Also an `AuditControlller` derived from 
-`BaseAuditControlller` has been added.  
+demonstrate audit logging. Entity controllers have been simplified to showcase autosave; full controllers are unnecessary. Also an `AuditController` derived from 
+`BaseAuditController` has been added.  
 
 The `Example` entity implements `IEntityAuditable`. The entity model is also mapped with a `OnUpdating(...)` trigger to prove that changes to the entity model will be reflected
 in audit properties. Last, the entity model also implements the `IEntitySoftDeletable` so when deleted the `AuditEntry.State` will be `SoftDeleted`.  

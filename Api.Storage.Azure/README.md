@@ -30,8 +30,8 @@ When running locally, files are **NOT** written to the Azure File Share. Instead
 
 Files are saved in `.docker/bin/`.  
 
-A storage health check is configured to target the Azure File Share, but it requires valid credentials to be provided under `Storage.Credentials`. If the credentials are omitted 
-from the configuration, the application will still run, but the health-check will report `degraded`.  
+A storage health check is configured to target the Azure File Share, using the connection information already configured for the storage provider. If it is unreachable, 
+the health check will report `Unhealthy`.  
 
 Open [http://localhost:8080/healthz](http://localhost:8080/healthz) to view the storage health-check JSON response.  
 

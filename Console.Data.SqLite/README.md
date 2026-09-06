@@ -58,12 +58,12 @@ Configured the application with the necessary data setup.
   "BulkBatchSize": 500,
   "BulkBatchDelay": 1000,
   "QueryRetryCount": 0,
-  "StartupAction": "None",
+  "StartupAction": "Migrate",
   "UseLazyLoading": false,
   "UseSensitiveDataLogging": false,
   "QuerySplittingBehavior": "SingleQuery",
   "DefaultCollation": null,
-  "ConnectionString": "Data Source=/data/nanoDb.sqlite",
+  "ConnectionString": "Data Source=/mnt/data/nanoDb.sqlite",
   "Repository": {
     "UseAutoSave": true,
     "QueryIncludeDepth": 4

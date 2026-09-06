@@ -10,7 +10,7 @@ on:
 env:
   APP_NAME: Api.Eventing.RabbitMq
   IMAGE_NAME: api.eventing.rabbitmq
-  SERVICE_NAME: api.eventing-rabbitmq
+  SERVICE_NAME: api-eventing-rabbitmq
   VERSION: '${{ vars.VERSION }}.${{ github.run_number }}.${{ github.run_attempt }}'
   DOTNET_SDK_VERSION: "10.0"
   DOTNET_ASPNET_VERSION: "10.0"

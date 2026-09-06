@@ -5,4 +5,4 @@ EXPOSE 8080
 
 ENV ASPNETCORE_HTTP_PORTS=
 
-ENTRYPOINT ["dotnet", "Api.Auth.RootLogin.Service.dll"]
+ENTRYPOINT ["dotnet", "Api.ApiClients.RootLogin.Service.dll"]

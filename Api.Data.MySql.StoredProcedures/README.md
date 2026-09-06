@@ -26,7 +26,7 @@ migrationBuilder
     .Sql(ExampleStoredProcedureDefinition.SQL);
 ```
 
-The stored procedure is executed using Nano’s `IRepository.ExecuteAsync(...)` via this application's extension method `GetExampleResult`. The method simply wraps the 
+The stored procedure is executed using Nano’s `IRepository.ExecuteProcedureAsync<TResult>(...)` via this application's extension method `GetExampleResult`. The method simply wraps the 
 repository call to provide a clear, strongly typed invocation point for use by the controller.  
 
 The following endpoint is available for testing:
