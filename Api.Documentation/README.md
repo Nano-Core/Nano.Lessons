@@ -40,7 +40,7 @@ for the same example endpoint. When set to `true`, Swagger only displays the non
   "Documentation": {
     "Name": "Application",
     "Description": "This is an example application",
-    "TermsOfService": "https://github.com/Nano-Core/Nano.Library/blob/master/LICENSE",
+    "TermsOfServiceUrl": "https://github.com/Nano-Core/Nano.Library/blob/master/LICENSE",
     "Contact": {
       "Name": "Nano Contributors",
       "Email": "email@email.com",
@@ -51,7 +51,6 @@ for the same example endpoint. When set to `true`, Swagger only displays the non
       "Identifier": "MIT",
       "Url": "https://github.com/Nano-Core/Nano.Library/blob/master/LICENSE"
     },
-    "CspNonce": "null,
     "HideDefaultVersion": true
   }
 }

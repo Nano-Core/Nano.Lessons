@@ -22,7 +22,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a test controller that inherits from 
-the Nano `BaseEntityControllerr<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
+the Nano `BaseEntityController<TEntity, TCriteria>`. The available entity endpoints are inherited, and no additional endpoints has been added.  
 
 This example demonstrates how various parts of Nano data work together. All data configuration and registration have been completed, and classes have been implemented 
 for the data parts, including [Data Models](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#data-models), [Data Mappings](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#data-mappings), 
@@ -75,11 +75,11 @@ Configured the application with the necessary data setup.
   "BulkBatchDelay": 1000,
   "QueryRetryCount": 0,
   "UseLazyLoading": false,
-  "StartupAction": "None",
+  "StartupAction": "Migrate",
   "UseSensitiveDataLogging": false,
   "QuerySplittingBehavior": "SingleQuery",
   "DefaultCollation": null,
-  "ConnectionString": "Data Source=/data/nanoDb.sqlite",
+  "ConnectionString": "Data Source=/mnt/data/nanoDb.sqlite",
   "Repository": {
     "UseAutoSave": true,
     "QueryIncludeDepth": 4

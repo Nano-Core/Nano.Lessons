@@ -89,27 +89,6 @@ Added content security policy header configuration.
         "RequireSri": false,
         "ReportSample": true
       },
-      "StylesElem": {
-        "IsNone": false,
-        "IsSelf": true,
-        "IsUnsafeInline": false,
-        "Sources": [
-        ],
-        "Nonces": [
-        ],
-        "Hashes": [
-        ],
-        "ReportSample": true
-      },
-      "StylesAttr": {
-        "IsNone": false,
-        "IsSelf": true,
-        "IsUnsafeInline": false,
-        "IsUnsafeHashes": false,
-        "Sources": [
-        ],
-        "ReportSample": true
-      },
       "PermissionsPolicy": {
         "Gamepad": {
           "IsNone": false,

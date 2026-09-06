@@ -32,7 +32,7 @@ The following endpoints are available for testing:
 
 | Endpoint                                     | Description                            |
 | -------------------------------------------- | -------------------------------------- |
-| `http://localhost:8080/api/examples/http`    | Redirects to HTTPS.                    |
+| `http://localhost:8080/api/examples/https`   | Redirects to HTTPS.                    |
 | `https://localhost:4443/api/examples/https`  | Returns a simple `200 OK` response.    |
 
 > 📖 Learn more about **[Nano Hosting HTTPS](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#https)**.
@@ -64,7 +64,7 @@ and the `appsettings.Development.json` this.
 ```json
 "App": {
   "Hosting": {
-    "http": {
+    "Http": {
       "UseHttpsRedirection": true
     },
     "Https": {

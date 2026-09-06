@@ -23,9 +23,6 @@ and the `/forbidden` endpoint enforces the policy using a custom `[Authorize(Pol
 a `CustomClaim` claim type.
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
-are automatically excluded. In this example, only the root login action is exposed.  
-
-API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
 
 > 📖 Learn more about **[Nano API Documentation](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#documentation)**.  
@@ -40,7 +37,7 @@ Additionally, the following endpoint is available for testing authorization.
 
 | Endpoint                                           | Description                                                                                                                              |
 | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/authenticate`  | Returns a simple `200 OK` response, when JWT authorization is successful.                                                                |
+| `http://localhost:8080/api/examples/authenticated`  | Returns a simple `200 OK` response, when JWT authorization is successful.                                                                |
 | `http://localhost:8080/api/examples/forbidden`     | Returns a simple `200 OK` response, when JWT authorization is successful with `CustomClaim`, otherwise returns `403 FORBIDDEN` response. |
 
 > 📖 Learn more about **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)**.

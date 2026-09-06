@@ -1,6 +1,6 @@
 ﻿# Api.PolicyHeaders.XssProtection
 
-> _Nano API application with xxs protection._  
+> _Nano API application with xss protection._  
 _All lessons are complete, self-contained examples that include build and deployment setup._
 
 > ⚠️ _To run this solution, the **[Nano.Library](https://github.com/Nano-Core/Nano.Library)** repository must be checked out in the same root directory. 
@@ -35,7 +35,7 @@ The following endpoint is available for testing.
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
 | `http://localhost:8080/api/examples/xss` | Returns a `200 OK` response including the `X-XSS-Protection` response header.  |
 
-> 📖 Learn more about **[Nano Xxs Protection Header](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#xss-protection)**.
+> 📖 Learn more about **[Nano Xss Protection Header](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#xss-protection)**.
 
 ## Configuration
 ```json

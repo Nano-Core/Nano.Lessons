@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**. Entity controllers have been 
-simplified to showcase setting mysql views; full controllers are unnecessary.  
+simplified to showcase advanced data mappings; full controllers are unnecessary.  
 
 Three new entity models have been added, each demonstrating different types of advanced mappings. The first, `ExampleJson`, shows how to store a complex object in a 
 text column: it is serialized when added or updated in the database and deserialized when retrieved, mapping back into the complex object. The second, `ExampleOwned`, 
@@ -25,6 +25,6 @@ also has a `Profile` reference like `ExampleJson`, but the complex object is sto
 demonstrates property normalization for querying: `FirstName` and `LastName` are concatenated into `FullName`, and an uppercase version, `FullNameNormalized`, is 
 used for case-insensitive searches, with the LINQ query calling `.ToUpper()` on the search value to match the normalized property efficiently.  
 
-Last, a unique index has also been added to `Example.NameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
+Last, a unique index has also been added to `ExampleNormalized.FullNameNormalized`. Observe how Nano renames the index prefixing with 'UX_'.  
 
 > 📖 Learn more about **[Nano.Data.MySql](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data.MySql/README.md#nanodatamysql)**.

@@ -50,9 +50,9 @@ Configured the application with a connection to the `NanoApiClient`.
 "App": {
   "Apis": {
     "NanoApiClient": {
-      "Host": "localhost",
+      "Host": "api.apiclients.service",
       "Root": "api",
-      "Port": 8080,
+      "Port": 8181,
       "UseSsl": false,
       "Timeout": "00:00:30",
       "HealthCheck": {

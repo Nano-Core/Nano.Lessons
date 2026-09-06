@@ -17,9 +17,9 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 * [Configuration](#configuration)
 
 ## Summary
-This application builds on **[Api.Documenation](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Documenation)**.    
+This application builds on **[Api.Documentation](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Documentation)**.    
 
-This example shows using API documentation with strict CSP security. Run the solution and open [https://localhost:4443/docs](https://localhost:4443/docs) in your browser to 
+This example shows using API documentation with strict CSP security. Run the solution and open [http://localhost:8080/docs](http://localhost:8080/docs) in your browser to 
 view the API documentation.  
 
 Also a CSP hash has been added and the policy configured to allow inline styles for swagger.  

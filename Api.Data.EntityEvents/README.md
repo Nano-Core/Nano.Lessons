@@ -17,7 +17,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 ## Summary
 This application builds on **[Api.Data.MySql](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api.Data.MySql)**, but any data provider can be used to 
-demonstrate entity events. Additionally, eventing has been enabled mirroring the setup from **[Api.Eventing.RabbityMq](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Eventing.RabbitMq)**,
+demonstrate entity events. Additionally, eventing has been enabled mirroring the setup from **[Api.Eventing.RabbitMq](https://github.com/Nano-Core/Nano.Lessons/tree/master/Api.Eventing.RabbitMq)**,
 but any eventing provider can be used. New entity controllers have been added for use with showcasing entity events.  
 
 An additional application has been added to the solution. In a typical architecture, this application would be placed in a separate solution. However, for the purpose of demonstrating 

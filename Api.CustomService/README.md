@@ -26,7 +26,7 @@ The following endpoint is available for testing.
 
 | Endpoint                                             | Description                                                                      |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `http://localhost:8080/api/examples/custom-servuce`  | Returns a simple `200 OK` response, with a message from the `IExampleServuce`    |
+| `http://localhost:8080/api/examples/custom-service`  | Returns a simple `200 OK` response, with a message from the `IExampleService`    |
 
 > 📖 Learn more about **[Nano Custom Services](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App/README.md#custom-services)**.
 
