@@ -197,6 +197,13 @@ jobs:
       - name: Kubernetes Deploy
         shell: pwsh
         run: |
+          Get-Content .kubernetes/service-account.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service-account.tmp.yaml;
+          kubectl apply -f .kubernetes/service-account.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          {
+              throw "error";
+          };
+
           Get-Content .kubernetes/auth-sql-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-sql-secret.tmp.yaml;
           kubectl apply -f .kubernetes/auth-sql-secret.tmp.yaml;
           if ($LastExitCode -ne 0)
@@ -229,7 +236,6 @@ jobs:
             Commit: ${{ github.sha }}
             Build run: ${{ github.run_number }}
             Image: ${{ env.CONTAINER_REGISTRY_HOST }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-          artifacts: "nupkgs/*"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
