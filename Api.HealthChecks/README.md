@@ -15,6 +15,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 ## Table of Contents
 * [Summary](#summary)
 * [Configuration](#configuration)
+* [Kubernetes](#kubernetes)
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
@@ -41,6 +42,28 @@ There is no configuration for HealtCheck, the section has just been added to ena
   "HealthCheck": {
   }
 }
+```
+
+## Kubernetes
+Added `livenessProbe` and `readinessProbe` to the Deployment, pointed at `/healthz`.
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 10
+  initialDelaySeconds: 30
+  timeoutSeconds: 2
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 5
+  initialDelaySeconds: 20
+  timeoutSeconds: 2
 ```
 
 ## GitHub Actions

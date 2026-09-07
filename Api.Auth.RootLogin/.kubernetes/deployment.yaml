@@ -68,19 +68,3 @@ spec:
           capabilities:
             drop:
             - ALL
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-            scheme: HTTP
-          periodSeconds: 10
-          initialDelaySeconds: 30
-          timeoutSeconds: 2
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-            scheme: HTTP
-          periodSeconds: 5
-          initialDelaySeconds: 20
-          timeoutSeconds: 2
