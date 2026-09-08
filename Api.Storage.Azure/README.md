@@ -173,7 +173,7 @@ Notice the name suffix for `claimName`. The PersistentVolume (PV) and Persistent
 Azure File Share to be changed without trying to replace existing immutable resources.
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml`.  
+Add the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:

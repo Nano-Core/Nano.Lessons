@@ -9,4 +9,4 @@ spec:
   storageClassName: %SERVICE_NAME%-data-storage-class
   resources:
     requests:
-      storage: %SQL_SIZE%
+      storage: %SQL_SIZE%Gi

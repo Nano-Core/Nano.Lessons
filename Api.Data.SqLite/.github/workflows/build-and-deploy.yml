@@ -34,7 +34,7 @@ env:
   KUBERNETES_CPU_LIMIT: 600m
   KUBERNETES_CPU_SCALING: 180
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
-  SQL_SIZE: 10Gi
+  SQL_SIZE: 10
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}
   cancel-in-progress: true
@@ -128,17 +128,17 @@ jobs:
               throw "error";
           };
 
-          Get-Content .kubernetes/data-pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/data-pvc.tmp.yaml;
-          kubectl apply -f .kubernetes/data-pvc.tmp.yaml;
-          if ($LastExitCode -ne 0)
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
-          { 
+          {
+              throw "error";
+          };
+
+          Get-Content .kubernetes/service-headless.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service-headless.tmp.yaml;
+          kubectl apply -f .kubernetes/service-headless.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          {
               throw "error";
           };
 
@@ -149,8 +149,8 @@ jobs:
               throw "error";
           };
 
-          Get-Content .kubernetes/deployment.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/deployment.tmp.yaml;
-          kubectl apply -f .kubernetes/deployment.tmp.yaml;
+          Get-Content .kubernetes/stateful-set.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/stateful-set.tmp.yaml;
+          kubectl apply -f .kubernetes/stateful-set.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";

@@ -76,18 +76,21 @@ Mapped the fileshare in `docker-compose.yml`.
 
 ```yaml 
 services:
-  console.storage.local:
+  api.storage.local:
     volumes:
       - ./bin/nano-storage-local:/mnt/nano-storage-local
 ```
 
 ## Kubernetes
-Added two additional kubernetes templates, `storage-storageclass.yaml` and `storage-pvc.yaml`, for dynamically manage and creating the local fileshare.
+Added `storage-storageclass.yaml`, for dynamically provisioning the local fileshare's disks.
 
-Also, updated `deployment.yaml` adding the volumes and volume mounts.  
+A locally-mounted fileshare is single-attach (`ReadWriteOnce`) — a plain `Deployment` can't give each replica its own disk, since every replica shares one pod template and would otherwise race
+to attach the same volume. So `deployment.yaml` was replaced with `stateful-set.yaml` (`kind: StatefulSet`), using `volumeClaimTemplates` instead of a single static `PersistentVolumeClaim` file,
+this gives each replica pod its own separate, uniquely-named disk automatically (note: each pod's files are then isolated from the others, not shared).
 
 ```yaml
 spec:
+  serviceName: %SERVICE_NAME%-stateful-headless
   template:
     spec:
       containers:
@@ -97,15 +100,33 @@ spec:
         - name: tmp
           mountPath: /tmp
       volumes:
-      - name: %SERVICE_NAME%-volume
-        persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-pvc
       - name: tmp
         emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: %SERVICE_NAME%-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: %SERVICE_NAME%-storage-class
+      resources:
+        requests:
+          storage: %STORAGE_SIZE%Gi
+```
+
+A `StatefulSet` requires a governing headless service (`clusterIP: None`) for its `serviceName` field — added as `service-headless.yaml`, alongside the existing `service.yaml` which continues
+to handle normal traffic routing.
+
+The `autoscaler.yaml`'s `HorizontalPodAutoscaler` also had its `scaleTargetRef.kind` updated from `Deployment` to `StatefulSet`.
+
+```yaml
+spec:
+  scaleTargetRef:
+    kind: StatefulSet
 ```
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml`.  
+Add the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:

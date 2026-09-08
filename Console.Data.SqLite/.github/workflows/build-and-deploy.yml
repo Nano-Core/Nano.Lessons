@@ -32,7 +32,7 @@ env:
   KUBERNETES_CPU_REQUEST: 50m
   KUBERNETES_CPU_LIMIT: 150m
   KUBERNETES_CRONJOB_SCHEDULE: "0 * * * *"
-  SQL_SIZE: 10Gi
+  SQL_SIZE: 10
   DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}

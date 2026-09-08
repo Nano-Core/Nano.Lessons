@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: %SERVICE_NAME%
   namespace: %KUBERNETES_NAMESPACE%
   labels:
     app: %SERVICE_NAME%
 spec:
+  serviceName: %SERVICE_NAME%-stateful-headless
   replicas: %KUBERNETES_REPLICA_COUNT%
   revisionHistoryLimit: %KUBERNETES_REPLICA_HISTORY_COUNT%
   selector:
@@ -75,12 +76,14 @@ spec:
           timeoutSeconds: 2
         volumeMounts:
         - name: %SERVICE_NAME%-volume
-          mountPath: /mnt/%STORAGE_SHARE_NAME%
-        - name: tmp
-          mountPath: /tmp
-      volumes:
-      - name: %SERVICE_NAME%-volume
-        persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-pvc
-      - name: tmp
-        emptyDir: {}
+          mountPath: /mnt/data
+  volumeClaimTemplates:
+  - metadata:
+      name: %SERVICE_NAME%-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: %SERVICE_NAME%-data-storage-class
+      resources:
+        requests:
+          storage: %SQL_SIZE%Gi

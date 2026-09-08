@@ -108,11 +108,11 @@ spec:
 ```
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml`.  
+Add the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:
-  SQL_SIZE: 10Gi
+  SQL_SIZE: 10
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  

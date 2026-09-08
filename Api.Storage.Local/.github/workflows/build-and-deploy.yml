@@ -33,7 +33,7 @@ env:
   KUBERNETES_MEMORY_SCALING: 180
   KUBERNETES_CPU_REQUEST: 200m
   KUBERNETES_CPU_LIMIT: 600m
-  STORAGE_SIZE: 1000Gi
+  STORAGE_SIZE: 1000
   STORAGE_SHARE_NAME: nano-storage-local
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
 concurrency:
@@ -129,17 +129,17 @@ jobs:
               throw "error";
           };  
 
-          Get-Content .kubernetes/storage-pvc.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/storage-pvc.tmp.yaml;
-          kubectl apply -f .kubernetes/storage-pvc.tmp.yaml;
-          if ($LastExitCode -ne 0) 
-          { 
-              throw "error";
-          };
-
           Get-Content .kubernetes/service.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service.tmp.yaml;
           kubectl apply -f .kubernetes/service.tmp.yaml;
           if ($LastExitCode -ne 0)
-          { 
+          {
+              throw "error";
+          };
+
+          Get-Content .kubernetes/service-headless.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/service-headless.tmp.yaml;
+          kubectl apply -f .kubernetes/service-headless.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          {
               throw "error";
           };
 
@@ -150,8 +150,8 @@ jobs:
               throw "error";
           };
 
-          Get-Content .kubernetes/deployment.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/deployment.tmp.yaml;
-          kubectl apply -f .kubernetes/deployment.tmp.yaml;
+          Get-Content .kubernetes/stateful-set.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/stateful-set.tmp.yaml;
+          kubectl apply -f .kubernetes/stateful-set.tmp.yaml;
           if ($LastExitCode -ne 0)
           { 
               throw "error";

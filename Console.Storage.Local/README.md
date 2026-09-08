@@ -83,7 +83,7 @@ spec:
 ```
 
 ## GitHub Actions
-Added the following environment variables to the `buid-and-deply.yml`.  
+Added the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:

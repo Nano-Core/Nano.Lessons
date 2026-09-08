@@ -105,30 +105,50 @@ services:
 ```
 
 ## Kubernetes
-Added two additional kubernetes templates, `storageclass.yaml` and `pvc.yaml`, for dynamically manage and creating the disk for the SqLite database.
+Added `data-storageclass.yaml`, for dynamically provisioning the disk backing the SqLite database file.
 
-Also, updated `deployment.yaml` adding the volumes and volume mounts.  
+A locally-mounted disk is single-attach (`ReadWriteOnce`) — a plain `Deployment` can't give each replica its own disk, since every replica shares one pod template and would otherwise race to
+attach the same volume. So `deployment.yaml` was replaced with `stateful-set.yaml` (`kind: StatefulSet`), using `volumeClaimTemplates` instead of a single static `PersistentVolumeClaim` file, 
+this gives each replica pod its own separate, uniquely-named disk (and its own separate SqLite database file — not shared across replicas).
 
-```json
+```yaml
 spec:
+  serviceName: %SERVICE_NAME%-stateful-headless
   template:
     spec:
       containers:
         volumeMounts:
         - name: %SERVICE_NAME%-volume
           mountPath: /mnt/data
-      volumes:
-      - name: %SERVICE_NAME%-volume
-        persistentVolumeClaim:
-          claimName: %SERVICE_NAME%-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: %SERVICE_NAME%-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: %SERVICE_NAME%-data-storage-class
+      resources:
+        requests:
+          storage: %SQL_SIZE%Gi
+```
+
+A `StatefulSet` requires a governing headless service (`clusterIP: None`) for its `serviceName` field — added as `service-headless.yaml`, alongside the existing `service.yaml` which continues
+to handle normal traffic routing.
+
+The `autoscaler.yaml`'s `HorizontalPodAutoscaler` also had its `scaleTargetRef.kind` updated from `Deployment` to `StatefulSet`.
+
+```yaml
+spec:
+  scaleTargetRef:
+    kind: StatefulSet
 ```
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml`.  
+Add the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:
-  SQL_SIZE: 10Gi
+  SQL_SIZE: 10
 ```
 
 Deployment commands have also been updated to apply each of the new Kubernetes templates.  
