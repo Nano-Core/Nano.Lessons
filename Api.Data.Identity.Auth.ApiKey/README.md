@@ -68,7 +68,7 @@ spec:
     spec:
       containers:
         env:
-        - name: Data__Identity__ApiKey
+        - name: Data__Identity__ApiKey__Secret
           valueFrom:
             secretKeyRef:
               name: auth-api-key-secret
