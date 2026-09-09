@@ -36,6 +36,8 @@ env:
   KUBERNETES_CPU_SCALING: 180
   AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
   AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
+  AUTH_ROOT_LOGIN_USERNAME: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_ROOT_LOGIN_USERNAME || secrets.STAGING_AUTH_ROOT_LOGIN_USERNAME }}
+  AUTH_ROOT_LOGIN_PASSWORD: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_ROOT_LOGIN_PASSWORD || secrets.STAGING_AUTH_ROOT_LOGIN_PASSWORD }}
   ASPNETCORE_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Staging' }}
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository }}
@@ -126,7 +128,14 @@ jobs:
           Get-Content .kubernetes/auth-jwt-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-jwt-secret.tmp.yaml;
           kubectl apply -f .kubernetes/auth-jwt-secret.tmp.yaml;
           if ($LastExitCode -ne 0)
-          { 
+          {
+              throw "error";
+          };
+
+          Get-Content .kubernetes/auth-root-login-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/auth-root-login-secret.tmp.yaml;
+          kubectl apply -f .kubernetes/auth-root-login-secret.tmp.yaml;
+          if ($LastExitCode -ne 0)
+          {
               throw "error";
           };
 

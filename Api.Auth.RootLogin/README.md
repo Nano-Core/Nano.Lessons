@@ -107,8 +107,7 @@ Configured the application with the necessary authentication setup.
 ```
 
 ## Kubernetes
-For `Staging` and `Production` environments, a secret must be created to securely store the public and private keys, and optionally the credentials for `RootLogin` if it shoud be 
-enabled. Below demonstrates how to map the secret containing the JWT keys.  
+For `Staging` and `Production` environments, a secret must be created to securely store the public and private keys. Below demonstrates how to map the secret containing the JWT keys.  
 
 ```yaml
 spec:
@@ -128,6 +127,48 @@ spec:
               key: jwt-private-key
 ```
 
+`RootLogin` is enabled in `Staging`/`Production` too, via a second, separate secret,
+`auth-root-login-secret`, storing the credentials rather than the config file. This isn't a
+subordinate part of the JWT key secret above; it has its own name and its own file
+(`auth-root-login-secret.yaml`), created and applied the same way:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: auth-root-login-secret
+  namespace: %KUBERNETES_NAMESPACE%
+type: Opaque
+stringData:
+  root-login-username: %AUTH_ROOT_LOGIN_USERNAME%
+  root-login-password: %AUTH_ROOT_LOGIN_PASSWORD%
+```
+
+...and mapped into `deployment.yaml` alongside the JWT keys:
+
+```yaml
+spec:
+  template:
+    spec:
+      containers:
+        env:
+        - name: App__Authentication__Jwt__RootLogin__Username
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-username
+        - name: App__Authentication__Jwt__RootLogin__Password
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-password
+```
+
+> ⚠️ `RootLogin` is a statically-configured, transient login, and the credential itself grants a
+> full `administrator` identity to whoever holds it, same as any other root login. Keep it out of
+> source control the same way as the JWT private key: real values only via this secret, never in
+> a checked-in `appsettings.json`.
+
 ## GitHub Action
 The secrets defined in GitHub must also be mapped for the `Staging` and `Production` environments in the `build-and-deploy.yml` workflow, as shown below.
 
@@ -135,6 +176,9 @@ The secrets defined in GitHub must also be mapped for the `Staging` and `Product
 env:
   AUTH_JWT_PUBLIC_KEY: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_JWT_PUBLIC_KEY || secrets.STAGING_AUTH_JWT_PUBLIC_KEY }}
   AUTH_JWT_PRIVATE_KEY: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_JWT_PRIVATE_KEY || secrets.STAGING_AUTH_JWT_PRIVATE_KEY }}
+  AUTH_ROOT_LOGIN_USERNAME: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_ROOT_LOGIN_USERNAME || secrets.STAGING_AUTH_ROOT_LOGIN_USERNAME }}
+  AUTH_ROOT_LOGIN_PASSWORD: ${{ github.ref == 'refs/heads/main' && secrets.PRODUCTION_AUTH_ROOT_LOGIN_PASSWORD || secrets.STAGING_AUTH_ROOT_LOGIN_PASSWORD }}
 ```
 
-...and created during the Kubernetes deploy step.  
+...and created during the Kubernetes deploy step, applying both `auth-jwt-secret.yaml` and
+`auth-root-login-secret.yaml` before `deployment.yaml`.  

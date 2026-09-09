@@ -48,6 +48,16 @@ spec:
             secretKeyRef:
               name: auth-jwt-secret
               key: jwt-private-key
+        - name: App__Authentication__Jwt__RootLogin__Username
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-username
+        - name: App__Authentication__Jwt__RootLogin__Password
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-password
         envFrom:
         - configMapRef:
             name: %SERVICE_NAME%-config

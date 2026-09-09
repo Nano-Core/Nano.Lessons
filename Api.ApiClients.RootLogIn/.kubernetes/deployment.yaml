@@ -36,7 +36,18 @@ spec:
         image: %CONTAINER_REGISTRY_HOST%/%IMAGE_NAME%:%VERSION%
         ports:
         - containerPort: 8080
-        imagePullPolicy: Always 
+        imagePullPolicy: Always
+        env:
+        - name: App__Apis__NanoApiClient__LogInRoot__Username
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-username
+        - name: App__Apis__NanoApiClient__LogInRoot__Password
+          valueFrom:
+            secretKeyRef:
+              name: auth-root-login-secret
+              key: root-login-password
         envFrom:
         - configMapRef:
             name: %SERVICE_NAME%-config
