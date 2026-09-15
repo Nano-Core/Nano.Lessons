@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DynamicExpression;
-using Nano.App.Api.Controllers.Criteria;
+using Nano.App.Criteria;
 
 namespace Api.Data.Identity.Auth.ApiKey.Models.Criterias;
 

@@ -8,13 +8,14 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/2nu6awy/nano-lessons)**.
 
 ***
 
 ## Table of Contents
 * [Summary](#summary)
 * [Configuration](#configuration)
+* [Kubernetes](#kubernetes)
 * [GitHub Actions](#gitHub-actions)
 
 ## Summary
@@ -41,6 +42,28 @@ There is no configuration for HealtCheck, the section has just been added to ena
   "HealthCheck": {
   }
 }
+```
+
+## Kubernetes
+Added `livenessProbe` and `readinessProbe` to the Deployment, pointed at `/healthz`.
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 10
+  initialDelaySeconds: 30
+  timeoutSeconds: 2
+readinessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+    scheme: HTTP
+  periodSeconds: 5
+  initialDelaySeconds: 20
+  timeoutSeconds: 2
 ```
 
 ## GitHub Actions

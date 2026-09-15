@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/2nu6awy/nano-lessons)**.
 
 ***
 
@@ -68,7 +68,7 @@ spec:
     spec:
       containers:
         env:
-        - name: Data__Identity__ApiKey
+        - name: Data__Identity__ApiKey__Secret
           valueFrom:
             secretKeyRef:
               name: auth-api-key-secret

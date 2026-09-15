@@ -8,7 +8,7 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 
 > ⚠️ Remember to set the docker-compose project as startup project, before running the solution in Visual Studio.
 
-> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/g2z9po5/nano-lessons)**.
+> 💡 Explore API requests for this lesson in our **[Public Nano Workspace on Postman](https://www.postman.com/nanocore/nano-core/collection/2nu6awy/nano-lessons)**.
 
 ***
 
@@ -173,7 +173,7 @@ Notice the name suffix for `claimName`. The PersistentVolume (PV) and Persistent
 Azure File Share to be changed without trying to replace existing immutable resources.
 
 ## GitHub Actions
-Add the following environment variables to the `buid-and-deply.yml`.  
+Add the following environment variables to the `build-and-deploy.yml`.  
 
 ```yaml
 env:
