@@ -23,11 +23,10 @@ Nano is referenced directly from source (not via NuGet packages) and is expected
 This application builds on **[Api.Blank](https://github.com/Nano-Core/Nano.Lessons/blob/master/Api._Blank)** and adds a derived `AuthController` as well as a simple test controller 
 that inherits from the top-level Nano `BaseController`.  
 
-The JWT authentication scheme has been configured, along with the built-in `Microsoft` external login provider. Microsoft needs no `BaseAuthExternalRepository<TFlow>` 
-implementation of its own - it's entirely config-driven (`Jwt.ExternalLogins.Microsoft`), and Nano wires up the rest.  
+The JWT authentication scheme has been configured, along with the built-in `Microsoft` external login provider.  
 
-No [Data Identity](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#identity) is configured in this lesson, so logins are **transient**: a user 
-signs in through Microsoft, gets a JWT with transient claims assigned at login time, and nothing is persisted. See **[Nano Authentication § Persistent vs. transient](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)**.  
+No [Data Identity](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.Data/README.md#identity) has been configured for this lesson, so logins are transient: a user signs in 
+through Microsoft, gets a JWT with transient claims assigned at login time, and nothing is persisted. 
 
 API documentation has been configured to make it easier to explore the available actions in the `AuthController`. Any actions that are not enabled due to omitted configuration 
 are automatically excluded. The API documentation is available at: **http://localhost:8080/docs**.  
@@ -37,9 +36,27 @@ are automatically excluded. The API documentation is available at: **http://loca
 The following endpoint from the auth controller is available for testing.  
 
 | Endpoint                                                              | Description                                                                        |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `http://localhost:8080/api/auth/external/schemes`                     | Retrieves all configured external authentication methods, e.g., Google, Facebook.  |
 | `http://localhost:8080/api/auth/login/external/microsoft/transient`   | Signs in a user using external Microsoft authentication, transient.                |
+
+Getting an authorization `code` to actually call the login endpoint above needs a real Microsoft sign-in redirect first. Paste the following into a browser tab (matching the `Azure setup` app registration and Postman collection this lesson ships with):  
+
+```
+https://login.microsoftonline.com/{TenantId}/oauth2/v2.0/authorize
+  ?client_id={ClientId}
+  &response_type=code
+  &redirect_uri=http://localhost/auth/callback
+  &response_mode=query
+  &scope=openid profile email offline_access
+  &code_challenge=7pllenK7L-Ys_Xa-5l7QUxXsSTjFTrEgKcXyx_0eBkM
+  &code_challenge_method=S256
+  &state=baa2d418-953d-4e46-b4ce-b0aeb89da6f9
+```
+
+After signing in, Microsoft redirects to `redirect_uri` with `?code=...&state=...` in the address bar - copy the `code` from there (the redirect target itself 
+doesn't need to resolve to anything). POST it to `login/external/microsoft/transient` along with the matching `code_verifier` for the `code_challenge` above and 
+`redirect_uri`, exactly as the Postman collection's request body expects. 
 
 Additionally, the following endpoint is available for testing authorization.  
 
@@ -75,11 +92,11 @@ $env:CLIENT_SECRET = az ad app credential reset `
     --query "password" -o tsv;
 ```
 
-The default `User.Read` delegated permission (present on every new app registration) is enough for this lesson - the scopes below (`openid`, `profile`, `email`) don't 
-require any Graph API permission at all, since they only control what ends up in the `id_token`, not access to any resource.  
+The default `User.Read` delegated permission (present on every new app registration) is enough for this lesson, the scopes below (`openid`, `profile`, `email` and `offline_access`) 
+don't require any Graph API permission at all, since they only control what ends up in the `id_token`, not access to any resource.  
 
-> ⚠️ The client secret is a real credential for your own Azure tenant. Do **not** commit a real value into `appsettings.Development.json` - copy the script's output in 
-locally, and keep it out of source control (e.g. via `dotnet user-secrets`, or simply not staging the change).
+> ⚠️ The client secret is a real credential for your own Azure tenant. Don't commit a real value into `appsettings.Development.json`, copy the script's output in locally, and keep 
+it out of source control (e.g. via `dotnet user-secrets`, or simply not staging the change).
 
 ## Configuration
 Configured the application with the necessary authentication setup. 
@@ -99,7 +116,7 @@ Configured the application with the necessary authentication setup.
           "TenantId": null,
           "ClientId": null,
           "ClientSecret": null,
-          "Scopes": [ "openid", "profile", "email" ]
+          "Scopes": [ "openid", "profile", "email", "offline_access" ]
         }
       }
     }
@@ -117,28 +134,11 @@ Configured the application with the necessary authentication setup.
       "Audience": "Development.nano",
       "PublicKey": "MIIBCgKCAQEAv7iVNUS5w...",
       "PrivateKey": "MIIEowIBAAKCAQEAv7iV...",
-      "Expiration": "24:00:00",
-      "ExternalLogins": {
-        "Microsoft": {
-          "TenantId": null,
-          "ClientId": null,
-          "ClientSecret": null,
-          "Scopes": [ "openid", "profile", "email" ]
-        }
-      }
+      "Expiration": "24:00:00"
     }
   }
 }
 ```
-
-Fill in `TenantId`/`ClientId`/`ClientSecret` locally with the values from your own app registration (see **[Azure setup](#azure-setup)** above) before running the solution - 
-they're left `null` in this repository on purpose. Use [.NET user secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets) (`dotnet user-secrets set 
-"App:Authentication:Jwt:ExternalLogins:Microsoft:ClientSecret" "..."`, stored in `secrets.json` outside the repo) rather than editing `appsettings.Development.json` 
-directly, so the real values never risk being committed.  
-
-`Scopes` must include `openid` (and should include `profile`/`email`) - Nano reads the login's identity claims (`oid`/`name`/`email`) from the `id_token`, which is only 
-returned when `openid` is requested. See **[Nano Authentication](https://github.com/Nano-Core/Nano.Library/blob/master/Nano.App.Api/README.md#authentication)** for the full 
-configuration reference.  
 
 ...and for `Staging` and `Production` environments.
 
@@ -163,9 +163,6 @@ configuration reference.
   }
 }
 ```
-
-`Staging`/`Production` don't configure `Jwt.ExternalLogins.Microsoft` in `appsettings.*.json` at all - `TenantId`/`ClientId`/`ClientSecret` are injected as environment 
-variables from a Kubernetes secret instead, the same way the JWT keys are, so nothing Microsoft-specific lives in the config files for those environments.
 
 ## Kubernetes
 For `Staging` and `Production` environments, secrets must be created to securely store the JWT public/private keys and the Microsoft app registration's credentials. Below 
