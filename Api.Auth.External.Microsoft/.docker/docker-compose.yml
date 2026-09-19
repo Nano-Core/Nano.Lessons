@@ -1,0 +1,17 @@
+services:
+  api.auth.external.microsoft:
+    image: api.auth.external.microsoft
+    hostname: api-auth-external-microsoft
+    restart: on-failure
+    ports:
+      - 8080:8080
+    build:
+      context: ../Api.Auth.External.Microsoft
+      dockerfile: "Dockerfile.Local"
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge
