@@ -10,6 +10,8 @@ services:
     build:
       context: ../Api.VirusScan
       dockerfile: "Dockerfile.Local"
+    env_file:
+      - .env
     networks:
       - network
 

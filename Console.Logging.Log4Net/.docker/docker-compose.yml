@@ -5,6 +5,8 @@ services:
     build:
       context: ../Console.Logging.Log4Net
       dockerfile: "Dockerfile.Local"
+    env_file:
+      - .env
     networks:
       - network
 

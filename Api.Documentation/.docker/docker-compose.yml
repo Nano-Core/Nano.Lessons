@@ -8,6 +8,8 @@ services:
     build:
       context: ../Api.Documentation
       dockerfile: "Dockerfile.Local"
+    env_file:
+      - .env
     networks:
       - network
 
