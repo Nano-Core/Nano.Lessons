@@ -43,13 +43,13 @@ The following endpoint from the auth controller is available for testing.
 Getting an authorization `code` to actually call the login endpoint above needs a real Microsoft sign-in redirect first. Paste the following into a browser tab (matching the `Azure setup` app registration and Postman collection this lesson ships with):  
 
 ```
-https://login.microsoftonline.com/{TenantId}/oauth2/v2.0/authorize
+https://login.microsoftonline.com/common/oauth2/v2.0/authorize
   ?client_id={ClientId}
   &response_type=code
-  &redirect_uri=http://localhost/auth/callback
+  &redirect_uri=http://localhost/auth
   &response_mode=query
   &scope=openid profile email offline_access
-  &code_challenge=7pllenK7L-Ys_Xa-5l7QUxXsSTjFTrEgKcXyx_0eBkM
+  &code_challenge=d8u9K3bpfN5jJTaQxkiQ33ippLXy-OONYvhVMFumhNY
   &code_challenge_method=S256
   &state=baa2d418-953d-4e46-b4ce-b0aeb89da6f9
 ```
@@ -74,15 +74,16 @@ new client secret and can create a duplicate app registration.
 
 ```powershell
 $env:APP_DISPLAY_NAME = "nano-api-auth-external-microsoft";
-$env:REDIRECT_URI = "http://localhost/auth/callback";
+$env:REDIRECT_URI = "http://localhost/auth";
 $env:SECRET_DISPLAY_NAME = "nano-lesson-secret";
 
-$env:TENANT_ID = az account show --query "tenantId" -o tsv;
+$env:TENANT_ID = "common";
 $env:APP_ID = az ad app list --display-name $env:APP_DISPLAY_NAME --query "[0].appId" -o tsv;
 
 az ad app create `
     --display-name $env:APP_DISPLAY_NAME `
-    --sign-in-audience AzureADMyOrg `
+    --sign-in-audience AzureADandPersonalMicrosoftAccount `
+    --requested-access-token-version 2 `
     --web-redirect-uris $env:REDIRECT_URI;
 
 $env:CLIENT_SECRET = az ad app credential reset `
@@ -94,6 +95,8 @@ $env:CLIENT_SECRET = az ad app credential reset `
 
 The default `User.Read` delegated permission (present on every new app registration) is enough for this lesson, the scopes below (`openid`, `profile`, `email` and `offline_access`) 
 don't require any Graph API permission at all, since they only control what ends up in the `id_token`, not access to any resource.  
+
+The app registration is created with sign-in audience `AzureADandPersonalMicrosoftAccount` (any work/school or personal Microsoft account), which is why the authorize URL above uses `common` as the tenant, and why `TenantId` in the configuration below is the literal `common` rather than a real tenant GUID. Personal accounts also require access token version 2, set with `--requested-access-token-version 2`.  
 
 > ⚠️ The client secret is a real credential for your own Azure tenant. Don't commit a real value into `appsettings.Development.json`, copy the script's output in locally, and keep 
 it out of source control (e.g. via `dotnet user-secrets`, or simply not staging the change).
@@ -222,7 +225,8 @@ env:
     {
         az ad app create `
             --display-name $env:APP_DISPLAY_NAME `
-            --sign-in-audience AzureADMyOrg `
+            --sign-in-audience AzureADandPersonalMicrosoftAccount `
+            --requested-access-token-version 2 `
             --web-redirect-uris $env:AUTH_MICROSOFT_REDIRECT_URI;
 
         $env:AUTH_MICROSOFT_CLIENT_ID = az ad app list --display-name $env:APP_DISPLAY_NAME --query "[0].appId" -o tsv;
