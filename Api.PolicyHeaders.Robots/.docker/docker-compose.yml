@@ -8,6 +8,8 @@ services:
     build:
       context: ../Api.PolicyHeaders.Robots
       dockerfile: "Dockerfile.Local"
+    env_file:
+      - .env
     networks:
       - network
 

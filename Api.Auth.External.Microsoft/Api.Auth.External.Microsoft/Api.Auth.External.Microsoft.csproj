@@ -20,7 +20,6 @@
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
-		<UserSecretsId>a997c4ca-1e0e-46c1-8df4-732949603d7b</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='RELEASE'">

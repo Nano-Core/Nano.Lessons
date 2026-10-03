@@ -5,6 +5,8 @@ services:
     build:
       context: ../Console.Workers
       dockerfile: "Dockerfile.Local"
+    env_file:
+      - .env
     networks:
       - network
 
