@@ -11,11 +11,9 @@ namespace Api.ApiClients.Audit.Service.Data.Mappings;
 public class ExampleNavigationMapping : BaseEntityMapping<ExampleNavigation>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleNavigation> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleNavigation> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.NavigationName);

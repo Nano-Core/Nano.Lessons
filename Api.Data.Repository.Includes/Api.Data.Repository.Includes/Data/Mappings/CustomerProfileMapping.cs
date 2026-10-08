@@ -11,11 +11,9 @@ namespace Api.Data.Repository.Includes.Data.Mappings;
 public class CustomerProfileMapping : BaseEntityMapping<CustomerProfile>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<CustomerProfile> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<CustomerProfile> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .HasOne(x => x.Customer)

@@ -11,11 +11,9 @@ namespace Api.Data.PostgreSQL.Data.Mappings;
 public class ExampleCreatableMapping : BaseEntityMapping<ExampleCreatable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleCreatable> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleCreatable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);

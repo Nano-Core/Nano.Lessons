@@ -11,11 +11,9 @@ namespace Api.Data.MySql.Mappings.Data.Mappings;
 public class ExampleNormalizedMapping : BaseEntityMapping<ExampleNormalized>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleNormalized> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleNormalized> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.FirstName)

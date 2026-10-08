@@ -11,11 +11,9 @@ namespace Api.Data.MySql.Data.Mappings;
 public class ExampleDeletableMapping : BaseEntityMapping<ExampleDeletable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleDeletable> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleDeletable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);

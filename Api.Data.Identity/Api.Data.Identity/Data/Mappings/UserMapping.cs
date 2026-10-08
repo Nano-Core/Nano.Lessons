@@ -9,12 +9,10 @@ namespace Api.Data.Identity.Data.Mappings;
 public class UserMapping : BaseEntityUserMapping<User>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<User> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<User> builder)
     {
         if (builder == null)
             throw new ArgumentNullException(nameof(builder));
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name)

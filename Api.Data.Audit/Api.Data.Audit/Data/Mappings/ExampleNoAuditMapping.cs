@@ -11,11 +11,9 @@ namespace Api.Data.Audit.Data.Mappings;
 public class ExampleNoAuditMapping : BaseEntityMapping<ExampleNoAudit>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleNoAudit> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleNoAudit> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);

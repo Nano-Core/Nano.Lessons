@@ -9,11 +9,9 @@ namespace Api.Data.EntityEvents.Data.Mappings;
 public class ProfileMapping : BaseEntityMapping<Profile>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Profile> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Profile> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .HasOne(x => x.Address)

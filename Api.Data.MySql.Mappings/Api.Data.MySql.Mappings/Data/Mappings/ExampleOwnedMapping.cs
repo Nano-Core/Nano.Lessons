@@ -12,11 +12,9 @@ namespace Api.Data.MySql.Mappings.Data.Mappings;
 public class ExampleOwnedMapping : BaseEntityMapping<ExampleOwned>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleOwned> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleOwned> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .MapType(x => x.Profile);

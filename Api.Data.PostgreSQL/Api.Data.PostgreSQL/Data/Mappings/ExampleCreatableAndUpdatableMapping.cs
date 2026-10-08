@@ -11,11 +11,9 @@ namespace Api.Data.PostgreSQL.Data.Mappings;
 public class ExampleCreatableAndUpdatableMapping : BaseEntityMapping<ExampleCreatableAndEditable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleCreatableAndEditable> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleCreatableAndEditable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);

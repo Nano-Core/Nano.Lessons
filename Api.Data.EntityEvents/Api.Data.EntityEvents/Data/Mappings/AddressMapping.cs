@@ -9,11 +9,9 @@ namespace Api.Data.EntityEvents.Data.Mappings;
 public class AddressMapping : BaseEntityMapping<Address>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Address> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Address> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Street)

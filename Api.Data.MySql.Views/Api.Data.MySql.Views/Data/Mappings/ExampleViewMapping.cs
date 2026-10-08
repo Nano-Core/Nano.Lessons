@@ -11,11 +11,9 @@ namespace Api.Data.MySql.Views.Data.Mappings;
 public class ExampleViewMapping : BaseEntityViewMapping<ExampleView>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleView> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleView> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Id);
