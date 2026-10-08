@@ -9,11 +9,9 @@ namespace Api.Data.EntityEvents.Data.Mappings;
 public class OrderMapping : BaseEntityMapping<Order>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Order> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Order> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .HasOne(x => x.Customer)

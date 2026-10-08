@@ -13,11 +13,9 @@ namespace Api.Data.MySql.Mappings.Data.Mappings;
 public class ExampleJsonMapping : BaseEntityMapping<ExampleJson>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleJson> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleJson> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.ProfileAsJson)

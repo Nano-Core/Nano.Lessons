@@ -11,11 +11,9 @@ namespace Api.Data.Triggers.Data.Mappings;
 public class ExampleTriggerMapping : BaseEntityMapping<ExampleTrigger>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleTrigger> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleTrigger> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Trigger)

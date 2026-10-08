@@ -11,11 +11,9 @@ namespace Api.Data.Repository.Includes.Data.Mappings;
 public class PaymentMapping : BaseEntityMapping<Payment>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Payment> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Payment> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .HasOne(x => x.Order)

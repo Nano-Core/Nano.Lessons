@@ -11,11 +11,9 @@ namespace Api.Data.LazyLoading.Data.Mappings;
 public class ExampleRelationIncludedMapping : BaseEntityMapping<ExampleRelationIncluded>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleRelationIncluded> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleRelationIncluded> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .HasOne(x => x.Example)

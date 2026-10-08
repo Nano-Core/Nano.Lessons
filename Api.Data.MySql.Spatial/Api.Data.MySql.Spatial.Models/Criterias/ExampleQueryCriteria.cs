@@ -1,5 +1,5 @@
 ﻿using DynamicExpression;
-using Nano.App.Api.Controllers.Criteria;
+using Nano.App.Criteria;
 using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.Linq;

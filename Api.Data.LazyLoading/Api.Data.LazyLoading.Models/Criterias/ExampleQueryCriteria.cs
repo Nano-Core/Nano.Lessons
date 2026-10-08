@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using DynamicExpression;
-using Nano.App.Api.Controllers.Criteria;
+using Nano.App.Criteria;
 
 namespace Api.Data.LazyLoading.Models.Criterias;
 

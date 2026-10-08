@@ -10,11 +10,9 @@ namespace Api.Data.EntityEvents.Data.Mappings;
 public class CustomerMapping : BaseEntityMapping<Customer>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Customer> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Customer> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name)

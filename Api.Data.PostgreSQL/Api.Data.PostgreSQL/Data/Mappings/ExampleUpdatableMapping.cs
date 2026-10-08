@@ -11,11 +11,9 @@ namespace Api.Data.PostgreSQL.Data.Mappings;
 public class ExampleUpdatableMapping : BaseEntityMapping<ExampleUpdatable>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<ExampleUpdatable> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ExampleUpdatable> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);

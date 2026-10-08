@@ -9,11 +9,9 @@ namespace Api.Data.EntityEvents.Data.Mappings;
 public class PersonMapping : BaseEntityMapping<Person>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Person> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Person> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Identitifer)

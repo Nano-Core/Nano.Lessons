@@ -12,11 +12,9 @@ namespace Api.Data.SoftDelete.Data.Mappings;
 public class ExampleMapping : BaseEntityMapping<Example>
 {
     /// <inheritdoc />
-    public override void Configure(EntityTypeBuilder<Example> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Example> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-
-        base.Configure(builder);
 
         builder
             .Property(x => x.Name);
