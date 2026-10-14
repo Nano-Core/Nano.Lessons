@@ -78,12 +78,14 @@ $env:REDIRECT_URI = "http://localhost/auth";
 $env:SECRET_DISPLAY_NAME = "nano-lesson-secret";
 
 $env:TENANT_ID = "common";
+$env:OPTIONAL_CLAIMS = '{"idToken":[{"name":"xms_edov","essential":false}]}';
 $env:APP_ID = az ad app list --display-name $env:APP_DISPLAY_NAME --query "[0].appId" -o tsv;
 
 az ad app create `
     --display-name $env:APP_DISPLAY_NAME `
     --sign-in-audience AzureADandPersonalMicrosoftAccount `
     --requested-access-token-version 2 `
+    --optional-claims $env:OPTIONAL_CLAIMS `
     --web-redirect-uris $env:REDIRECT_URI;
 
 $env:CLIENT_SECRET = az ad app credential reset `
@@ -97,6 +99,10 @@ The default `User.Read` delegated permission (present on every new app registrat
 don't require any Graph API permission at all, since they only control what ends up in the `id_token`, not access to any resource.  
 
 The app registration is created with sign-in audience `AzureADandPersonalMicrosoftAccount` (any work/school or personal Microsoft account), which is why the authorize URL above uses `common` as the tenant, and why `TenantId` in the configuration below is the literal `common` rather than a real tenant GUID. Personal accounts also require access token version 2, set with `--requested-access-token-version 2`.  
+
+The app registration also requests the `xms_edov` optional claim in the `id_token`. Microsoft does not verify the email of a work or school account, so Nano only
+accepts a sign-in whose `id_token` has an `email` claim and `xms_edov` set to true. Personal Microsoft accounts are accepted without it, because Microsoft verifies
+their email itself. A work or school user without a mail address set cannot sign in.
 
 > ⚠️ The client secret is a real credential for your own Azure tenant. Don't commit a real value into `appsettings.Development.json`, copy the script's output in locally, and keep 
 it out of source control (e.g. via `dotnet user-secrets`, or simply not staging the change).
@@ -219,6 +225,7 @@ env:
   run: |
     $env:APP_DISPLAY_NAME = $env:SERVICE_NAME + "-app";
     $env:SECRET_DISPLAY_NAME = $env:APP_DISPLAY_NAME + "-secret-" + (Get-Date -Format "yyyyMMddHHmmss");
+    $env:AUTH_MICROSOFT_OPTIONAL_CLAIMS = '{"idToken":[{"name":"xms_edov","essential":false}]}';
     $env:AUTH_MICROSOFT_CLIENT_ID = az ad app list --display-name $env:APP_DISPLAY_NAME --query "[0].appId" -o tsv;
 
     if (-not $env:AUTH_MICROSOFT_CLIENT_ID) 
@@ -227,6 +234,7 @@ env:
             --display-name $env:APP_DISPLAY_NAME `
             --sign-in-audience AzureADandPersonalMicrosoftAccount `
             --requested-access-token-version 2 `
+            --optional-claims $env:AUTH_MICROSOFT_OPTIONAL_CLAIMS `
             --web-redirect-uris $env:AUTH_MICROSOFT_REDIRECT_URI;
 
         $env:AUTH_MICROSOFT_CLIENT_ID = az ad app list --display-name $env:APP_DISPLAY_NAME --query "[0].appId" -o tsv;
@@ -235,6 +243,9 @@ env:
     {
         az ad app update `
             --id $env:AUTH_MICROSOFT_CLIENT_ID `
+            --sign-in-audience AzureADandPersonalMicrosoftAccount `
+            --requested-access-token-version 2 `
+            --optional-claims $env:AUTH_MICROSOFT_OPTIONAL_CLAIMS `
             --web-redirect-uris $env:AUTH_MICROSOFT_REDIRECT_URI;
     }
 
