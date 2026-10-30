@@ -18,16 +18,13 @@ public class ExampleQueryCriteria : BaseQueryCriteria
     {
         var expressions = base.GetExpressions();
 
-        var expression = expressions.FirstOrDefault() ?? new CriteriaExpression();
+        var expression = expressions.First();
 
         if (!string.IsNullOrEmpty(this.Name))
         {
             expression
                 .StartsWith(nameof(Example.Name), this.Name);
         }
-
-        expressions
-            .Add(expression);
 
         return expressions;
     }

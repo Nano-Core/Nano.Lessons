@@ -24,7 +24,7 @@ public class ExampleQueryCriteria : BaseQueryCriteria
     {
         var expressions = base.GetExpressions();
 
-        var expression = expressions.FirstOrDefault() ?? new CriteriaExpression();
+        var expression = expressions.First();
 
         if (this.Point != null)
         {
@@ -37,9 +37,6 @@ public class ExampleQueryCriteria : BaseQueryCriteria
             expression
                 .StartsWith(nameof(Example.Name), this.Name);
         }
-
-        expressions
-            .Add(expression);
 
         return expressions;
     }
